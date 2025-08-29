@@ -1,7 +1,8 @@
 import './style.css'
-import  home from "./routes/home.ts"
+import  Home from "./routes/home.ts"
 import game from "./routes/game.ts"  
 import Navigo from "navigo"
+import type Component from './components/Component.ts';
 
 class Main{
 
@@ -14,18 +15,21 @@ class Main{
 	this.routeSystem();
     };
 
-    addHeaderElement(element: Function): void{
-	this.header.appendChild(element());
+    addHeaderElement(route: Component): void{
+	if(route.self) return;
+	
+	this.header.appendChild(route.self);
     }
 
-    addAppElement(element : Function): void{
-	this.app.appendChild(element());
+    addAppElement(route : Component): void{
+	if(!route.self) return;
+	this.app.appendChild(route.self);
     }
 
     routeSystem(){
 	this.router
 	.on("/", ()=> {
-	    this.addAppElement(home);
+	    this.addAppElement(Home);
 	})
 	.on("/game", ()=> {
 	    this.addAppElement(game);

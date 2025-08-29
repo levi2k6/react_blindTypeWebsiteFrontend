@@ -1,7 +1,12 @@
+import gameSystem from "./GameSystem";
 
 class Input{
 
-    key : string = "";
+    private key : string = "";
+
+    getKey(){
+	return this.key;
+    }
 
     turnOnInput(){
 	window.addEventListener("keydown", this.keydownHandler);
@@ -11,6 +16,7 @@ class Input{
     keydownHandler(e : KeyboardEvent){
 	this.key = e.key;
 	console.log("input: ", this.key);
+	gameSystem.game(this.key);
     }
 
     turnOffInput(){

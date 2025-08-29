@@ -1,40 +1,57 @@
 import { createElement } from "../ui_system/Element";
 import input from "../game_system/Input.ts";
+import Component from "../components/Component.ts";
+import textHolder from "../components/game/GameTextHolder.ts";
+import gameSystem from "../game_system/GameSystem.ts";
+import { configCheck } from "../game_system/GameDataManager.ts";
 
-const div =  createElement("div");
+class Game extends Component{
 
-const label = createElement("label", "Hello this blue"); 
-const button = createElement("button", "home");
+    label: HTMLElement = createElement("label", "Hello this blue"); 
+    startButton: HTMLButtonElement = createElement("button", "Start") as HTMLButtonElement; 
 
-function game(): HTMLElement{
+     constructor(name: string){
+	 super(name);
+	 this.init();
+     }
 
-    connectElements();
-    functionElements();
-    styleElements();
+     init(){
+	 this.connectElements();
+	 this.functionElements();
+	 this.styleElements();
+     }
 
-    return div;
+     connectElements(){
+	 this.addChildren([
+	     textHolder,
+	     this.label,
+	     this.startButton
+	 ]);
+     }
+
+     functionElements(){
+	this.startButton.addEventListener("click", ()=>{
+	    gameSystem.init();
+	    input.turnOnInput();
+	    textHolder.addLetters(gameSystem.getLetters());
+	    this.startButton.disabled = true;
+	});
+    } 
+
+
+    styleElements(){
+	const gameStyle = this.self.style;
+	gameStyle.border = "1px solid red"
+	gameStyle.width =  "100%";
+	gameStyle.height = "100%";
+	gameStyle.display = "flex"; 
+	gameStyle.flexDirection = "column";
+	gameStyle.justifyContent = "center";
+	gameStyle.alignItems = "center";
+    }
+
 }
 
-function connectElements(){
-    div.appendChild( label );
-    div.appendChild( button );
-} 
-
-function functionElements(){
-    button.addEventListener("click", ()=>{
-	input.turnOnInput();
-    });
-}
-
-function styleElements(){
-
-    const divStyle = div.style;
-    divStyle.border = "1px solid red"
-    divStyle.width =  "1000px";
-    divStyle.height = "600px";
-    divStyle.display = "flex"; 
-    divStyle.justifyContent = "center";
-    divStyle.alignItems = "center";
-}
+const game = new Game("Game");
 
 export default game;
