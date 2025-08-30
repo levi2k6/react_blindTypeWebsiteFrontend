@@ -19,6 +19,9 @@ class TextHolder extends Component{
 
     addLetters(letters: Array<Letter>){
 	letters.forEach(letter => {
+	    if(letter.self.innerText == " "){
+		letter.self.innerHTML = "&nbsp;";
+	    }
 	    this.letters.push(letter.self);
 	})
 	this.displayLetters();
@@ -33,10 +36,11 @@ const styleElements = () => {
     textHolderS.width =  "80vw";
     textHolderS.height = "300px";
     textHolderS.display = "flex"; 
+    textHolderS.flexWrap = "wrap";
     textHolderS.justifyContent = "center";
     textHolderS.alignItems = "center";
     textHolderS.whiteSpace = "normal";
-    textHolderS.overflowWrap = "break-word";
+    textHolderS.gap = "2px";
 }
 
 

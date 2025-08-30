@@ -14,6 +14,11 @@ class Input{
     }
 
     keydownHandler(e : KeyboardEvent){
+	if(e.key === "Shift"){
+	    console.log("Invalid input");
+	    return;
+	};
+
 	this.key = e.key;
 	console.log("input: ", this.key);
 	gameSystem.game(this.key);

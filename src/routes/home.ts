@@ -1,30 +1,51 @@
-import Component from "../components/Component";
-import { createElement  } from "../ui_system/Element";
+import { createElement } from "../ui_system/Element";
+import Component from "../components/Component.ts";
+import { apiFetch } from "../utils/apiUtils.ts";
 
-const Home = new Component("Home");
-const label =  createElement("label", "textfield"); 
-const button = createElement("button", "home");
+class Home extends Component{
 
-const connectElements = ()=>{
-    Home.addChildren([
-	label,
-	button
-    ]);
+    label: HTMLElement = createElement("label", "Hello this blue"); 
+    startButton: HTMLButtonElement = createElement("button", "Start") as HTMLButtonElement; 
+
+     constructor(name: string){
+	 super(name);
+	 this.init();
+     }
+
+     init(){
+	 this.connectElements();
+	 this.functionElements();
+	 this.styleElements();
+     }
+
+    connectElements(){
+	 this.addChildren([
+	     this.label,
+	     this.startButton
+	 ]);
+     }
+
+
+    functionElements(){
+	this.startButton.addEventListener("click", ()=>{
+	    apiFetch("GET", "http://localhost:8080/Game/challenge/")
+	    .then(data => console.log(data));
+	});
+    } 
+
+    styleElements(){
+	const gameStyle = this.self.style;
+	gameStyle.border = "1px solid red"
+	gameStyle.width =  "100%";
+	gameStyle.height = "100%";
+	gameStyle.display = "flex"; 
+	gameStyle.flexDirection = "column";
+	gameStyle.justifyContent = "center";
+	gameStyle.alignItems = "center";
+    }
+
 }
 
-const styleElements = () => {
-    const homeStyle = Home.style;
-    homeStyle.background = "red";
-    homeStyle.width =  "300px";
-    homeStyle.height = "300px";
-    homeStyle.display = "flex"; 
-    homeStyle.justifyContent = "center";
-    homeStyle.alignItems = "center";
-}
+const home = new Home("Game");
 
-Home.init([
-    connectElements,
-    styleElements
-]);
-
-export default Home;
+export default home;

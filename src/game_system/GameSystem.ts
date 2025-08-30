@@ -8,10 +8,10 @@ class GameSystem{
     private letters: Array<Letter> = [];
     i: number = 0;
 
-    init(){
-	for(let i = 0; i < 10; i++){
-	    this.letters.push(new Letter());
-	    console.log(this.letters[i].self.innerText);
+
+    init(text: string){
+	for(let i = 0; i < text.length; i++){
+	    this.letters.push( (new Letter(text[i].toLowerCase())) );
 	}
     }
 
@@ -21,13 +21,18 @@ class GameSystem{
 
     game(playerInput: string){
 	let letter = this.letters[this.i];
-	console.log("letter ", letter.self.innerText);
-	if(letter.self.innerText == playerInput){
+	console.log("letter ", "[", letter.getChar , "]");
+	if(letter.getChar === playerInput){
 	    letter.turnGreen();
 	    console.log("correct!");
 	    this.i += 1;
 	}else{
-	    letter.turnRed();
+	    if(letter.getChar === " "){
+		console.log("trigger");
+		letter.turnBackgroundRed();
+	    }else{
+		letter.turnRed();
+	    }
 	    console.log("wrong");
 	    this.i += 1;
 	}
@@ -38,7 +43,7 @@ class GameSystem{
 	    textHolder.removeLetters();
 	    input.turnOffInput();
 	    this.i = 0;
-	    game.startButton.disabled = ;
+	    game.startButton.disabled = false;
 	}
     }
 
