@@ -5,7 +5,7 @@ import textHolder from "../components/game/GameTextHolder.ts";
 import gameSystem from "../game_system/GameSystem.ts";
 import { apiFetch } from "../utils/apiUtils.ts";
 
-import type { ChallengeResponse } from "../utils/interfaces.ts";
+import type { Response, Challenge } from "../utils/interfaces.ts";
 
 
 class Game extends Component{
@@ -34,13 +34,13 @@ class Game extends Component{
 
     functionElements(){
 	this.startButton.addEventListener("click", async()=>{
-	    const response: ChallengeResponse | undefined = await apiFetch("GET", "http://localhost:8080/Game/challenge/");
+	    const response: Response<Challenge> | undefined = await apiFetch("GET", "http://localhost:8080/Game/challenge/");
 	    console.log("response: ", response);
 	    if(response === undefined){
 		console.log("challenge response is undefiend");
 		return;
 	    }
-	    gameSystem.init(response.data[0].text);
+	    gameSystem.init(response.data.text);
 	    input.turnOnInput();
 	    textHolder.addLetters(gameSystem.getLetters());
 	    this.startButton.disabled = true;
