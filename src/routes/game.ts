@@ -1,17 +1,21 @@
 import { createElement } from "../ui_system/Element";
 import input from "../game_system/Input.ts";
 import Component from "../components/Component.ts";
+import GameTextAudio from "../components/game/GameTextAudio.ts";
 import textHolder from "../components/game/GameTextHolder.ts";
 import gameSystem from "../game_system/GameSystem.ts";
 import { apiFetch } from "../utils/apiUtils.ts";
 
 import type { Response, Challenge } from "../utils/interfaces.ts";
+import textReader from "../game_system/TextReader.ts";
 
 
 class Game extends Component{
 
     label: HTMLElement = createElement("label", "Hello this blue"); 
     startButton: HTMLButtonElement = createElement("button", "Start") as HTMLButtonElement; 
+    gameTextAudio = new GameTextAudio("audioText"); 
+
 
      constructor(name: string){
 	 super(name);
@@ -28,19 +32,23 @@ class Game extends Component{
 	 this.addChildren([
 	     textHolder,
 	     this.label,
-	     this.startButton
+	     this.startButton,
+	     this.gameTextAudio.self
 	 ]);
      }
 
     functionElements(){
 	this.startButton.addEventListener("click", async()=>{
 	    const response: Response<Challenge> | undefined = await apiFetch("GET", "http://localhost:8080/Game/challenge/");
-	    console.log("response: ", response);
 	    if(response === undefined){
 		console.log("challenge response is undefiend");
 		return;
 	    }
+
+	    this.gameTextAudio.addAudioSource(response.data.audioName);
+
 	    gameSystem.init(response.data.text);
+
 	    input.turnOnInput();
 	    textHolder.addLetters(gameSystem.getLetters());
 	    this.startButton.disabled = true;
