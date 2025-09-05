@@ -17,9 +17,13 @@ class GameTextAudio extends Component{
 	this.styleElements()
     }
 
-    addAudioSource(audioPath: string){
+    addAudioSource(audioName: string){
 	this.audio.muted = false;
-	this.audio.src = audioPath; 
+
+	const url  = `http://localhost:8080/Audio/${audioName}`;
+	console.log("url: ", url);
+
+	this.audio.src = url; 
 	this.audio.load();
 	this.audio.play();
     }

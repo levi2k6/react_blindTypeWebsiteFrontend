@@ -1,8 +1,13 @@
-import gameSystem from "./GameSystem";
+import GameSystem from "./GameSystem";
 
 class Input{
 
+    private gameSystem: GameSystem;
     private key : string = "";
+
+    constructor(gameSystem: GameSystem){
+	this.gameSystem = gameSystem;
+    }
 
     getKey(){
 	return this.key;
@@ -13,7 +18,7 @@ class Input{
 	console.log("Input turned on.");
     }
 
-    keydownHandler(e : KeyboardEvent){
+    keydownHandler = (e : KeyboardEvent) =>{
 	if(e.key === "Shift"){
 	    console.log("Invalid input");
 	    return;
@@ -21,7 +26,8 @@ class Input{
 
 	this.key = e.key;
 	console.log("input: ", this.key);
-	gameSystem.game(this.key);
+	this.gameSystem.gameInput(this.key);
+	// this.gameSystem.gameInput(this.key);
     }
 
     turnOffInput(){
@@ -30,6 +36,5 @@ class Input{
     }
 }
 
-const input = new Input(); 
 
-export default input;
+export default Input;

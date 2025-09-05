@@ -1,54 +1,52 @@
-import Letter from "./Letter";
-import input from "./Input";
-import textHolder from "../components/game/GameTextHolder";
-import game from "../routes/game";
+import Game from "../routes/game";
+import StringGame from "./StringGame";
 
 class GameSystem{
 
-    private letters: Array<Letter> = [];
-    i: number = 0;
+    private game: Game;
 
+    private type : string = "";
+    private stringGame: StringGame;
 
-    init(text: string){
-	for(let i = 0; i < text.length; i++){
-	    this.letters.push( (new Letter(text[i].toLowerCase())) );
+    // private letters: Array<Letter> = [];
+
+    constructor(game: Game){
+	this.game = game;
+	this.stringGame = new StringGame(this.game, this);
+    }
+
+    test(){
+	console.log("test");
+    };
+
+    init(texts: string, type: string){
+	this.type = type;
+	if(type == "sentence"){
+	    this.stringGame?.addLetters(texts);
 	}
     }
 
-    getLetters(){
-	return this.letters;
+    gameInput(playerInput: string){
+	if(this.type == "sentence"){
+	    this.stringGame?.guessLetter(playerInput);
+	} 
     }
 
-    game(playerInput: string){
-	let letter = this.letters[this.i];
-	console.log("letter ", "[", letter.getChar , "]");
-	if(letter.getChar === playerInput){
-	    letter.turnGreen();
-	    console.log("correct!");
-	    this.i += 1;
-	}else{
-	    if(letter.getChar === " "){
-		console.log("trigger");
-		letter.turnBackgroundRed();
-	    }else{
-		letter.turnRed();
-	    }
-	    console.log("wrong");
-	    this.i += 1;
-	}
+    gameEnd(){
+	console.log("game finished");
+	this.type = "";
+	this.game.getTextHolder().style.display = "none";
+	this.game.getTextHolder().removeLetters();
+	this.game.startButton.disabled = false;
+    }
 
-	if(this.i == this.letters.length){
-	    console.log("game finished");
-	    this.letters = [];
-	    textHolder.removeLetters();
-	    input.turnOffInput();
-	    this.i = 0;
-	    game.startButton.disabled = false;
-	}
+    getType(){
+	return this.type;
+    }
+    getStringGame(){
+	return this.stringGame;
     }
 
 } 
 
-const gameSystem = new GameSystem();
-
-export default gameSystem;
+export default GameSystem;
