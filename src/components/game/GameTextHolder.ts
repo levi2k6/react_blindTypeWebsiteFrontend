@@ -1,6 +1,23 @@
 import type Letter from "../../game_system/Letter";
 import Component from "../Component";
 
+class TextLine{
+
+    letters: Array<HTMLElement> = [];  
+
+    constructor(letters: Array<Letter>){
+	    letters.forEach(letter => {
+		if(letter.self.innerText == " "){
+		    letter.self.innerHTML = "&nbsp;";
+		}
+		this.letters.push(letter.self);
+	    })
+	    this.addChildren(this.letters);
+    }
+
+}
+
+
 class TextHolder extends Component{
 
     letters: Array<HTMLElement> = [];  
@@ -55,6 +72,8 @@ class TextHolder extends Component{
 	textHolderS.gap = "2px";
     }
 }
+
+
 
 
 export default TextHolder;

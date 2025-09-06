@@ -1,18 +1,17 @@
-import Game from "../routes/game";
+import GameRouter from "../routes/GameRouter";
 import StringGame from "./StringGame";
+
 
 class GameSystem{
 
-    private game: Game;
+    private gameRouter: GameRouter;
 
     private type : string = "";
     private stringGame: StringGame;
 
-    // private letters: Array<Letter> = [];
-
-    constructor(game: Game){
-	this.game = game;
-	this.stringGame = new StringGame(this.game, this);
+    constructor(gameRouter: GameRouter){
+	this.gameRouter = gameRouter;
+	this.stringGame = new StringGame(this.gameRouter, this);
     }
 
     test(){
@@ -26,18 +25,26 @@ class GameSystem{
 	}
     }
 
+    queueTextLine(){
+
+    }
+
+    gameStart(){
+
+    }
+
     gameInput(playerInput: string){
 	if(this.type == "sentence"){
 	    this.stringGame?.guessLetter(playerInput);
 	} 
-    }
+    }  
 
     gameEnd(){
 	console.log("game finished");
 	this.type = "";
-	this.game.getTextHolder().style.display = "none";
-	this.game.getTextHolder().removeLetters();
-	this.game.startButton.disabled = false;
+	this.gameRouter.getTextHolder().style.display = "none";
+	this.gameRouter.getTextHolder().removeLetters();
+	this.gameRouter.startButton.disabled = false;
     }
 
     getType(){

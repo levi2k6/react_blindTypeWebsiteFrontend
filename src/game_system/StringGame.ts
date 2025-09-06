@@ -1,21 +1,23 @@
 import Letter from "./Letter";
 import Component from "../components/Component";
-import Game from "../routes/game";
+import type GameRouter from "../routes/GameRouter";
 import type GameSystem from "./GameSystem";
+import Game from "./Game";
+import type { GameConfig } from "../utils/types";
 
 
-class StringGame{
+class StringGame extends Game{
 
-    private game;
+    private gameRouter: GameRouter;
     private gameSystem: GameSystem;
 
-    private difficulty: string; 
     private letters: Array<Letter> = [];	
     private i: number = 0;
 
-    constructor(game: Game, gameSystem: GameSystem){
+    constructor(gameRouter: GameRouter, gameSystem: GameSystem){
+	super();
+	this.gameRouter = gameRouter;
 	this.gameSystem = gameSystem;
-	this.game = game;
     }
 
     getLetters(){
@@ -41,12 +43,11 @@ class StringGame{
 	    this.i += 1;
 	}else{
 	    if(letter.getChar === " "){
-		console.log("trigger");
 		letter.turnBackgroundRed();
 	    }else{
 		letter.turnRed();
 	    }
-	    this.game.getTextHolder().style.display = "flex";
+	    this.gameRouter.getTextHolder().style.display = "flex";
 	    console.log("wrong");
 	    this.i += 1;
 	}

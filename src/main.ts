@@ -1,6 +1,6 @@
 import './style.css'
 import  Home from "./routes/home.ts"
-import Game from "./routes/game.ts"  
+import GameRouter from "./routes/GameRouter.ts"  
 import Navigo from "navigo"
 import type Component from './components/Component.ts';
 
@@ -10,7 +10,7 @@ class Main{
     app : HTMLDivElement = document.querySelector<HTMLDivElement>('#app')!;  
 
     router = new Navigo("/", {hash: true});
-    game: Game = new Game("Game");
+    gameRouter: GameRouter = new GameRouter("Game");
 
     constructor(){
 	this.routeSystem();
@@ -33,7 +33,7 @@ class Main{
 	    this.addAppElement(Home);
 	})
 	.on("/game", ()=> {
-	    this.addAppElement(this.game);
+	    this.addAppElement(this.gameRouter);
 	})
 	.resolve();
     }
