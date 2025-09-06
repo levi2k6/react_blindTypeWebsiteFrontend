@@ -32,7 +32,7 @@ class Component{
 	    }
       }
 
-    addChildren( children : Array<HTMLElement | Component>): void{
+    addChildren( children : Array<HTMLElement | Component>): HTMLElement{
 	children.forEach(child => {
 	    if(child instanceof HTMLElement){
 		console.log("child appended");
@@ -42,7 +42,8 @@ class Component{
 		this.element.append(child.self);
 	    }
 	});
-      }
+	return this.element;
+    }
 
 }
 

@@ -1,3 +1,5 @@
+import type { GameConfig } from "./types";
+
 export interface Response<T>{
     message: string;
     data: T;
@@ -10,4 +12,9 @@ export interface Challenge{
     audioName: string; 
 } 
 
+export interface UserGameConfig{
+    letterConfig: GameConfig;
+    wordConfig: GameConfig;
+    sentenceConfig: GameConfig;
+}
 
