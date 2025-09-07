@@ -1,8 +1,8 @@
 import './style.css'
 import  Home from "./routes/home.ts"
-import GameRouter from "./routes/GameRouter.ts"  
+import GameRouter from "./game/component/GameRouter.ts"  
 import Navigo from "navigo"
-import type Component from './components/Component.ts';
+import type Component from './class/Component.ts';
 
 class Main{
 

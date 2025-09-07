@@ -1,4 +1,4 @@
-import GameRouter from "../routes/GameRouter";
+import type GameRouter from "../component/GameRouter";
 import StringGame from "./StringGame";
 
 
@@ -25,14 +25,6 @@ class GameSystem{
 	}
     }
 
-    queueTextLine(){
-
-    }
-
-    gameStart(){
-
-    }
-
     gameInput(playerInput: string){
 	if(this.type == "sentence"){
 	    this.stringGame?.guessLetter(playerInput);
@@ -40,15 +32,14 @@ class GameSystem{
     }  
 
     gameEnd(){
-	console.log("game finished");
-	this.type = "";
-	this.gameRouter.getTextHolder().style.display = "none";
-	this.gameRouter.getTextHolder().removeLetters();
-	this.gameRouter.startButton.disabled = false;
+	this.gameRouter.system.gameEnd();
     }
 
     getType(){
 	return this.type;
+    }
+    setType(type: string){
+	this.type = type;
     }
     getStringGame(){
 	return this.stringGame;

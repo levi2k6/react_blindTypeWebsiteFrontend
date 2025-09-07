@@ -1,12 +1,12 @@
 import Letter from "./Letter";
-import Component from "../components/Component";
+import Component from "../../class/Component";
 import type GameRouter from "../routes/GameRouter";
 import type GameSystem from "./GameSystem";
-import Game from "./Game";
 import type { GameConfig } from "../utils/types";
+import System from "../../class/System";
 
 
-class StringGame extends Game{
+class StringGame extends System{
 
     private gameRouter: GameRouter;
     private gameSystem: GameSystem;
@@ -47,7 +47,7 @@ class StringGame extends Game{
 	    }else{
 		letter.turnRed();
 	    }
-	    this.gameRouter.getTextHolder().style.display = "flex";
+	    this.gameRouter.textHolder.style.display = "flex";
 	    console.log("wrong");
 	    this.i += 1;
 	}

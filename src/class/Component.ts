@@ -1,12 +1,17 @@
 import { createElement } from "../ui_system/Element";
+import System from "./System";
 
 class Component{
     private name: string = "";
     private element = createElement("div");
 
-    constructor(name: string){
+    private componentSystem: System | undefined;
+
+    constructor(name: string);
+    constructor(name: string, system: System);
+    constructor(name: string, system?: System){
 	this.name = name;
-	console.log(`${this.name} initialized`);
+	this.componentSystem = system;
     }
 
     get self(){
@@ -16,6 +21,14 @@ class Component{
     get style(){
 	return this.element.style;
     } 
+
+    get system() : System | undefined{
+	return this.componentSystem;
+    }
+    
+    set system(system: System){
+	this.componentSystem = system;
+    }
     
     init(funcs: Array<Function>){
 	funcs.forEach(func => {

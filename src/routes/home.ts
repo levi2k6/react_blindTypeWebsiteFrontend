@@ -1,5 +1,5 @@
 import { createElement } from "../ui_system/Element";
-import Component from "../components/Component.ts";
+import Component from "../class/Component.ts";
 import { apiFetch } from "../utils/apiUtils.ts";
 
 class Home extends Component{
