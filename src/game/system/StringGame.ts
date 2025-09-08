@@ -1,17 +1,20 @@
 import Letter from "./Letter";
-import Component from "../../class/Component";
-import type GameRouter from "../routes/GameRouter";
+import GameRouter from "../component/GameRouter";
 import type GameSystem from "./GameSystem";
-import type { GameConfig } from "../utils/types";
 import System from "../../class/System";
 
+import type { GameConfig } from "../../utils/types";
+import type { Challenge } from "../../utils/interfaces";
 
 class StringGame extends System{
 
     private gameRouter: GameRouter;
     private gameSystem: GameSystem;
 
-    private letters: Array<Letter> = [];	
+    private challenges: Challenge[] = [];  
+    // private letters: Array<Letter> = [];	
+    private gameConfig: GameConfig;
+    private i1: number = 0;
     private i: number = 0;
 
     constructor(gameRouter: GameRouter, gameSystem: GameSystem){
@@ -20,22 +23,18 @@ class StringGame extends System{
 	this.gameSystem = gameSystem;
     }
 
-    getLetters(){
-	return this.letters;
-    }
-
-    emptyLeters(){
-	this.letters = [];
-    }
-
-    addLetters(texts: string){
-	for(let i = 0; i < texts.length; i++){
-	    this.letters.push( (new Letter(texts[i].toLowerCase())) );
-	}
+    gameInit(challenges: Challenge[]){
+	this.challenges = challenges;
+	this.gameRouter.textAudio.system.addAudioSource(this.challenges[this.i1].audioName, this.gameSystem.getType());
+	this.gameRouter.textHolder.system.addLetters(challenges);
+	this.gameRouter.textHolder.system.displayLetters(this.i1);
+	// this.gameRouter.textHolder.system.addLetters(this.letters);
     }
 
     guessLetter(playerInput: string){
-	let letter = this.letters[this.i];
+	const currentLetters = this.gameRouter.textHolder.system.challengesLetters[this.i1];
+	console.log("currentLetters: ", currentLetters[this.i1]);
+	const letter = currentLetters[this.i];
 	console.log("letter ", "[", letter.getChar , "]");
 	if(letter.getChar === playerInput){
 	    letter.turnGreen();
@@ -52,19 +51,28 @@ class StringGame extends System{
 	    this.i += 1;
 	}
 
-	if(this.i == this.letters.length){
-	    this.gameEnd();
+	if(this.i == this.gameRouter.textHolder.system.challengesLetters[this.i1].length){
+	    if(this.i1 != this.challenges.length){
+		this.lineEnd();
+	    }else{
+		this.gameEnd();
+	    }
 	}
+    }
+
+    lineEnd(){
+	this.i1 += 1;
+	this.gameRouter.textAudio.system.addAudioSource(this.challenges[this.i1].audioName, this.gameSystem.getType());
+	this.gameRouter.textHolder.system.displayLetters(this.i1);
+	console.log("Line ended");
     }
 
     gameEnd(){
 	console.log("String game finished");
-	this.letters = [];
+	this.gameRouter.textHolder.system.challengesLetters = [];
 	this.i = 0;
 	this.gameSystem.gameEnd();
     }
-    
-
 
 }
 

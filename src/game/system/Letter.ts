@@ -1,6 +1,7 @@
+import Component from "../../class/Component";
 import { createElement } from "../../ui_system/Element";
 
-class Letter{
+class Letter extends Component{
 
     private char: string;
     private letter = createElement("h1"); 
@@ -14,6 +15,7 @@ class Letter{
     }
 
     constructor(letter: string){
+	super();
 	this.char = letter;
 	console.log("char: ", this.char);
 	this.letter.innerText = letter;

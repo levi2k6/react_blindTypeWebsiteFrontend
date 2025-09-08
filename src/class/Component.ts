@@ -2,14 +2,15 @@ import { createElement } from "../ui_system/Element";
 import System from "./System";
 
 class Component{
-    private name: string = "";
+    private name: string | undefined = "";
     private element = createElement("div");
 
     private componentSystem: System | undefined;
 
+    constructor();
     constructor(name: string);
     constructor(name: string, system: System);
-    constructor(name: string, system?: System){
+    constructor(name?: string, system?: System){
 	this.name = name;
 	this.componentSystem = system;
     }

@@ -20,7 +20,13 @@ class GameRouterSystem{
     }
 
     async startGame(){
-	const response: Response<Challenge> | undefined = await apiFetch("GET", "http://localhost:8080/Game/challenge/");
+
+	this.gameRouter.textHolder.style.display = "none";
+	this.gameRouter.startButton.disabled = true;
+	this.gameRouter.div1.style.display = "none"
+
+
+	const response: Response<Challenge[]> | undefined = await apiFetch("GET", "http://localhost:8080/Game/sentence/challenge/");
 	if(response === undefined){
 	    console.log("challenge response is undefiend");
 	    return;
@@ -29,31 +35,22 @@ class GameRouterSystem{
 	console.log("response: ", response);
 
 	console.log("type right now: ", this.gameSystem.getType());
-	this.gameRouter.textAudio.system.addAudioSource(response.data.audioName, this.gameSystem.getType());
-	this.gameSystem.init(
-	    response.data.text, 
-	    "sentence"
-	);
-
+	// this.gameRouter.textAudio.system.addAudioSource(response.data.audioName, this.gameSystem.getType());
+	this.gameSystem.init(response.data);
 	this.input.turnOnInput();
 
-	if(this.gameSystem.getType() == "sentence"){
-	    if(!this.gameSystem.getStringGame()){
-		return;
-	    }
-	    this.gameRouter.textHolder.system.addLetters(this.gameSystem.getStringGame().getLetters());
-	}
+	// if(this.gameSystem.getType() == "sentence"){
+	//     this.gameRouter.textHolder.system.addLetters(this.gameSystem.getStringGame().getLetters());
+	// }
 
-	this.gameRouter.startButton.disabled = true;
-	this.gameRouter.div1.style.display = "none"
     }
 
     gameEnd(){
-	this.gameRouter.textHolder.style.display = "none";
 	this.gameRouter.textHolder.system.removeLetters();
+	this.gameRouter.textHolder.style.display = "flex";
 	this.gameRouter.startButton.disabled = false;
 	this.gameRouter.div1.style.display = "flex";
-	this.input.turnOnInput();
+	this.input.turnOffInput();
     }
 
     setGameType(type: string){

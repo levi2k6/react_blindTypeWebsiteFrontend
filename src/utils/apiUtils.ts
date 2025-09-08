@@ -1,7 +1,7 @@
 
 import type { Response, Challenge } from "../utils/interfaces.ts"
 
-export async function apiFetch(requestType: string, url: string) : Promise<Response<Challenge> | undefined>{
+export async function apiFetch<T>(requestType: string, url: string) : Promise<Response<T>>{
     try{
 	const res = await fetch(url, {
 	    method: requestType,
@@ -9,10 +9,16 @@ export async function apiFetch(requestType: string, url: string) : Promise<Respo
 		"Content-Type": "application/json",
 	    }
 	}); 
-	const data: Response<Challenge> = await res.json();
+
+	if(!res.ok){
+	    throw new Error(`HTTP error! status: ${res.status}`);
+	}
+
+	const data: Response<T> = await res.json();
 	return data;
     }catch(err){
 	console.log("fetch error: ", err);
+	throw err;
     }
 }
 

@@ -25,7 +25,7 @@ class Input{
 	};
 
 	this.key = e.key;
-	console.log("input: ", this.key);
+	// console.log("input: ", this.key);
 	this.gameSystem.gameInput(this.key);
 	// this.gameSystem.gameInput(this.key);
     }

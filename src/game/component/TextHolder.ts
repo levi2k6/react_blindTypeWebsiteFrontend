@@ -19,16 +19,17 @@ class TextHolder extends Component{
      }
 
     styleElements(){
-	const textHolderS = this.style;
-	textHolderS.background = "blue";
-	textHolderS.width =  "80vw";
-	textHolderS.height = "300px";
-	textHolderS.display = "none"; 
-	textHolderS.flexWrap = "wrap";
-	textHolderS.justifyContent = "center";
-	textHolderS.alignItems = "center";
-	textHolderS.whiteSpace = "normal";
-	textHolderS.gap = "2px";
+	this.style.background = "blue";
+	this.style.width = "80vw";
+	this.style.height = "300px";
+	this.style.minHeight = "300px"; 
+	this.style.display = "flex"; 
+	this.style.flexDirection = "column";
+	this.style.overflowY = "auto";
+	this.style.justifyContent = "center"; 
+	this.style.alignItems = "center";
+	this.style.whiteSpace = "normal";
+	this.style.gap = "2px";
     }
 }
 

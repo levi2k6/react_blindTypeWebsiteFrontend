@@ -1,6 +1,8 @@
 import type GameRouter from "../component/GameRouter";
 import StringGame from "./StringGame";
 
+import type { Challenge } from "../../utils/interfaces";
+
 
 class GameSystem{
 
@@ -18,10 +20,9 @@ class GameSystem{
 	console.log("test");
     };
 
-    init(texts: string, type: string){
-	this.type = type;
-	if(type == "sentence"){
-	    this.stringGame?.addLetters(texts);
+    init(challenges: Challenge[]){
+	if(this.type == "sentence"){
+	    this.stringGame?.gameInit(challenges);
 	}
     }
 

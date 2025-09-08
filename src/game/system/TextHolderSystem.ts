@@ -1,3 +1,5 @@
+import Component from "../../class/Component";
+import type { Challenge } from "../../utils/interfaces";
 import type TextHolder from "../component/TextHolder";
 import Letter from "./Letter";
 
@@ -5,25 +7,38 @@ class TextHolderSystem{
 
     textHolder: TextHolder; 
 
-    letters: Array<HTMLElement> = [];  
+    challengesLetters: Array<Letter[]> = [];  
 
     constructor(textHolder: TextHolder){
 	this.textHolder = textHolder;
     }
 
-    addLetters(letters: Array<Letter>){
+    addLetters(challenges: Challenge[]){
 
-	letters.forEach(letter => {
-	    if(letter.self.innerText == " "){
-		letter.self.innerHTML = "&nbsp;";
+	challenges.forEach(challenge => {
+	    const letters = [];
+	    for(let i = 0; i < challenge.text.length; i++){
+		const letter = new Letter(challenge.text[i]);
+		if(letter.self.innerText == " "){
+		    letter.self.innerHTML = "&nbsp;";
+		}
+		letters.push(letter);
 	    }
-	    this.letters.push(letter.self);
+	    this.challengesLetters.push(letters);
 	})
-	this.textHolder.addChildren(this.letters);
+    }
+
+    displayLetters(i: number){
+	const div = new Component("DivLine");
+	div.addChildren(this.challengesLetters[i]);
+	div.style.border = "1px solid green";
+	div.style.display = "flex";
+	div.style.flexShrink = "0";
+	this.textHolder.addChild(div);
     }
 
     removeLetters(){
-	this.letters = [];
+	this.challengesLetters = [];
 	while(this.textHolder.self.firstChild){
 	    this.textHolder.self.removeChild(this.textHolder.self.firstChild);
 	}
@@ -33,7 +48,7 @@ class TextHolderSystem{
 	if(this.textHolder.style.display == "none"){
 	    this.textHolder.style.display = "flex"; 
 	}else{
-	    this.style.display = "none";
+	    this.textHolder.style.display = "none";
 	}
     }
 
