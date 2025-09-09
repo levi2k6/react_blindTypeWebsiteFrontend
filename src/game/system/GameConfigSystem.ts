@@ -1,6 +1,5 @@
-import type { Response, UserConfig, UserGameConfig } from "../utils/interfaces";
-import type { GameConfig } from "../utils/types";
-import type Game from "./Game";
+import type { UserGameConfig } from "../../utils/interfaces";
+import type { GameConfig } from "../../utils/types";
 
 class GameConfigSystem{
 
@@ -18,18 +17,18 @@ class GameConfigSystem{
 
     sentenceConfig: GameConfig = {
 	difficulty: "easy",
-	multiple: 5,
+	multiple: 3,
 	continuous: false
     } 
 
     constructor(){
     }
 
-    setUserConfig(userConfig: Response<UserGameConfig>){
+    setUserConfig(userConfig: UserGameConfig){
 	console.log(userConfig);
-	this.letterConfig = userConfig.data.letterConfig;
-	this.wordConfig = userConfig.data.wordConfig;
-	this.sentenceConfig = userConfig.data.sentenceConfig;
+	this.letterConfig = userConfig.letterConfig;
+	this.wordConfig = userConfig.wordConfig;
+	this.sentenceConfig = userConfig.sentenceConfig;
     }
 
 }

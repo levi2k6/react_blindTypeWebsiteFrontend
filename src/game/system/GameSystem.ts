@@ -33,9 +33,11 @@ class GameSystem{
     }  
 
     gameEnd(){
-	this.gameRouter.system.gameEnd();
+	this.gameRouter.textHolder.style.display = "flex";
+	this.gameRouter.startButton.disabled = false;
+	this.gameRouter.div1.style.display = "flex";
+	this.gameRouter.system.getInput().turnOffInput();
     }
-
     getType(){
 	return this.type;
     }

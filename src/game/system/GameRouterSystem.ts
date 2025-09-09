@@ -4,14 +4,19 @@ import { apiFetch } from "../../utils/apiUtils";
 import type GameRouter from "../component/GameRouter";
 import GameSystem from "./GameSystem";
 import Input from "./Input";
+import GameConfigSystem from "./GameConfigSystem";
 
 class GameRouterSystem{
 
     private gameRouter: GameRouter;
 
+    private gameConfigSystem: GameConfigSystem = new GameConfigSystem(); 
     private gameSystem: GameSystem;
     private input: Input;
 
+    getInput(): Input{
+	return this.input; 
+    }
 
     constructor(gameRouter: GameRouter){
 	this.gameRouter = gameRouter;
@@ -20,13 +25,24 @@ class GameRouterSystem{
     }
 
     async startGame(){
-
+	this.gameRouter.textHolder.system.removeLetters();
 	this.gameRouter.textHolder.style.display = "none";
 	this.gameRouter.startButton.disabled = true;
 	this.gameRouter.div1.style.display = "none"
 
+	let amount: number = 0;
 
-	const response: Response<Challenge[]> | undefined = await apiFetch("GET", "http://localhost:8080/Game/sentence/challenge/");
+	if(this.gameSystem.getType() === "letter"){ 
+	    amount = this.gameConfigSystem.letterConfig.multiple; 
+	}else if(this.gameSystem.getType() === "word"){ 
+	    amount = this.gameConfigSystem.wordConfig.multiple; 
+	}else if(this.gameSystem.getType() === "sentence"){ 
+	    amount = this.gameConfigSystem.sentenceConfig.multiple; 
+	}else{
+	    return
+	}
+
+	const response: Response<Challenge[]> | undefined = await apiFetch("GET", `http://localhost:8080/Game/sentence/challenge?amount=${amount}`);
 	if(response === undefined){
 	    console.log("challenge response is undefiend");
 	    return;
@@ -45,13 +61,7 @@ class GameRouterSystem{
 
     }
 
-    gameEnd(){
-	this.gameRouter.textHolder.system.removeLetters();
-	this.gameRouter.textHolder.style.display = "flex";
-	this.gameRouter.startButton.disabled = false;
-	this.gameRouter.div1.style.display = "flex";
-	this.input.turnOffInput();
-    }
+
 
     setGameType(type: string){
 	this.gameSystem.setType(type);

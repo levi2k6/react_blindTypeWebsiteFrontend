@@ -47,15 +47,18 @@ class StringGame extends System{
 		letter.turnRed();
 	    }
 	    this.gameRouter.textHolder.style.display = "flex";
-	    this.gameLose();
+	    console.log("wrong");
+	    this.i += 1;
 	}
 
 	if(this.i == this.gameRouter.textHolder.system.challengesLetters[this.i1].length){
-	    if(this.i1 == this.gameRouter.textHolder.system.challengesLetters.length-1){
+	    if(this.i1 != this.challenges.length){
+		alert("Line End!");
+		this.lineEnd();
+	    }else{
+		alert("Game End!");
 		this.gameEnd();
-		return;
 	    }
-	    this.lineEnd();
 	}
     }
 
@@ -67,17 +70,8 @@ class StringGame extends System{
 	console.log("Line ended");
     }
 
-    gameLose(){
-	this.i1=0;
-	this.i=0;
-	this.gameRouter.textHolder.system.challengesLetters = [];
-	this.gameSystem.gameEnd();
-    }
-
     gameEnd(){
-	this.gameRouter.textHolder.system.removeLetters();
 	this.i1= 0;
-	this.i = 0;
 	console.log("String game finished");
 	this.gameRouter.textHolder.system.challengesLetters = [];
 	this.gameSystem.gameEnd();
