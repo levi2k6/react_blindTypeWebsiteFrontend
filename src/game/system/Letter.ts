@@ -17,7 +17,7 @@ class Letter extends Component{
     constructor(letter: string){
 	super();
 	this.char = letter;
-	console.log("char: ", this.char);
+	// console.log("char: ", this.char);
 	this.letter.innerText = letter;
     }
 

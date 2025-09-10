@@ -1,12 +1,16 @@
+import type GameRouter from "../component/GameRouter";
 import GameSystem from "./GameSystem";
 
 class Input{
 
+    private gameRouter: GameRouter; 
     private gameSystem: GameSystem;
     private key : string = "";
 
-    constructor(gameSystem: GameSystem){
+    constructor(gameRouter: GameRouter, gameSystem: GameSystem){
+	this.gameRouter = gameRouter;
 	this.gameSystem = gameSystem;
+	console.log("look here gameSystem: ", gameSystem );
     }
 
     getKey(){
@@ -14,7 +18,7 @@ class Input{
     }
 
     turnOnInput(){
-	window.addEventListener("keydown", this.keydownHandler);
+	window.addEventListener("keydown", this.keydownHandler.bind(this) );
 	console.log("Input turned on.");
     }
 
@@ -24,10 +28,21 @@ class Input{
 	    return;
 	};
 
-	this.key = e.key;
-	// console.log("input: ", this.key);
-	this.gameSystem.gameInput(this.key);
-	// this.gameSystem.gameInput(this.key);
+	if(e.key == "Enter"){
+	    if(!this.gameSystem.getType()){
+		return;
+	    }
+	    this.gameRouter.system.startGame();
+	    this.gameSystem.isGaming = true;
+	    return;
+	}
+
+	if( /^[a-z0-9 ]$/.test(e.key) && this.gameSystem.isGaming){
+	    this.key = e.key
+	    // console.log("input: ", this.key);
+	    this.gameSystem.gameInput(this.key);
+	    // this.gameSystem.gameInput(this.key);
+	}
     }
 
     turnOffInput(){

@@ -14,6 +14,9 @@ class GameRouterSystem{
     private gameSystem: GameSystem;
     private input: Input;
 
+    getGameSystem(): GameSystem{
+	return this.gameSystem;
+    }
     getInput(): Input{
 	return this.input; 
     }
@@ -21,7 +24,7 @@ class GameRouterSystem{
     constructor(gameRouter: GameRouter){
 	this.gameRouter = gameRouter;
 	this.gameSystem = new GameSystem(gameRouter); 
-	this.input = new Input(this.gameSystem);
+	this.input = new Input(this.gameRouter, this.gameSystem);
     }
 
     async startGame(){
@@ -53,7 +56,6 @@ class GameRouterSystem{
 	console.log("type right now: ", this.gameSystem.getType());
 	// this.gameRouter.textAudio.system.addAudioSource(response.data.audioName, this.gameSystem.getType());
 	this.gameSystem.init(response.data);
-	this.input.turnOnInput();
 
 	// if(this.gameSystem.getType() == "sentence"){
 	//     this.gameRouter.textHolder.system.addLetters(this.gameSystem.getStringGame().getLetters());
@@ -62,8 +64,12 @@ class GameRouterSystem{
     }
 
 
-
     setGameType(type: string){
+
+	if(!this.gameSystem.getType()){
+	    this.input.turnOnInput();
+	}
+
 	this.gameSystem.setType(type);
 	if(this.gameSystem.getType()){
 	    this.gameRouter.startButton.disabled = false;

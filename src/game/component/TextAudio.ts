@@ -4,8 +4,11 @@ import TextAudioSystem from "../system/TextAudioSystem";
 
 class TextAudio extends Component{
 
-    private textAudioSystem: TextAudioSystem = new TextAudioSystem(this);
     public audio: HTMLAudioElement = createElement("audio") as HTMLAudioElement;
+    public audioDing: HTMLAudioElement = createElement("audio") as HTMLAudioElement;
+    public audioWrong: HTMLAudioElement = createElement("audio") as HTMLAudioElement;
+
+    private textAudioSystem: TextAudioSystem = new TextAudioSystem(this);
 
     get system(){
 	return this.textAudioSystem;
@@ -21,9 +24,13 @@ class TextAudio extends Component{
 	this.styleElements()
     }
 
+
+
     connecElements(){
 	this.addChildren([
 	    this.audio,
+	    this.audioDing,
+	    this.audioWrong
 	]);
     }
 

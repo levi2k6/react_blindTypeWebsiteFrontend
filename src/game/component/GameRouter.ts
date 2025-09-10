@@ -7,8 +7,6 @@ import TextAudio from "./TextAudio.ts";
 
 class GameRouter extends Component{
 
-    private gameRouterSystem: GameRouterSystem = new GameRouterSystem(this);
-
     textHolder = new TextHolder("TextHolder");
 
     div1: Component = new Component("div1");
@@ -19,6 +17,9 @@ class GameRouter extends Component{
 	    sentenceButton: HTMLButtonElement = createElement("button", "Sentence") as HTMLButtonElement;
 
     textAudio = new TextAudio("GameTextAudio");
+    dingAudio = new TextAudio("");
+
+    private gameRouterSystem: GameRouterSystem = new GameRouterSystem(this);
 
     constructor(name: string){
 	super(name);
