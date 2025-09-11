@@ -1,5 +1,5 @@
 
-import type { Response, Challenge } from "../../utils/interfaces";
+import type { Response, Challenge, SentenceChallenge } from "../../utils/interfaces";
 import { apiFetch } from "../../utils/apiUtils";
 import type GameRouter from "../component/GameRouter";
 import GameSystem from "./GameSystem";
@@ -45,7 +45,9 @@ class GameRouterSystem{
 	    return
 	}
 
+
 	const response: Response<Challenge[]> | undefined = await apiFetch("GET", `http://localhost:8080/Game/sentence/challenge?amount=${amount}`);
+
 	if(response === undefined){
 	    console.log("challenge response is undefiend");
 	    return;
@@ -54,12 +56,7 @@ class GameRouterSystem{
 	console.log("response: ", response);
 
 	console.log("type right now: ", this.gameSystem.getType());
-	// this.gameRouter.textAudio.system.addAudioSource(response.data.audioName, this.gameSystem.getType());
-	this.gameSystem.init(response.data);
-
-	// if(this.gameSystem.getType() == "sentence"){
-	//     this.gameRouter.textHolder.system.addLetters(this.gameSystem.getStringGame().getLetters());
-	// }
+	this.gameSystem.init(response.data as Challenge);
 
     }
 

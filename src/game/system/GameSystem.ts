@@ -1,7 +1,8 @@
 import type GameRouter from "../component/GameRouter";
 import StringGame from "./StringGame";
 
-import type { Challenge } from "../../utils/interfaces";
+import type { Challenge, LetterChallenge } from "../../utils/interfaces";
+import LetterGame from "./LetterGame";
 
 
 class GameSystem{
@@ -11,10 +12,12 @@ class GameSystem{
     private type : string = "";
     private gameState: boolean = false;
     private stringGame: StringGame;
+    private letterGame: LetterGame; 
 
     constructor(gameRouter: GameRouter){
 	this.gameRouter = gameRouter;
 	this.stringGame = new StringGame(this.gameRouter, this);
+	this.letterGame = new LetterGame(this.gameRouter, this);
     }
 
     test(){
@@ -23,9 +26,12 @@ class GameSystem{
 
     init(challenges: Challenge[]){
 	this.gameState = true; 
-	if(this.type == "sentence"){
-	    this.stringGame?.gameInit(challenges);
+	if(this.type == "sentence" || "word"){
+	    this.stringGame?.gameInit(challenges, this.type);
+	}else if(this.type == "word"){
+	    this.letterGame?.gameInit(challenges as LetterChallenge[]);
 	}
+
     }
 
     gameInput(playerInput: string){

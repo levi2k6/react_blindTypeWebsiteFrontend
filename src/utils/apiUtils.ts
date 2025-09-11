@@ -1,5 +1,5 @@
 
-import type { Response, Challenge } from "../utils/interfaces.ts"
+import type { Response } from "../utils/interfaces.ts"
 
 export async function apiFetch<T>(requestType: string, url: string) : Promise<Response<T>>{
     try{

@@ -4,7 +4,7 @@ import type GameSystem from "./GameSystem";
 import System from "../../class/System";
 
 import type { GameConfig } from "../../utils/types";
-import type { Challenge } from "../../utils/interfaces";
+import type {  Challenge, SentenceChallenge, WordChallenge } from "../../utils/interfaces";
 import type TextHolder from "../component/TextHolder";
 import type TextAudio from "../component/TextAudio";
 
@@ -15,7 +15,7 @@ class StringGame extends System{
     private textAudio: TextAudio; 
     private gameSystem: GameSystem;
 
-    private challenges: Challenge[] = [];  
+    private challenges: SentenceChallenge[] | WordChallenge[] = []; 
     // private letters: Array<Letter> = [];	
     private gameConfig: GameConfig;
     private i1: number = 0;
@@ -31,13 +31,25 @@ class StringGame extends System{
     }
 
     gameInit(challenges: Challenge[]){
-	this.challenges = challenges;
-	this.gameRouter.textAudio.system.addAudioSource(this.challenges[this.i1].audioName, this.gameSystem.getType());
+	if(this.gameSystem.getType() == "sentence"){
+	    this.challenges = ;
+	    setChallengeAudio();
+	}else if(this.gameSystem.getType() == "word"){
+	    this.wordChallenges = challenges; 
+	    this.setChallengeAudio("word", );
+	}
 	this.textHolder.system.addLetters(challenges);
 	this.textHolder.system.displayLetters(this.i1);
 	// this.textHolder.system.addLetters(this.letters);
     }
 
+    setChallengeAudio(audioName: string){
+	if(this.gameSystem.getType() == "sentence"){
+	    this.gameRouter.textAudio.system.addAudioSource(audioName, this.gameSystem.getType());
+	}else if(this.gameSystem.getType() == "word"){
+	    this.gameRouter.textAudio.system.addAudioSource(audioName, this.gameSystem.getType());
+	}
+    }
 
     debug(){
 
