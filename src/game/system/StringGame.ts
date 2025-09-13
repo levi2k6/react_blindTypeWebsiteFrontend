@@ -15,7 +15,7 @@ class StringGame extends System{
     private textAudio: TextAudio; 
     private gameSystem: GameSystem;
 
-    private challenges: SentenceChallenge[] | WordChallenge[] = []; 
+    private challenges: Challenge[] = []; 
     // private letters: Array<Letter> = [];	
     private gameConfig: GameConfig;
     private i1: number = 0;
@@ -32,16 +32,18 @@ class StringGame extends System{
 
     gameInit(challenges: Challenge[]){
 	if(this.gameSystem.getType() == "sentence"){
-	    this.challenges = ;
-	    setChallengeAudio();
+	    const sentenceChallenges = challenges as SentenceChallenge[]; 
+	    this.challenges = sentenceChallenges;
+	    this.setChallengeAudio(sentenceChallenges[this.i1].audioName);
 	}else if(this.gameSystem.getType() == "word"){
-	    this.wordChallenges = challenges; 
-	    this.setChallengeAudio("word", );
+	    const wordChallenges = challenges as WordChallenge[];
+	    this.challenges = wordChallenges; 
+	    this.setChallengeAudio(wordChallenges[this.i1].text);
 	}
 	this.textHolder.system.addLetters(challenges);
 	this.textHolder.system.displayLetters(this.i1);
-	// this.textHolder.system.addLetters(this.letters);
     }
+
 
     setChallengeAudio(audioName: string){
 	if(this.gameSystem.getType() == "sentence"){
@@ -99,9 +101,19 @@ class StringGame extends System{
     lineEnd(){
 	this.i1 += 1;
 	this.i = 0;
-	this.gameRouter.textAudio.system.addAudioSource(this.challenges[this.i1].audioName, this.gameSystem.getType());
+	this.nextChallenge(this.gameSystem.getType());
 	this.textHolder.system.displayLetters(this.i1);
 	console.log("Line ended");
+    }
+
+    nextChallenge(type: string){
+	if(type == "sentence"){
+	    const sentenceChallenges = this.challenges as SentenceChallenge[];
+	    this.setChallengeAudio(sentenceChallenges[this.i1].audioName);
+	}else if(type == "word"){
+	    const wordChallenge = this.challenges as WordChallenge[]; 
+	    this.setChallengeAudio(wordChallenge[this.i1].text);
+	}
     }
 
     gameLose(){

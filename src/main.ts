@@ -2,7 +2,7 @@ import './style.css'
 import  Home from "./routes/home.ts"
 import GameRouter from "./game/component/GameRouter.ts"  
 import Navigo from "navigo"
-import type Component from './class/Component.ts';
+import type Box from './class/Box.ts';
 
 class Main{
 
@@ -16,13 +16,13 @@ class Main{
 	this.routeSystem();
     };
 
-    addHeaderElement(route: Component): void{
+    addHeaderElement(route: Box): void{
 	if(route.self) return;
 	
 	this.header.appendChild(route.self);
     }
 
-    addAppElement(route : Component): void{
+    addAppElement(route : Box): void{
 	if(!route.self) return;
 	this.app.appendChild(route.self);
     }

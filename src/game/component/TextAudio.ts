@@ -1,8 +1,8 @@
+import Box from "../../class/Box";
 import { createElement } from "../../ui_system/Element";
-import Component from "../../class/Component";
 import TextAudioSystem from "../system/TextAudioSystem";
 
-class TextAudio extends Component{
+class TextAudio extends Box{
 
     public audio: HTMLAudioElement = createElement("audio") as HTMLAudioElement;
     public audioDing: HTMLAudioElement = createElement("audio") as HTMLAudioElement;

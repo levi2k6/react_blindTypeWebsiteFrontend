@@ -1,4 +1,4 @@
-import Component from "../../class/Component";
+import Box from "../../class/Box";
 import type { Challenge } from "../../utils/interfaces";
 import type TextHolder from "../component/TextHolder";
 import Letter from "./Letter";
@@ -14,7 +14,6 @@ class TextHolderSystem{
     }
 
     addLetters(challenges: Challenge[]){
-
 	challenges.forEach(challenge => {
 	    const letters = [];
 	    for(let i = 0; i < challenge.text.length; i++){
@@ -29,7 +28,7 @@ class TextHolderSystem{
     }
 
     displayLetters(i: number){
-	const div = new Component("DivLine");
+	const div = new Box("DivLine");
 	div.addChildren(this.challengesLetters[i]);
 	div.style.border = "1px solid green";
 	div.style.display = "flex";

@@ -27,7 +27,7 @@ class GameSystem{
     init(challenges: Challenge[]){
 	this.gameState = true; 
 	if(this.type == "sentence" || "word"){
-	    this.stringGame?.gameInit(challenges, this.type);
+	    this.stringGame?.gameInit(challenges);
 	}else if(this.type == "word"){
 	    this.letterGame?.gameInit(challenges as LetterChallenge[]);
 	}
@@ -35,7 +35,7 @@ class GameSystem{
     }
 
     gameInput(playerInput: string){
-	if(this.type == "sentence"){
+	if(this.type == "sentence" || "word"){
 	    this.stringGame?.guessLetter(playerInput);
 	} 
     }  

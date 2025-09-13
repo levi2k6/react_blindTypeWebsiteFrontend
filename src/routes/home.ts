@@ -1,8 +1,8 @@
 import { createElement } from "../ui_system/Element";
-import Component from "../class/Component.ts";
+import Box from "../class/Box.ts";
 import { apiFetch } from "../utils/apiUtils.ts";
 
-class Home extends Component{
+class Home extends Box{
 
     label: HTMLElement = createElement("label", "Hello this blue"); 
     startButton: HTMLButtonElement = createElement("button", "Start") as HTMLButtonElement; 

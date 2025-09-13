@@ -45,8 +45,7 @@ class GameRouterSystem{
 	    return
 	}
 
-
-	const response: Response<Challenge[]> | undefined = await apiFetch("GET", `http://localhost:8080/Game/sentence/challenge?amount=${amount}`);
+	const response: Response<Challenge[]> | undefined = await apiFetch("GET", `http://localhost:8080/Game/${this.gameSystem.getType()}/challenge?amount=${amount}`);
 
 	if(response === undefined){
 	    console.log("challenge response is undefiend");
@@ -56,13 +55,10 @@ class GameRouterSystem{
 	console.log("response: ", response);
 
 	console.log("type right now: ", this.gameSystem.getType());
-	this.gameSystem.init(response.data as Challenge);
-
+	this.gameSystem.init(response.data);
     }
 
-
     setGameType(type: string){
-
 	if(!this.gameSystem.getType()){
 	    this.input.turnOnInput();
 	}

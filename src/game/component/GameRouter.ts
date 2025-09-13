@@ -1,17 +1,19 @@
 import { createElement } from "../../ui_system/Element.ts";
-import Component from "../../class/Component.ts";
+
+import Box from "../../class/Box.ts";
 
 import GameRouterSystem from "../system/GameRouterSystem.ts";
 import TextHolder from "./TextHolder.ts";
 import TextAudio from "./TextAudio.ts";
+import type { Component } from "../../class/Component.ts";
 
-class GameRouter extends Component{
+class GameRouter extends Box implements Component{
 
     textHolder = new TextHolder("TextHolder");
 
-    div1: Component = new Component("div1");
+    div1: Box = new Box("div1");
 	startButton: HTMLButtonElement = createElement("button", "Start") as HTMLButtonElement; 
-	div2: Component = new Component("div2");
+	div2: Box = new Box("div2");
 	    letterButton: HTMLButtonElement = createElement("button", "Letter") as HTMLButtonElement;
 	    wordButton: HTMLButtonElement = createElement("button", "Word") as HTMLButtonElement;
 	    sentenceButton: HTMLButtonElement = createElement("button", "Sentence") as HTMLButtonElement;

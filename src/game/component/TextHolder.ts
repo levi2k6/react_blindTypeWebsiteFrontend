@@ -1,7 +1,7 @@
-import Component from "../../class/Component";
+import Box from "../../class/Box";
 import TextHolderSystem from "../system/TextHolderSystem";
 
-class TextHolder extends Component{
+class TextHolder extends Box{
 
     textHoldersystem: TextHolderSystem = new TextHolderSystem(this);
 

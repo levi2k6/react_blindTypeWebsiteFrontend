@@ -6,7 +6,7 @@ export interface Response<T>{
 }
 
 export interface Challenge{
-
+    text: string;
 }
 
 export interface SentenceChallenge extends Challenge{
@@ -24,7 +24,7 @@ export interface WordChallenge extends Challenge{
 
 export interface LetterChallenge{
     id: number;
-    test: string;
+    text: string;
 }
 
 export interface UserGameConfig{

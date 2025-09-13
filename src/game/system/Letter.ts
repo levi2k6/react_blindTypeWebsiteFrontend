@@ -1,7 +1,7 @@
-import Component from "../../class/Component";
+import Box from "../../class/Box";
 import { createElement } from "../../ui_system/Element";
 
-class Letter extends Component{
+class Letter extends Box{
 
     private char: string;
     private letter = createElement("h1"); 
