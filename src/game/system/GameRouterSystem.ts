@@ -54,7 +54,6 @@ class GameRouterSystem{
 
 	console.log("response: ", response);
 
-	console.log("type right now: ", this.gameSystem.getType());
 	this.gameSystem.init(response.data);
     }
 

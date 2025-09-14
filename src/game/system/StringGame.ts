@@ -46,11 +46,7 @@ class StringGame extends System{
 
 
     setChallengeAudio(audioName: string){
-	if(this.gameSystem.getType() == "sentence"){
-	    this.gameRouter.textAudio.system.addAudioSource(audioName, this.gameSystem.getType());
-	}else if(this.gameSystem.getType() == "word"){
-	    this.gameRouter.textAudio.system.addAudioSource(audioName, this.gameSystem.getType());
-	}
+	this.gameRouter.textAudio.system.addAudioSource(audioName, this.gameSystem.getType());
     }
 
     debug(){

@@ -10,7 +10,6 @@ class Input{
     constructor(gameRouter: GameRouter, gameSystem: GameSystem){
 	this.gameRouter = gameRouter;
 	this.gameSystem = gameSystem;
-	console.log("look here gameSystem: ", gameSystem );
     }
 
     getKey(){
@@ -37,6 +36,7 @@ class Input{
 	    return;
 	}
 
+	console.log("isGaming: ", this.gameSystem.isGaming);
 	if( /^[a-z0-9 ]$/.test(e.key) && this.gameSystem.isGaming){
 	    this.key = e.key
 	    // console.log("input: ", this.key);

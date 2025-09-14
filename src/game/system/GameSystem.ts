@@ -3,6 +3,7 @@ import StringGame from "./StringGame";
 
 import type { Challenge, LetterChallenge } from "../../utils/interfaces";
 import LetterGame from "./LetterGame";
+import Timer from "./Timer";
 
 
 class GameSystem{
@@ -11,13 +12,16 @@ class GameSystem{
 
     private type : string = "";
     private gameState: boolean = false;
+
+    private timer: Timer = new Timer(); 
+
     private stringGame: StringGame;
     private letterGame: LetterGame; 
 
     constructor(gameRouter: GameRouter){
 	this.gameRouter = gameRouter;
 	this.stringGame = new StringGame(this.gameRouter, this);
-	this.letterGame = new LetterGame(this.gameRouter, this);
+	this.letterGame = new LetterGame(this.gameRouter, this, this.timer);
     }
 
     test(){
@@ -26,18 +30,20 @@ class GameSystem{
 
     init(challenges: Challenge[]){
 	this.gameState = true; 
-	if(this.type == "sentence" || "word"){
+	if(this.type == "sentence" || this.type =="word"){
 	    this.stringGame?.gameInit(challenges);
-	}else if(this.type == "word"){
+	}else if(this.type == "letter"){
 	    this.letterGame?.gameInit(challenges as LetterChallenge[]);
 	}
-
     }
 
     gameInput(playerInput: string){
-	if(this.type == "sentence" || "word"){
+	console.log("type: ", this.type);
+	if(this.type == "sentence" || this.type == "word"){
 	    this.stringGame?.guessLetter(playerInput);
-	} 
+	}else if(this.type == "letter"){
+	    this.letterGame?.guessLetter(playerInput);
+	}
     }  
 
     gameEnd(){
