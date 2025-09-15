@@ -1,15 +1,17 @@
-import Letter from "./Letter";
-import GameRouter from "../component/GameRouter";
-import type GameSystem from "./GameSystem";
-import System from "../../class/System";
+import GameRouter from "../../component/GameRouter";
+import GameSystem from "../GameSystem";
+import System from "../../../class/System";
+import TextHolder from "../../component/TextHolder";
+import TextAudio from "../../component/TextAudio";
 
-import type { GameConfig } from "../../utils/types";
-import type {  Challenge, SentenceChallenge, WordChallenge } from "../../utils/interfaces";
-import type TextHolder from "../component/TextHolder";
-import type TextAudio from "../component/TextAudio";
 
-class StringGame extends System{
+import type { GameConfig } from "../../../utils/types";
+import type {  Challenge, SentenceChallenge, WordChallenge } from "../../../utils/interfaces";
+import Game from "./Game";
 
+class StringGame extends Game{
+
+    private name: string = "StringGame";
     private gameRouter: GameRouter;
     private textHolder: TextHolder;
     private textAudio: TextAudio; 
@@ -30,7 +32,11 @@ class StringGame extends System{
 	console.log("here: ", this.gameRouter.textHolder);
     }
 
-    gameInit(challenges: Challenge[]){
+    getName(): string{
+	return this.name; 
+    }
+
+    gameInit(challenges: Challenge[]): void{
 	if(this.gameSystem.getType() == "sentence"){
 	    const sentenceChallenges = challenges as SentenceChallenge[]; 
 	    this.challenges = sentenceChallenges;
@@ -53,7 +59,7 @@ class StringGame extends System{
 
     }
 
-    guessLetter(playerInput: string){
+    guessLetter(playerInput: string): void{
 	const currentLetters = this.textHolder.system.challengesLetters[this.i1];
 	console.log("currentLetters: ", currentLetters[this.i1]);
 	const letter = currentLetters[this.i];

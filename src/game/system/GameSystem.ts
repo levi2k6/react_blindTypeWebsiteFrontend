@@ -1,9 +1,11 @@
 import type GameRouter from "../component/GameRouter";
-import StringGame from "./StringGame";
+
+import StringGame from "./games/StringGame";
+import LetterGame from "./games/LetterGame";
 
 import type { Challenge, LetterChallenge } from "../../utils/interfaces";
-import LetterGame from "./LetterGame";
 import Timer from "./Timer";
+import GameManager from "./games/GameManager";
 
 
 class GameSystem{
@@ -15,13 +17,16 @@ class GameSystem{
 
     private timer: Timer = new Timer(); 
 
-    private stringGame: StringGame;
-    private letterGame: LetterGame; 
+    private gameManager: GameManager = new GameManager();
+    // private stringGame: StringGame;
+    // private letterGame: LetterGame; 
 
     constructor(gameRouter: GameRouter){
 	this.gameRouter = gameRouter;
-	this.stringGame = new StringGame(this.gameRouter, this);
-	this.letterGame = new LetterGame(this.gameRouter, this, this.timer);
+	this.gameManager.addGame(new StringGame(this.gameRouter, this));
+	this.gameManager.addGame(new LetterGame(this.gameRouter, this, this.timer));
+	// this.stringGame = new StringGame(this.gameRouter, this);
+	// this.letterGame = new LetterGame(this.gameRouter, this, this.timer);
     }
 
     test(){

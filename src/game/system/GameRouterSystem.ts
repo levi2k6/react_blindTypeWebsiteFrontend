@@ -1,4 +1,3 @@
-
 import type { Response, Challenge, SentenceChallenge } from "../../utils/interfaces";
 import { apiFetch } from "../../utils/apiUtils";
 import type GameRouter from "../component/GameRouter";

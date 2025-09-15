@@ -1,12 +1,14 @@
-import System from "../../class/System";
-import type { LetterChallenge } from "../../utils/interfaces";
-import type GameRouter from "../component/GameRouter";
-import type GameSystem from "./GameSystem";
-import type Timer from "./Timer";
+import System from "../../../class/System";
+import GameRouter from "../../component/GameRouter";
+import GameSystem from "../GameSystem";
+import Timer from "../Timer";
 
+import type { LetterChallenge } from "../../../utils/interfaces";
+import Game from "./Game";
 
-class LetterGame extends System{
+class LetterGame extends Game{
 
+    private name: string = "LetterGame";
     private gameRouter: GameRouter;
     private gameSystem: GameSystem;
 
@@ -21,6 +23,10 @@ class LetterGame extends System{
 	this.gameSystem = gameSystem;
 	this.timer = timer;
 	this.timer.initLoseState(this.gameLose.bind(this));
+    }
+
+    getName(): string{
+	return this.name;
     }
 
     gameInit(challenges: LetterChallenge[]){
