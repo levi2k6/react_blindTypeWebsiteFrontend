@@ -10,6 +10,7 @@ class Main{
     app : HTMLDivElement = document.querySelector<HTMLDivElement>('#app')!;  
 
     router = new Navigo("/", {hash: true});
+
     gameRouter: GameRouter = new GameRouter("Game");
 
     constructor(){

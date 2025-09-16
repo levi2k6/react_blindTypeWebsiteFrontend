@@ -1,5 +1,5 @@
-import type TextAudio from "../component/TextAudio";
-
+import { ChallengeType } from "../../../utils/enums";
+import TextAudio from "../../component/TextAudio";
 
 class TextAudioSystem{
 
@@ -20,10 +20,11 @@ class TextAudioSystem{
 	this.textAudio.audioWrong.load()
     }
 
-    addAudioSource(audioName: string, type: string){
+    addAudioSource(audioName: string, type: ChallengeType){
 	this.textAudio.audio.muted = false;
 
-	const url  = `http://localhost:8080/Audio/${type}/${audioName}`;
+	const typeString = ChallengeType[type].toLowerCase();
+	const url  = `http://localhost:8080/Audio/${typeString}/${audioName}`;
 	console.log("url: ", url);
 
 	this.textAudio.audio.src = url; 

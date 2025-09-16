@@ -1,13 +1,11 @@
-import GameRouter from "../../component/GameRouter";
+import GameRouter from "../../../component/GameRouter";
 import GameSystem from "../GameSystem";
-import System from "../../../class/System";
-import TextHolder from "../../component/TextHolder";
-import TextAudio from "../../component/TextAudio";
+import TextHolder from "../../../component/TextHolder";
+import TextAudio from "../../../component/TextAudio";
 
-
-import type { GameConfig } from "../../../utils/types";
-import type {  Challenge, SentenceChallenge, WordChallenge } from "../../../utils/interfaces";
+import type {  Challenge, SentenceChallenge, WordChallenge } from "../../../../utils/interfaces";
 import Game from "./Game";
+import { ChallengeType } from "../../../../utils/enums";
 
 class StringGame extends Game{
 
@@ -19,7 +17,6 @@ class StringGame extends Game{
 
     private challenges: Challenge[] = []; 
     // private letters: Array<Letter> = [];	
-    private gameConfig: GameConfig;
     private i1: number = 0;
     private i: number = 0;
 
@@ -37,11 +34,12 @@ class StringGame extends Game{
     }
 
     gameInit(challenges: Challenge[]): void{
-	if(this.gameSystem.getType() == "sentence"){
+
+	if(this.gameSystem.getType() == ChallengeType.SENTENCE){
 	    const sentenceChallenges = challenges as SentenceChallenge[]; 
 	    this.challenges = sentenceChallenges;
 	    this.setChallengeAudio(sentenceChallenges[this.i1].audioName);
-	}else if(this.gameSystem.getType() == "word"){
+	}else if(this.gameSystem.getType() == ChallengeType.WORD){
 	    const wordChallenges = challenges as WordChallenge[];
 	    this.challenges = wordChallenges; 
 	    this.setChallengeAudio(wordChallenges[this.i1].text);
@@ -108,11 +106,11 @@ class StringGame extends Game{
 	console.log("Line ended");
     }
 
-    nextChallenge(type: string){
-	if(type == "sentence"){
+    nextChallenge(type: ChallengeType){
+	if(type == ChallengeType.SENTENCE){
 	    const sentenceChallenges = this.challenges as SentenceChallenge[];
 	    this.setChallengeAudio(sentenceChallenges[this.i1].audioName);
-	}else if(type == "word"){
+	}else if(type == ChallengeType.WORD){
 	    const wordChallenge = this.challenges as WordChallenge[]; 
 	    this.setChallengeAudio(wordChallenge[this.i1].text);
 	}

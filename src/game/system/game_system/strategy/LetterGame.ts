@@ -1,9 +1,8 @@
-import System from "../../../class/System";
-import GameRouter from "../../component/GameRouter";
+import GameRouter from "../../../component/GameRouter";
 import GameSystem from "../GameSystem";
-import Timer from "../Timer";
+import Timer from "../../Timer";
 
-import type { LetterChallenge } from "../../../utils/interfaces";
+import type { LetterChallenge } from "../../../../utils/interfaces";
 import Game from "./Game";
 
 class LetterGame extends Game{

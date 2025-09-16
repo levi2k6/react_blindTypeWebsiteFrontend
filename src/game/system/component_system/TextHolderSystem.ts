@@ -1,7 +1,7 @@
-import Box from "../../class/Box";
-import type { Challenge } from "../../utils/interfaces";
-import type TextHolder from "../component/TextHolder";
-import Letter from "../component/Letter";
+import type { Challenge } from "../../../utils/interfaces";
+import TextHolder from "../../component/TextHolder";
+import Box from "../../../class/Box";
+import Letter from "../../component/Letter";
 
 class TextHolderSystem{
 

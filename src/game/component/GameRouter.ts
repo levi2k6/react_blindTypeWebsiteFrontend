@@ -1,8 +1,9 @@
 import { createElement } from "../../ui_system/Element.ts";
+import { ChallengeType } from "../../utils/enums.ts";
 
 import Box from "../../class/Box.ts";
 
-import GameRouterSystem from "../system/GameRouterSystem.ts";
+import GameRouterSystem from "../system/component_system/GameRouterSystem.ts";
 import TextHolder from "./TextHolder.ts";
 import TextAudio from "./TextAudio.ts";
 import type { Component } from "../../class/Component.ts";
@@ -60,15 +61,15 @@ class GameRouter extends Box implements Component{
 	});
 
 	this.letterButton.addEventListener("click", ()=>{
-	    this.gameRouterSystem.setGameType("letter");
+	    this.gameRouterSystem.setGameType(ChallengeType.LETTER);
 	})
 
 	this.wordButton.addEventListener("click", ()=>{
-	    this.gameRouterSystem.setGameType("word");
+	    this.gameRouterSystem.setGameType(ChallengeType.WORD);
 	})
 
 	this.sentenceButton.addEventListener("click", ()=>{
-	    this.gameRouterSystem.setGameType("sentence");
+	    this.gameRouterSystem.setGameType(ChallengeType.SENTENCE);
 	})
     }
 
@@ -91,8 +92,6 @@ class GameRouter extends Box implements Component{
 
 	this.startButton.disabled = true;
     }
-
-
 }
 
 export default GameRouter;

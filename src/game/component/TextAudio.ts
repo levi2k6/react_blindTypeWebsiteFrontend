@@ -1,6 +1,6 @@
 import Box from "../../class/Box";
 import { createElement } from "../../ui_system/Element";
-import TextAudioSystem from "../system/TextAudioSystem";
+import TextAudioSystem from "../system/component_system/TextAudioSystem";
 
 class TextAudio extends Box{
 
@@ -23,8 +23,6 @@ class TextAudio extends Box{
 	this.connecElements()
 	this.styleElements()
     }
-
-
 
     connecElements(){
 	this.addChildren([

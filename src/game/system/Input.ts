@@ -1,5 +1,5 @@
 import type GameRouter from "../component/GameRouter";
-import GameSystem from "./GameSystem";
+import GameSystem from "./game_system/GameSystem";
 
 class Input{
 
