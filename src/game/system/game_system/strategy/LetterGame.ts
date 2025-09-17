@@ -4,11 +4,13 @@ import Timer from "../../Timer";
 
 import type { LetterChallenge } from "../../../../utils/interfaces";
 import Game from "./Game";
+import type TextHolder from "../../../component/TextHolder";
 
 class LetterGame extends Game{
 
     private name: string = "LetterGame";
     private gameRouter: GameRouter;
+    private textHolder: TextHolder;
     private gameSystem: GameSystem;
 
     private timer: Timer;
@@ -19,9 +21,13 @@ class LetterGame extends Game{
     constructor(gameRouter: GameRouter, gameSystem: GameSystem, timer: Timer){
 	super()
 	this.gameRouter = gameRouter;
+	this.textHolder = gameRouter.textHolder;
 	this.gameSystem = gameSystem;
 	this.timer = timer;
 	this.timer.initLoseState(this.gameLose.bind(this));
+    }
+
+    gameReset(): void {
     }
 
     getName(): string{
@@ -43,14 +49,16 @@ class LetterGame extends Game{
 	console.log("this is working");
 	console.log("playerInput: ", playerInput);
 	console.log("chalenge: ", this.challenges[this.i].text);
+
 	if(playerInput == this.challenges[this.i].text.toLowerCase()){
 	    this.gameRouter.textAudio.system.ding();
 	    this.timer.startTimer();
 	    this.nextLetter();
 	}else{
+
 	    this.timer.stopTimer();
-	    this.gameLose();
 	    this.gameRouter.textAudio.system.wrong();
+	    this.gameLose();
 	}
     }
 
@@ -61,10 +69,15 @@ class LetterGame extends Game{
     }
 
     gameLose(){
-	this.i = 0;
-	this.challenges = [];
 	this.gameSystem.gameEnd();
+	this.textHolder.system.addLetter(this.challenges[this.i]);
+	this.textHolder.system.displayLetters(0);
+	this.textHolder.system.getChallengeLetters()[0][0].turnRed();
+	this.textHolder.system.removeChallengeLetters();  
+	this.challenges = [];
+	this.i = 0;
     }
+
 
 }
 

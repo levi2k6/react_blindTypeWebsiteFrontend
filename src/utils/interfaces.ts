@@ -9,20 +9,14 @@ export interface Challenge{
     text: string;
 }
 
-export interface SentenceChallenge extends Challenge{
+export interface StringChallenge extends Challenge{
     id: number;
     difficulty: "easy" | "normal" | "hard";
     text: string;
     audioName: string;
 }
 
-export interface WordChallenge extends Challenge{
-    id: number;
-    difficulty: "easy" | "normal" | "hard";
-    text: string;
-} 
-
-export interface LetterChallenge{
+export interface LetterChallenge extends Challenge{
     id: number;
     text: string;
 }

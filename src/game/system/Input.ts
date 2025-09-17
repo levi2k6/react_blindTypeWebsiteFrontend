@@ -29,15 +29,15 @@ class Input{
 
 	if(e.key == "Enter"){
 	    if(!this.gameSystem.getType()){
+		console.log("Can't start without a type selected.");
 		return;
 	    }
 	    this.gameRouter.system.startGame();
-	    this.gameSystem.isGaming = true;
 	    return;
 	}
 
-	console.log("isGaming: ", this.gameSystem.isGaming);
-	if( /^[a-z0-9 ]$/.test(e.key) && this.gameSystem.isGaming){
+	console.log("isGaming: ", this.gameSystem.getIsGaming());
+	if( /^[a-z0-9 ]$/.test(e.key) && this.gameSystem.getIsGaming() ){
 	    this.key = e.key
 	    // console.log("input: ", this.key);
 	    this.gameSystem.gameInput(this.key);
@@ -49,7 +49,9 @@ class Input{
 	window.removeEventListener("keydown", this.keydownHandler);
 	console.log("Input turned off.");
     }
+
 }
+
 
 
 export default Input;

@@ -3,9 +3,9 @@ import GameSystem from "../GameSystem";
 import TextHolder from "../../../component/TextHolder";
 import TextAudio from "../../../component/TextAudio";
 
-import type {  Challenge, SentenceChallenge, WordChallenge } from "../../../../utils/interfaces";
+import type {  Challenge, StringChallenge } from "../../../../utils/interfaces";
 import Game from "./Game";
-import { ChallengeType } from "../../../../utils/enums";
+import type Letter from "../../../component/Letter";
 
 class StringGame extends Game{
 
@@ -15,10 +15,9 @@ class StringGame extends Game{
     private textAudio: TextAudio; 
     private gameSystem: GameSystem;
 
-    private challenges: Challenge[] = []; 
-    // private letters: Array<Letter> = [];	
+    private challenges: StringChallenge[] = []; 
     private i1: number = 0;
-    private i: number = 0;
+    private i2: number = 0;
 
     constructor(gameRouter: GameRouter, gameSystem: GameSystem){
 	super();
@@ -33,64 +32,72 @@ class StringGame extends Game{
 	return this.name; 
     }
 
-    gameInit(challenges: Challenge[]): void{
+    gameReset(){
 
-	if(this.gameSystem.getType() == ChallengeType.SENTENCE){
-	    const sentenceChallenges = challenges as SentenceChallenge[]; 
-	    this.challenges = sentenceChallenges;
-	    this.setChallengeAudio(sentenceChallenges[this.i1].audioName);
-	}else if(this.gameSystem.getType() == ChallengeType.WORD){
-	    const wordChallenges = challenges as WordChallenge[];
-	    this.challenges = wordChallenges; 
-	    this.setChallengeAudio(wordChallenges[this.i1].text);
-	}
+    }
+
+    gameInit(challenges: Challenge[]): void{
+	const stringChallenges = challenges as StringChallenge[];
+	this.challenges = stringChallenges;
+	this.setChallengeAudio(stringChallenges[this.i1].audioName);
+
 	this.textHolder.system.addLetters(challenges);
 	this.textHolder.system.displayLetters(this.i1);
     }
-
 
     setChallengeAudio(audioName: string){
 	this.gameRouter.textAudio.system.addAudioSource(audioName, this.gameSystem.getType());
     }
 
-    debug(){
-
-    }
-
     guessLetter(playerInput: string): void{
-	const currentLetters = this.textHolder.system.challengesLetters[this.i1];
+	const challengeLetters = this.textHolder.system.getChallengeLetters(); 
+	const currentLetters = challengeLetters[this.i1];
+	const letter = currentLetters[this.i2];
+
 	console.log("currentLetters: ", currentLetters[this.i1]);
-	const letter = currentLetters[this.i];
 	console.log("letter ", "[", letter.getChar , "]");
+
+
 	if(letter.getChar === playerInput){
-	    letter.turnGreen();
-	    console.log("correct!");
-
-	    if( this.i != currentLetters.length-1){
-		if(currentLetters[this.i].getChar == " "){
-		    this.textAudio.system.ding();
-		}
-	    }else{
-		this.textAudio.system.ding();
-	    }
-
-	    this.i += 1;
-
-	    
+	    this.correct(letter, currentLetters);
+		    
 	}else{
-	    this.textAudio.system.wrong();
-	    if(letter.getChar === " "){
-		letter.turnBackgroundRed();
-	    }else{
-		letter.turnRed();
-	    }
-	    this.textHolder.style.display = "flex";
-	    this.gameLose();
-	    return;
+	    this.wrong(letter);
 	}
 
-	if(this.i == this.textHolder.system.challengesLetters[this.i1].length){
-	    if(this.i1 == this.textHolder.system.challengesLetters.length-1){
+	this.checkLine(challengeLetters);
+    }
+
+    private correct(letter: Letter, currentLetters: Array<Letter>){
+	letter.turnGreen();
+	console.log("correct!");
+
+	if( this.i2 != currentLetters.length-1){
+	    if(currentLetters[this.i2].getChar == " "){
+		this.textAudio.system.ding();
+	    }
+	}else{
+	    this.textAudio.system.ding();
+	}
+
+	this.i2 += 1;
+    }
+
+    private wrong(letter: Letter){
+	this.textAudio.system.wrong();
+	if(letter.getChar === " "){
+	    letter.turnBackgroundRed();
+	}else{
+	    letter.turnRed();
+	}
+	this.textHolder.style.display = "flex";
+	this.gameEnd();
+	return;
+    }
+
+    private checkLine(challengeLetters: Array<Letter[]>){
+	if(this.i2 == challengeLetters[this.i1].length){
+	    if(this.i1 == challengeLetters.length-1){
 		this.gameEnd();
 		return;
 	    }
@@ -100,35 +107,19 @@ class StringGame extends Game{
 
     lineEnd(){
 	this.i1 += 1;
-	this.i = 0;
-	this.nextChallenge(this.gameSystem.getType());
+	this.i2 = 0;
 	this.textHolder.system.displayLetters(this.i1);
+	this.setChallengeAudio(this.challenges[this.i1].audioName);
 	console.log("Line ended");
-    }
-
-    nextChallenge(type: ChallengeType){
-	if(type == ChallengeType.SENTENCE){
-	    const sentenceChallenges = this.challenges as SentenceChallenge[];
-	    this.setChallengeAudio(sentenceChallenges[this.i1].audioName);
-	}else if(type == ChallengeType.WORD){
-	    const wordChallenge = this.challenges as WordChallenge[]; 
-	    this.setChallengeAudio(wordChallenge[this.i1].text);
-	}
-    }
-
-    gameLose(){
-	this.i1=0;
-	this.i=0;
-	this.textHolder.system.challengesLetters = [];
-	this.gameSystem.gameEnd();
     }
 
     gameEnd(){
 	// this.textHolder.system.removeLetters();
+	console.log("challenges: ", this.challenges);
 	this.i1= 0;
-	this.i = 0;
+	this.i2 = 0;
 	console.log("String game finished");
-	this.textHolder.system.challengesLetters = [];
+	// this.textHolder.system.removeChallengeLetters();
 	this.gameSystem.gameEnd();
     }
 

@@ -5,12 +5,26 @@ import Letter from "../../component/Letter";
 
 class TextHolderSystem{
 
-    textHolder: TextHolder; 
+    private textHolder: TextHolder; 
 
-    challengesLetters: Array<Letter[]> = [];  
+    private challengeLetters: Array<Letter[]> = [];  
 
     constructor(textHolder: TextHolder){
 	this.textHolder = textHolder;
+    }
+
+    reset(){
+	this.textHolder.system.removeVisualLetters();
+	this.textHolder.style.display = "none";
+    }
+
+    addLetter(challenge: Challenge){
+	console.log("challenege add letter: ", this.challengeLetters);
+	const letters = [];
+	const letter = new Letter(challenge.text);
+	letters.push(letter);
+	this.challengeLetters.push(letters);
+	console.log("challenege add letter: ", this.challengeLetters);
     }
 
     addLetters(challenges: Challenge[]){
@@ -23,21 +37,24 @@ class TextHolderSystem{
 		}
 		letters.push(letter);
 	    }
-	    this.challengesLetters.push(letters);
+	    this.challengeLetters.push(letters);
 	})
     }
 
     displayLetters(i: number){
 	const div = new Box("DivLine");
-	div.addChildren(this.challengesLetters[i]);
+	div.addChildren(this.challengeLetters[i]);
 	div.style.border = "1px solid green";
 	div.style.display = "flex";
 	div.style.flexShrink = "0";
 	this.textHolder.addChild(div);
     }
 
-    removeLetters(){
-	this.challengesLetters = [];
+    removeChallengeLetters(){
+	this.challengeLetters = [];
+    }
+
+    removeVisualLetters(){
 	while(this.textHolder.self.firstChild){
 	    this.textHolder.self.removeChild(this.textHolder.self.firstChild);
 	}
@@ -51,6 +68,9 @@ class TextHolderSystem{
 	}
     }
 
+    getChallengeLetters(){
+	return this.challengeLetters;
+    }
 }
 
 export default TextHolderSystem; 
