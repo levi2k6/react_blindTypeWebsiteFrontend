@@ -25,6 +25,7 @@ class LetterGame extends Game{
 	this.gameSystem = gameSystem;
 	this.timer = timer;
 	this.timer.initLoseState(this.gameLose.bind(this));
+
     }
 
     gameReset(): void {
@@ -39,6 +40,8 @@ class LetterGame extends Game{
 	this.challenges = challenges;
 	this.timer.startTimer();
 	this.setChallengeAudio(this.challenges[this.i].text);
+	console.log("challenges: ", this.challenges);
+	console.log("letter: ", this.challenges[this.i].text);
     }
 
     setChallengeAudio(audioName: string){
@@ -46,16 +49,13 @@ class LetterGame extends Game{
     }	
 
     guessLetter(playerInput: string){
-	console.log("this is working");
-	console.log("playerInput: ", playerInput);
-	console.log("chalenge: ", this.challenges[this.i].text);
+	console.log("i: ", this.i);
 
 	if(playerInput == this.challenges[this.i].text.toLowerCase()){
 	    this.gameRouter.textAudio.system.ding();
 	    this.timer.startTimer();
 	    this.nextLetter();
 	}else{
-
 	    this.timer.stopTimer();
 	    this.gameRouter.textAudio.system.wrong();
 	    this.gameLose();
@@ -63,19 +63,30 @@ class LetterGame extends Game{
     }
 
     nextLetter(){
+	if(this.challenges.length-1 == this.i){
+	    this.gameEnd();
+	    return;
+	}
+
 	this.i += 1;
 	this.setChallengeAudio(this.challenges[this.i].text);
 	this.timer.startTimer();
+	console.log("letter: ", this.challenges[this.i].text);
     }
 
     gameLose(){
-	this.gameSystem.gameEnd();
-	this.textHolder.system.addLetter(this.challenges[this.i]);
-	this.textHolder.system.displayLetters(0);
-	this.textHolder.system.getChallengeLetters()[0][0].turnRed();
-	this.textHolder.system.removeChallengeLetters();  
+	console.log("game wrong");
+	this.textHolder.system.displayWrongLetter(this.challenges[this.i].text);
+	this.gameEnd();
+    }
+
+    gameEnd(){
+	console.log("game ended");
+	this.timer.stopTimer();
+	this.textHolder.system.removeChallengeLetters();
 	this.challenges = [];
 	this.i = 0;
+	this.gameSystem.gameEnd();
     }
 
 

@@ -15,16 +15,13 @@ class TextHolderSystem{
 
     reset(){
 	this.textHolder.system.removeVisualLetters();
-	this.textHolder.style.display = "none";
+	// this.textHolder.style.display = "none";
     }
 
-    addLetter(challenge: Challenge){
-	console.log("challenege add letter: ", this.challengeLetters);
-	const letters = [];
-	const letter = new Letter(challenge.text);
-	letters.push(letter);
-	this.challengeLetters.push(letters);
-	console.log("challenege add letter: ", this.challengeLetters);
+    displayWrongLetter(letter: string){
+	const wrongLetter = new Letter(letter);
+	wrongLetter.turnRed();
+	this.textHolder.addChild(wrongLetter);
     }
 
     addLetters(challenges: Challenge[]){

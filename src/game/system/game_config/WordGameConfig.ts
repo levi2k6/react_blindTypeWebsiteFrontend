@@ -1,5 +1,5 @@
-import type { GameConfig } from "../../../../utils/types";
-import type { GameConfigStrategy } from "./GameConfigStrategy";
+import type { GameConfig } from "../../../utils/types";
+import type { GameConfigStrategy } from "./strategy/GameConfigStrategy";
 
 class WordGameConfig implements GameConfigStrategy{
 

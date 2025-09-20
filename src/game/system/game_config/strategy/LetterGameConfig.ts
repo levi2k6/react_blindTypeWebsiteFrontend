@@ -5,7 +5,7 @@ class LetterGameConfig implements GameConfigStrategy{
 
     letterConfig: GameConfig = {
 	difficulty: "easy",
-	multiple: 3,
+	multiple: 1,
 	continuous: false
     } 
 

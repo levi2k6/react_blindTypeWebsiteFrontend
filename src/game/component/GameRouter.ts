@@ -7,6 +7,7 @@ import GameRouterSystem from "../system/component_system/GameRouterSystem.ts";
 import TextHolder from "./TextHolder.ts";
 import TextAudio from "./TextAudio.ts";
 import type { Component } from "../../class/Component.ts";
+import GameConfigModal from "./GameConfigModal.ts";
 
 class GameRouter extends Box implements Component{
 
@@ -21,6 +22,9 @@ class GameRouter extends Box implements Component{
 
     textAudio = new TextAudio("GameTextAudio");
     dingAudio = new TextAudio("");
+
+    gameConfigModal = new GameConfigModal();
+    
 
     private gameRouterSystem: GameRouterSystem = new GameRouterSystem(this);
 
@@ -50,7 +54,8 @@ class GameRouter extends Box implements Component{
 		     this.sentenceButton
 		 ]),
 	     ]),
-	     this.textAudio
+	     this.textAudio,
+	     this.gameConfigModal
 	 ]);
      }
 
@@ -73,7 +78,7 @@ class GameRouter extends Box implements Component{
 	})
     }
 
-    styleElements(){
+    styleElements(): void{
 	this.style.border = "1px solid red"
 	this.style.width =  "100%";
 	this.style.height = "100%";

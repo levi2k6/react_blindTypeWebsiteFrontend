@@ -47,20 +47,17 @@ class Box{
       }
 
     addChildren( children : Array<HTMLElement | Box>): HTMLElement{
-	console.log("children: ", children);
 	children.forEach(child => {
 	    if(child instanceof HTMLElement){
-		console.log("child appended");
 		this.element.appendChild(child);
 	    }
 	    if(child instanceof Box){
+		console.log("child appended: ", child.name);
 		this.element.append(child.self);
 	    }
 	});
 	return this.element;
     }
-
-
 
 }
 
