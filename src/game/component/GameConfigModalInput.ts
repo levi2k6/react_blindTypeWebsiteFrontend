@@ -14,9 +14,13 @@ class GameConfigModalInput extends Box implements Component{
     }
 
     init(){
+	this.initElements();
 	this.connectElements();
-	this.functionElements();
+	this.eventElements();
 	this.styleElements();
+    }
+
+    initElements(): void{
     }
 
     connectElements(): void {
@@ -26,7 +30,7 @@ class GameConfigModalInput extends Box implements Component{
 	])
     }
 
-    functionElements(): void {
+    eventElements(): void {
 	
     }
 

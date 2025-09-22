@@ -39,11 +39,14 @@ class GameRouter extends Box implements Component{
 
     init(){
 	this.connectElements();
-	this.functionElements();
+	this.eventElements();
 	this.styleElements();
     }
 
-     connectElements(){
+    initElements(): void{
+    }
+
+    connectElements(){
 	 this.addChildren([
 	     this.textHolder,
 	     this.div1.addChildren([
@@ -60,7 +63,7 @@ class GameRouter extends Box implements Component{
      }
 
 
-     functionElements(){
+     eventElements(){
 	this.startButton.addEventListener("click", ()=>{
 	    this.gameRouterSystem.startGame();
 	});

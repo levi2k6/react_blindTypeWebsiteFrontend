@@ -14,7 +14,7 @@ class Home extends Box{
 
      init(){
 	 this.connectElements();
-	 this.functionElements();
+	 this.eventElements();
 	 this.styleElements();
      }
 
@@ -26,7 +26,7 @@ class Home extends Box{
      }
 
 
-    functionElements(){
+    eventElements(){
 	this.startButton.addEventListener("click", ()=>{
 	    apiFetch("GET", "http://localhost:8080/Game/challenge/")
 	    .then(data => console.log(data));

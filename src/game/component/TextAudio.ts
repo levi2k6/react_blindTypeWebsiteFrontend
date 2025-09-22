@@ -1,8 +1,9 @@
 import Box from "../../class/Box";
+import type { Component } from "../../class/Component";
 import { createElement } from "../../ui_system/Element";
 import TextAudioSystem from "../system/component_system/TextAudioSystem";
 
-class TextAudio extends Box{
+class TextAudio extends Box implements Component{
 
     public audio: HTMLAudioElement = createElement("audio") as HTMLAudioElement;
     public audioDing: HTMLAudioElement = createElement("audio") as HTMLAudioElement;
@@ -20,16 +21,22 @@ class TextAudio extends Box{
     }
 
     init(){
-	this.connecElements()
-	this.styleElements()
+	this.connectElements();
+	this.styleElements();
     }
 
-    connecElements(){
+    initElements(): void{
+    }
+
+    connectElements(){
 	this.addChildren([
 	    this.audio,
 	    this.audioDing,
 	    this.audioWrong
 	]);
+    }
+
+    eventElements(){
     }
 
     styleElements(){

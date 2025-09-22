@@ -1,7 +1,8 @@
 import Box from "../../class/Box";
+import type { Component } from "../../class/Component";
 import TextHolderSystem from "../system/component_system/TextHolderSystem";
 
-class TextHolder extends Box{
+class TextHolder extends Box implements Component{
 
     textHoldersystem: TextHolderSystem = new TextHolderSystem(this);
 
@@ -17,6 +18,12 @@ class TextHolder extends Box{
      init(){
 	 this.styleElements();
      }
+
+    initElements(){};
+
+    connectElements(){}
+
+    eventElements(){}
 
     styleElements(){
 	this.style.background = "blue";

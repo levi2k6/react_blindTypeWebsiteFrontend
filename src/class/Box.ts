@@ -37,13 +37,14 @@ class Box{
 	})
     }
 
-    addChild( child : HTMLElement | Box): void{
+    addChild( child : HTMLElement | Box): HTMLElement{
 	    if(child instanceof HTMLElement){
 		this.element.appendChild(child);
 	    }
 	    if(child instanceof Box){
 		this.element.append(child.self);
 	    }
+	return this.element;
       }
 
     addChildren( children : Array<HTMLElement | Box>): HTMLElement{

@@ -1,7 +1,8 @@
 export interface Component{
     init(): void;
+    initElements(): void;
     connectElements(): void;
-    functionElements(): void;
+    eventElements(): void;
     styleElements(): void;
 }
 
