@@ -1,8 +1,8 @@
 import { ChallengeType } from "../../../utils/enums";
-import type { GameConfigStrategy } from "../game_config/strategy/GameConfigStrategy";
-import LetterGameConfig from "../game_config/strategy/LetterGameConfig";
-import SentenceGameConfig from "../game_config/strategy/SentenceGameConfig";
-import WordGameConfig from "../game_config/strategy/WordGameConfig";
+import type { GameConfigStrategy } from "./strategy/game_config/GameConfigStrategy";
+import LetterGameConfig from "./strategy/game_config/LetterGameConfig";
+import SentenceGameConfig from "./strategy/game_config/SentenceGameConfig";
+import WordGameConfig from "./strategy/game_config/WordGameConfig";
 
 class GameConfigRegistry{
 

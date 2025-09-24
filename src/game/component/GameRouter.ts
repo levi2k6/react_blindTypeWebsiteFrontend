@@ -8,6 +8,7 @@ import TextHolder from "./TextHolder.ts";
 import TextAudio from "./TextAudio.ts";
 import type { Component } from "../../class/Component.ts";
 import GameConfigModal from "./GameConfigModal.ts";
+import GameConfigManager from "../system/game_config/GameConfigManager.ts";
 
 class GameRouter extends Box implements Component{
 
@@ -16,17 +17,24 @@ class GameRouter extends Box implements Component{
     div1: Box = new Box("div1");
 	startButton: HTMLButtonElement = createElement("button", "Start") as HTMLButtonElement; 
 	div2: Box = new Box("div2");
-	    letterButton: HTMLButtonElement = createElement("button", "Letter") as HTMLButtonElement;
-	    wordButton: HTMLButtonElement = createElement("button", "Word") as HTMLButtonElement;
-	    sentenceButton: HTMLButtonElement = createElement("button", "Sentence") as HTMLButtonElement;
+	    divLetter: Box = new Box();
+		letterSettings: HTMLButtonElement = createElement("button") as HTMLButtonElement;
+		    letterSettingsIcon: HTMLElement = createElement("i"); 
+		letterButton: HTMLButtonElement = createElement("button", "Letter") as HTMLButtonElement;
+	    divWord: Box = new Box();
+		wordSettings: HTMLButtonElement = createElement("button") as HTMLButtonElement;
+		    wordSettingsIcon: HTMLElement = createElement("i");
+		wordButton: HTMLButtonElement = createElement("button", "Word") as HTMLButtonElement;
+	    divSentence: Box = new Box();
+		sentenceSettings: HTMLButtonElement = createElement("button") as HTMLButtonElement;
+		    sentenceSettingsIcon: HTMLElement = createElement("i");
+		sentenceButton: HTMLButtonElement = createElement("button", "Sentence") as HTMLButtonElement;
 
     textAudio = new TextAudio("GameTextAudio");
     dingAudio = new TextAudio("");
 
-    gameConfigModal = new GameConfigModal();
-    
-
-    private gameRouterSystem: GameRouterSystem = new GameRouterSystem(this);
+    private gameConfigModal: GameConfigModal = new GameConfigModal(new GameConfigManager);
+    private gameRouterSystem: GameRouterSystem = new GameRouterSystem(this, new GameConfigManager);
 
     constructor(name: string){
 	super(name);
@@ -38,12 +46,19 @@ class GameRouter extends Box implements Component{
     }
 
     init(){
+	this.initElements();
 	this.connectElements();
 	this.eventElements();
 	this.styleElements();
     }
 
     initElements(): void{
+	this.gameConfigModal.style.display = "none";
+
+	this.letterSettingsIcon.classList.add("fa-solid", "fa-gear");
+	this.wordSettingsIcon.classList.add("fa-solid", "fa-gear");
+	this.sentenceSettingsIcon.classList.add("fa-solid", "fa-gear");
+	console.log("letterSettings: ", this.letterSettings);
     }
 
     connectElements(){
@@ -52,16 +67,28 @@ class GameRouter extends Box implements Component{
 	     this.div1.addChildren([
 		 this.startButton,
 		 this.div2.addChildren([
-		     this.letterButton,
-		     this.wordButton,
-		     this.sentenceButton
+		     this.divLetter.addChildren([
+			 this.letterSettings,
+			 this.letterButton,
+		     ]),
+		     this.divWord.addChildren([
+			 this.wordSettings,
+			 this.wordButton,
+		     ]),
+		     this.divSentence.addChildren([
+			 this.sentenceSettings,
+			 this.sentenceButton
+		     ])
 		 ]),
 	     ]),
 	     this.textAudio,
 	     this.gameConfigModal
 	 ]);
-     }
 
+	 this.letterSettings.appendChild(this.letterSettingsIcon);
+	 this.wordSettings.appendChild(this.wordSettingsIcon);
+	 this.sentenceSettings.appendChild(this.sentenceSettingsIcon);
+     }
 
      eventElements(){
 	this.startButton.addEventListener("click", ()=>{
@@ -78,6 +105,18 @@ class GameRouter extends Box implements Component{
 
 	this.sentenceButton.addEventListener("click", ()=>{
 	    this.gameRouterSystem.setGameType(ChallengeType.SENTENCE);
+	})
+
+	this.letterSettings.addEventListener("click", ()=>{
+	    this.gameConfigModal.style.display =  "flex";
+	})
+
+	this.wordSettings.addEventListener("click", ()=>{
+	    this.gameConfigModal.style.display = "flex";
+	})
+
+	this.sentenceSettings.addEventListener("click", ()=>{
+	    this.gameConfigModal.style.display = "flex";
 	})
     }
 
@@ -97,6 +136,10 @@ class GameRouter extends Box implements Component{
 	this.div1.style.flexDirection = "column";
 	this.div1.style.justifyContent = "center";
 	this.div1.style.alignItems = "center";
+	this.div1.style.gap = "10px";
+
+	this.div2.style.display = "flex";
+	this.div2.style.gap = "4px";
 
 	this.startButton.disabled = true;
     }

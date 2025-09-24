@@ -1,10 +1,6 @@
 import { ChallengeType } from "../../../utils/enums";
 import GameConfigRegistry from "./GameConfigRegistry";
-import type { GameConfigStrategy } from "./strategy/GameConfigStrategy";
-
-import LetterGameConfig from "./strategy/LetterGameConfig";
-import SentenceGameConfig from "./strategy/SentenceGameConfig";
-import WordGameConfig from "./strategy/WordGameConfig";
+import type { GameConfigStrategy } from "./strategy/game_config/GameConfigStrategy";
 
 class GameConfigManager{
 
@@ -15,7 +11,11 @@ class GameConfigManager{
 	this.gameConfigRegistry = new GameConfigRegistry();
     }
 
-    setGameConfig(type: ChallengeType){
+    public getCurrentGameConfig(){
+	return this.currentGameConfig?.getGameConfig(); 
+    } 
+
+    public setGameConfig(type: ChallengeType){
 	this.currentGameConfig = this.gameConfigRegistry.getGameConfig(type); 
     }
 

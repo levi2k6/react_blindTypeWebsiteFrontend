@@ -3,6 +3,7 @@ import  Home from "./routes/home.ts"
 import GameRouter from "./game/component/GameRouter.ts"  
 import Navigo from "navigo"
 import type Box from './class/Box.ts';
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
 class Main{
 

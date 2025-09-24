@@ -19,9 +19,9 @@ class GameRouterSystem{
 	return this.input; 
     }
 
-    public constructor(gameRouter: GameRouter){
+    public constructor(gameRouter: GameRouter, gameConfigManager: GameConfigManager){
 	this.gameRouter = gameRouter;
-	this.gameConfigManager = new GameConfigManager();
+	this.gameConfigManager = gameConfigManager;
 	this.gameSystem = new GameSystem(gameRouter, this.gameConfigManager); 
 	this.input = new Input(this.gameRouter, this.gameSystem);
 	this.input.turnOnInput();
