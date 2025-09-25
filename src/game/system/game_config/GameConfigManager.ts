@@ -1,4 +1,5 @@
 import { ChallengeType } from "../../../utils/enums";
+import type { GameConfig } from "../../../utils/types";
 import GameConfigRegistry from "./GameConfigRegistry";
 import type { GameConfigStrategy } from "./strategy/game_config/GameConfigStrategy";
 
@@ -15,7 +16,13 @@ class GameConfigManager{
 	return this.currentGameConfig?.getGameConfig(); 
     } 
 
+    public setChallengeGameConfig(gameConfig: GameConfig){
+	console.log("gameConfig: ", gameConfig);
+	this.currentGameConfig?.setGameConfig(gameConfig); 
+    } 
+
     public setGameConfig(type: ChallengeType){
+	console.log("type: ", type);
 	this.currentGameConfig = this.gameConfigRegistry.getGameConfig(type); 
     }
 

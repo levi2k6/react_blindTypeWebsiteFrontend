@@ -33,8 +33,10 @@ class GameRouter extends Box implements Component{
     textAudio = new TextAudio("GameTextAudio");
     dingAudio = new TextAudio("");
 
-    private gameConfigModal: GameConfigModal = new GameConfigModal(new GameConfigManager);
-    private gameRouterSystem: GameRouterSystem = new GameRouterSystem(this, new GameConfigManager);
+    private gameConfigManager = new GameConfigManager();
+
+    private gameConfigModal: GameConfigModal = new GameConfigModal(this.gameConfigManager);
+    private gameRouterSystem: GameRouterSystem = new GameRouterSystem(this, this.gameConfigManager);
 
     constructor(name: string){
 	super(name);
@@ -109,14 +111,17 @@ class GameRouter extends Box implements Component{
 
 	this.letterSettings.addEventListener("click", ()=>{
 	    this.gameConfigModal.style.display =  "flex";
+	    this.gameConfigModal.gameConfigModalSystem?.setDefaultConfig(ChallengeType.LETTER);
 	})
 
 	this.wordSettings.addEventListener("click", ()=>{
 	    this.gameConfigModal.style.display = "flex";
+	    this.gameConfigModal.gameConfigModalSystem?.setDefaultConfig(ChallengeType.WORD);
 	})
 
 	this.sentenceSettings.addEventListener("click", ()=>{
 	    this.gameConfigModal.style.display = "flex";
+	    this.gameConfigModal.gameConfigModalSystem?.setDefaultConfig(ChallengeType.SENTENCE);
 	})
     }
 
