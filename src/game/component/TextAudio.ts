@@ -1,7 +1,10 @@
 import Box from "../../class/Box";
 import type { Component } from "../../class/Component";
 import { createElement } from "../../ui_system/Element";
+import type GameRouterSystem from "../system/component_system/GameRouterSystem";
 import TextAudioSystem from "../system/component_system/TextAudioSystem";
+import type GameSystem from "../system/game_system/GameSystem";
+import type GameRouter from "./GameRouter";
 
 class TextAudio extends Box implements Component{
 
@@ -9,19 +12,26 @@ class TextAudio extends Box implements Component{
     public audioDing: HTMLAudioElement = createElement("audio") as HTMLAudioElement;
     public audioWrong: HTMLAudioElement = createElement("audio") as HTMLAudioElement;
 
-    private textAudioSystem: TextAudioSystem = new TextAudioSystem(this);
+    private gameSystem?: GameSystem;
+    private textAudioSystem: TextAudioSystem; 
 
     get system(){
 	return this.textAudioSystem;
     }
 
+    setGameSystem(gameSystem: GameSystem){
+	this.gameSystem = gameSystem;
+    }
+
     constructor(name : string){
 	super(name)
+	this.textAudioSystem = new TextAudioSystem(this);
 	this.init();
     }
 
     init(){
 	this.connectElements();
+	this.eventElements();
 	this.styleElements();
     }
 
@@ -37,6 +47,14 @@ class TextAudio extends Box implements Component{
     }
 
     eventElements(){
+	this.audio.addEventListener("ended", ()=>{
+	    if(this.gameSystem?.getIsContinuous()){
+		console.log("TextAudio eventElements: ", this.gameSystem.getGame());
+		this.gameSystem.getGame()?.continuousAudioChange();
+	    }else{
+		//debug here
+	    }
+	});
     }
 
     styleElements(){

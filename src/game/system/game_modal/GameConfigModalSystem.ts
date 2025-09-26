@@ -76,5 +76,7 @@ class GameConfigModalSystem{
 	inputContinuous.value = this.gameConfigManager?.getCurrentGameConfig().continuous;
     }
 
+
+
 }
 export default GameConfigModalSystem;

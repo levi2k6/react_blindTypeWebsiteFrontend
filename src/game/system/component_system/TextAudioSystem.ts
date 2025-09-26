@@ -1,11 +1,13 @@
 import { ChallengeType } from "../../../utils/enums";
 import TextAudio from "../../component/TextAudio";
+import type GameSystem from "../game_system/GameSystem";
 
 class TextAudioSystem{
 
     private textAudio: TextAudio; 
     private dingPath: string = "/ding.mp3";
     private wrongPath: string = "/wrong.wav";
+
 
     constructor(textAudio: TextAudio){
 	this.textAudio = textAudio;
@@ -30,6 +32,11 @@ class TextAudioSystem{
 	this.textAudio.audio.src = url; 
 	this.textAudio.audio.load();
 	this.textAudio.audio.play();
+    }
+
+    stopAudio(){
+	this.textAudio.audio.pause();
+	this.textAudio.audio.currentTime = 0;
     }
 
     ding(){

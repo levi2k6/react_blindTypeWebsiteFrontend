@@ -14,6 +14,7 @@ class GameSystem{
 
     private currentGame: Game | undefined;
     private type : ChallengeType = ChallengeType.NONE;
+    private isContinuous: boolean = false; 
 
     private gameConfigManager: GameConfigManager;
     private gameRouter: GameRouter;
@@ -46,8 +47,11 @@ class GameSystem{
     }
 
     async gameStart(){
-	console.log("look at type here: ", this.type);
+	//gameConfigManager setup
 	this.gameConfigManager.setGameConfig(this.type);
+	this.isContinuous = this.gameConfigManager.getCurrentGameConfig().continuous;
+	console.log("isContinuous: ", this.isContinuous);
+
 	const amount = this.gameConfigManager.getAmountRequest();
 	if(!amount){
 	    console.log("Game amount has no data");
@@ -76,8 +80,14 @@ class GameSystem{
 	// this.gameRouter.system.getInput().turnOffInput();
     }
 
+    getIsContinuous(){
+	return this.isContinuous;
+    }
+    setIsContinuous(state: boolean){
+	this.isContinuous = state;
+    }
     getIsGaming(){
-    return this.isGaming;
+	return this.isGaming;
     }
     setIsGaming(state: boolean){
 	console.log("isgaming setted");

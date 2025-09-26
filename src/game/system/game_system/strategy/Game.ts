@@ -5,6 +5,7 @@ abstract class Game{
     public abstract gameInit(challenges: Challenge[]): void;
     public abstract gameReset():void;
     public abstract guessLetter(playerInput: string): void;
+    public abstract continuousAudioChange(): void;
 }
 
 export default Game;

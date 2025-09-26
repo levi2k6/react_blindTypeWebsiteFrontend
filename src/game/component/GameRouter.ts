@@ -30,15 +30,15 @@ class GameRouter extends Box implements Component{
 		    sentenceSettingsIcon: HTMLElement = createElement("i");
 		sentenceButton: HTMLButtonElement = createElement("button", "Sentence") as HTMLButtonElement;
 
-    textAudio = new TextAudio("GameTextAudio");
-    dingAudio = new TextAudio("");
+    textAudio = new TextAudio("GameTextAudio"); 
 
-    private gameConfigManager = new GameConfigManager();
+    private gameConfigManager: GameConfigManager = new GameConfigManager(); 
 
     private gameConfigModal: GameConfigModal = new GameConfigModal(this.gameConfigManager);
     private gameRouterSystem: GameRouterSystem = new GameRouterSystem(this, this.gameConfigManager);
 
-    constructor(name: string){
+
+    constructor( name: string ){
 	super(name);
 	this.init();
     }
@@ -55,6 +55,8 @@ class GameRouter extends Box implements Component{
     }
 
     initElements(): void{
+	this.textAudio.setGameSystem(this.gameRouterSystem.getGameSystem());
+
 	this.gameConfigModal.style.display = "none";
 
 	this.letterSettingsIcon.classList.add("fa-solid", "fa-gear");
@@ -83,7 +85,7 @@ class GameRouter extends Box implements Component{
 		     ])
 		 ]),
 	     ]),
-	     this.textAudio,
+	     this?.textAudio,
 	     this.gameConfigModal
 	 ]);
 

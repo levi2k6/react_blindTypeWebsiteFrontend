@@ -17,6 +17,7 @@ class LetterGame extends Game{
 
     private challenges: LetterChallenge[] = [];
     i: number = 0;
+    iContinuous: number = 0;
 
     constructor(gameRouter: GameRouter, gameSystem: GameSystem, timer: Timer){
 	super()
@@ -39,7 +40,11 @@ class LetterGame extends Game{
 	console.log("letter gameInit()");
 	this.challenges = challenges;
 	this.timer.startTimer();
-	this.setChallengeAudio(this.challenges[this.i].text);
+	if(!this.gameSystem.getIsContinuous()){
+	    this.setChallengeAudio(this.challenges[this.i].text);
+	}else{
+	    this.continuousAudioChange();
+	}
 	console.log("challenges: ", this.challenges);
 	console.log("letter: ", this.challenges[this.i].text);
     }
@@ -69,9 +74,19 @@ class LetterGame extends Game{
 	}
 
 	this.i += 1;
-	this.setChallengeAudio(this.challenges[this.i].text);
+	if(!this.gameSystem.getIsContinuous()){
+	    this.setChallengeAudio(this.challenges[this.i].text);
+	}
 	this.timer.startTimer();
 	console.log("letter: ", this.challenges[this.i].text);
+    }
+
+    continuousAudioChange(){
+	if(this.iContinuous < this.challenges.length){
+	    console.log("Continue the audio change.");
+	    this.setChallengeAudio(this.challenges[this.iContinuous].text);
+	    this.iContinuous += 1;
+	}
     }
 
     gameLose(){
@@ -79,6 +94,8 @@ class LetterGame extends Game{
 	this.textHolder.system.displayWrongLetter(this.challenges[this.i].text);
 	this.gameEnd();
     }
+
+
 
     gameEnd(){
 	console.log("game ended");

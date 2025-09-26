@@ -18,6 +18,8 @@ class StringGame extends Game{
     private challenges: StringChallenge[] = []; 
     private i1: number = 0;
     private i2: number = 0;
+    private iContinuous: number = 0;
+     
 
     constructor(gameRouter: GameRouter, gameSystem: GameSystem){
 	super();
@@ -39,7 +41,12 @@ class StringGame extends Game{
     gameInit(challenges: Challenge[]): void{
 	const stringChallenges = challenges as StringChallenge[];
 	this.challenges = stringChallenges;
-	this.setChallengeAudio(stringChallenges[this.i1].audioName);
+	if(!this.gameSystem.getIsContinuous()){
+	    this.setChallengeAudio(stringChallenges[this.i1].audioName);
+	}else{
+	    console.log("gameInit: continuous change audio");
+	    this.continuousAudioChange();
+	}
 
 	this.textHolder.system.addLetters(challenges);
 	this.textHolder.system.displayLetters(this.i1);
@@ -109,17 +116,32 @@ class StringGame extends Game{
 	this.i1 += 1;
 	this.i2 = 0;
 	this.textHolder.system.displayLetters(this.i1);
-	this.setChallengeAudio(this.challenges[this.i1].audioName);
+	if(!this.gameSystem.getIsContinuous()){
+	    this.setChallengeAudio(this.challenges[this.i1].audioName);
+	}
 	console.log("Line ended");
+    }
+
+    continuousAudioChange(){
+	console.log("isContinuous: ", this.iContinuous);
+	console.log("challengesLength: ", this.challenges.length);
+	if(this.iContinuous < this.challenges.length){
+	    console.log("Continue the audio change.");
+	    this.setChallengeAudio(this.challenges[this.iContinuous].audioName);
+	    this.iContinuous += 1;
+	}
     }
 
     gameEnd(){
 	// this.textHolder.system.removeLetters();
 	console.log("challenges: ", this.challenges);
+
 	this.i1= 0;
 	this.i2 = 0;
+	this.iContinuous = 0;
+	this.textAudio.system.stopAudio();
 	console.log("String game finished");
-	// this.textHolder.system.removeChallengeLetters();
+	this.textHolder.system.removeChallengeLetters();
 	this.gameSystem.gameEnd();
     }
 

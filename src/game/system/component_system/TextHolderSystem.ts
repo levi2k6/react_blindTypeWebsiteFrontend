@@ -52,7 +52,17 @@ class TextHolderSystem{
     }
 
     removeVisualLetters(){
+	console.log("removed visual letters()");
+	console.log("textHolderChildren: ", this.textHolder.self.children);
+
+	// for(let i = 0; i < this.textHolder.self.children.length; i++){
+	//     console.log("This worked");
+	//     this.textHolder.self.children[i].remove();
+	// }
+
 	while(this.textHolder.self.firstChild){
+	    console.log("does this even work?");
+	    console.log(this.textHolder.self.firstChild);
 	    this.textHolder.self.removeChild(this.textHolder.self.firstChild);
 	}
     }
