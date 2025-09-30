@@ -5,8 +5,11 @@ import Timer from "../../Timer";
 import type { LetterChallenge } from "../../../../utils/interfaces";
 import Game from "./Game";
 import type TextHolder from "../../../component/TextHolder";
+import LetterChallengeGenerator from "./LetterChallengeGenerator";
 
 class LetterGame extends Game{
+
+    private letterChallengeGenerator: LetterChallengeGenerator = new LetterChallengeGenerator(); 
 
     private name: string = "LetterGame";
     private gameRouter: GameRouter;
@@ -26,7 +29,8 @@ class LetterGame extends Game{
 	this.gameSystem = gameSystem;
 	this.timer = timer;
 	this.timer.initLoseState(this.gameLose.bind(this));
-
+	console.log("LetterGame");
+	this.letterChallengeGenerator.generateLetters("easy", 10);
     }
 
     gameReset(): void {
@@ -95,8 +99,6 @@ class LetterGame extends Game{
 	this.gameEnd();
     }
 
-
-
     gameEnd(){
 	console.log("game ended");
 	this.timer.stopTimer();
@@ -105,8 +107,6 @@ class LetterGame extends Game{
 	this.i = 0;
 	this.gameSystem.gameEnd();
     }
-
-
 }
 
 

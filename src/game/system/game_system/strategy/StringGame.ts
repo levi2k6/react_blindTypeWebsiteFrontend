@@ -64,10 +64,8 @@ class StringGame extends Game{
 	console.log("currentLetters: ", currentLetters[this.i1]);
 	console.log("letter ", "[", letter.getChar , "]");
 
-
 	if(letter.getChar === playerInput){
 	    this.correct(letter, currentLetters);
-		    
 	}else{
 	    this.wrong(letter);
 	}
