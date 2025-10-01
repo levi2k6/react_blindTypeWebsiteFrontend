@@ -2,10 +2,12 @@ import GameRouter from "../../../component/GameRouter";
 import GameSystem from "../GameSystem";
 import Timer from "../../Timer";
 
-import type { LetterChallenge } from "../../../../utils/interfaces";
+import type { Challenge, LetterChallenge } from "../../../../utils/interfaces";
 import Game from "./Game";
 import type TextHolder from "../../../component/TextHolder";
 import LetterChallengeGenerator from "./LetterChallengeGenerator";
+import type GameConfigManager from "../../game_config/GameConfigManager";
+import { getStringChallenge } from "../../data_manager/GameDataManager";
 
 class LetterGame extends Game{
 
@@ -15,6 +17,7 @@ class LetterGame extends Game{
     private gameRouter: GameRouter;
     private textHolder: TextHolder;
     private gameSystem: GameSystem;
+    private gameConfigManager: GameConfigManager;
 
     private timer: Timer;
 
@@ -22,15 +25,16 @@ class LetterGame extends Game{
     i: number = 0;
     iContinuous: number = 0;
 
-    constructor(gameRouter: GameRouter, gameSystem: GameSystem, timer: Timer){
+    constructor(gameRouter: GameRouter, gameSystem: GameSystem, gameConfigManager: GameConfigManager, timer: Timer){
 	super()
 	this.gameRouter = gameRouter;
 	this.textHolder = gameRouter.textHolder;
 	this.gameSystem = gameSystem;
+	this.gameConfigManager = gameConfigManager
 	this.timer = timer;
 	this.timer.initLoseState(this.gameLose.bind(this));
 	console.log("LetterGame");
-	this.letterChallengeGenerator.generateLetters("easy", 10);
+	this.letterChallengeGenerator.generateLetters(2);
     }
 
     gameReset(): void {
@@ -40,9 +44,21 @@ class LetterGame extends Game{
 	return this.name;
     }
 
-    gameInit(challenges: LetterChallenge[]){
+    async gameInit(){
 	console.log("letter gameInit()");
-	this.challenges = challenges;
+
+	const amount = this.gameConfigManager.getAmountRequest();
+	if(!amount){
+	    console.log("Game amount has no data");
+	    return;
+	}
+	const response: Challenge[] = await getStringChallenge(this.gameSystem.getType() , amount);
+	if(response === undefined){
+	    console.log("challenge response is undefiend");
+	    return;
+	}
+
+	this.challenges = response as LetterChallenge[];
 	this.timer.startTimer();
 	if(!this.gameSystem.getIsContinuous()){
 	    this.setChallengeAudio(this.challenges[this.i].text);

@@ -2,7 +2,7 @@ import type { Response, Challenge } from "../../../utils/interfaces";
 import { apiFetch } from "../../../utils/apiUtils";
 import { ChallengeType } from "../../../utils/enums";
 
-export async function getChallenge(type: ChallengeType, amount: number) : Promise<Challenge[]>{
+export async function getStringChallenge(type: ChallengeType, amount: number) : Promise<Challenge[]>{
     try{
 	// const response = await apiFetch<Challenge[]>("GET", `http://localhost:8080/Game/sentence/challenge?amount=${amount}`);
 	//
@@ -15,3 +15,5 @@ export async function getChallenge(type: ChallengeType, amount: number) : Promis
 	throw err;
     }
 }
+
+// export async function getLetterChallenge(type: ChallengeType, ) 

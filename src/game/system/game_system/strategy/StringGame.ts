@@ -6,6 +6,8 @@ import TextAudio from "../../../component/TextAudio";
 import type {  Challenge, StringChallenge } from "../../../../utils/interfaces";
 import Game from "./Game";
 import type Letter from "../../../component/Letter";
+import type GameConfigManager from "../../game_config/GameConfigManager";
+import { getStringChallenge } from "../../data_manager/GameDataManager";
 
 class StringGame extends Game{
 
@@ -14,19 +16,20 @@ class StringGame extends Game{
     private textHolder: TextHolder;
     private textAudio: TextAudio; 
     private gameSystem: GameSystem;
+    private gameConfigManager: GameConfigManager;
 
     private challenges: StringChallenge[] = []; 
     private i1: number = 0;
     private i2: number = 0;
     private iContinuous: number = 0;
-     
 
-    constructor(gameRouter: GameRouter, gameSystem: GameSystem){
+    constructor(gameRouter: GameRouter, gameSystem: GameSystem, gameConfigManager: GameConfigManager){
 	super();
 	this.gameRouter = gameRouter;
 	this.textHolder = gameRouter.textHolder;
 	this.textAudio = gameRouter.textAudio;
 	this.gameSystem = gameSystem;
+	this.gameConfigManager = gameConfigManager;
 	console.log("here: ", this.gameRouter.textHolder);
     }
 
@@ -38,8 +41,19 @@ class StringGame extends Game{
 
     }
 
-    gameInit(challenges: Challenge[]): void{
-	const stringChallenges = challenges as StringChallenge[];
+    async gameInit(){
+	const amount = this.gameConfigManager.getAmountRequest();
+	if(!amount){
+	    console.log("Game amount has no data");
+	    return;
+	}
+	const response: Challenge[] = await getStringChallenge(this.gameSystem.getType() , amount);
+	if(response === undefined){
+	    console.log("challenge response is undefiend");
+	    return;
+	}
+
+	const stringChallenges = response as StringChallenge[];
 	this.challenges = stringChallenges;
 	if(!this.gameSystem.getIsContinuous()){
 	    this.setChallengeAudio(stringChallenges[this.i1].audioName);
@@ -48,7 +62,7 @@ class StringGame extends Game{
 	    this.continuousAudioChange();
 	}
 
-	this.textHolder.system.addLetters(challenges);
+	this.textHolder.system.addLetters(this.challenges);
 	this.textHolder.system.displayLetters(this.i1);
     }
 
@@ -57,7 +71,7 @@ class StringGame extends Game{
     }
 
     guessLetter(playerInput: string): void{
-	const challengeLetters = this.textHolder.system.getChallengeLetters(); 
+	const challengeLetters = this.textHolder.system.getStringChallengeLetters(); 
 	const currentLetters = challengeLetters[this.i1];
 	const letter = currentLetters[this.i2];
 

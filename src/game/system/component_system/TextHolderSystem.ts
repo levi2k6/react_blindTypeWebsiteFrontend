@@ -75,7 +75,7 @@ class TextHolderSystem{
 	}
     }
 
-    getChallengeLetters(){
+    getStringChallengeLetters(){
 	return this.challengeLetters;
     }
 }

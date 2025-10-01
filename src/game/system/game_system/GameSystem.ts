@@ -1,11 +1,8 @@
 import GameRouter from "../../component/GameRouter";
 
-
 import Timer from "../Timer";
 
-import { getChallenge } from "../data_manager/GameDataManager"; 
 import { ChallengeType } from "../../../utils/enums";
-import type { Challenge } from "../../../utils/interfaces";
 import type Game from "./strategy/Game";
 import GameRegistry from "./GameRegistry";
 import GameConfigManager from "../game_config/GameConfigManager";
@@ -26,8 +23,8 @@ class GameSystem{
 
     constructor(gameRouter: GameRouter, gameConfigManager: GameConfigManager){
 	this.gameRouter = gameRouter;
-	this.gameRegistry = new GameRegistry(gameRouter, this, this.timer);
 	this.gameConfigManager = gameConfigManager;   
+	this.gameRegistry = new GameRegistry(gameRouter, this, gameConfigManager , this.timer );
     }
 
     getGame(){
@@ -38,8 +35,8 @@ class GameSystem{
 	this.currentGame = this.gameRegistry.getGame(type);
     };
 
-    gameInit(challenges: Challenge[]){
-	this.currentGame!.gameInit(challenges);
+    gameInit(){
+	this.currentGame!.gameInit();
     }
 
     gameReset(){
@@ -52,20 +49,8 @@ class GameSystem{
 	this.isContinuous = this.gameConfigManager.getCurrentGameConfig().continuous;
 	console.log("isContinuous: ", this.isContinuous);
 
-	const amount = this.gameConfigManager.getAmountRequest();
-	if(!amount){
-	    console.log("Game amount has no data");
-	    return;
-	}
-	const response: Challenge[] = await getChallenge(this.type, amount);
-	if(response === undefined){
-	    console.log("challenge response is undefiend");
-	    return;
-	}
-
-	this.gameInit(response);
+	this.gameInit();
 	this.isGaming = true;
-
     }
 
     gameInput(playerInput: string){
