@@ -42,12 +42,12 @@ class StringGame extends Game{
     }
 
     async gameInit(){
-	const amount = this.gameConfigManager.getAmountRequest();
-	if(!amount){
+	const multiple = this.gameConfigManager.getGameConfigMultiple();
+	if(!multiple){
 	    console.log("Game amount has no data");
 	    return;
 	}
-	const response: Challenge[] = await getStringChallenge(this.gameSystem.getType() , amount);
+	const response: Challenge[] = await getStringChallenge(this.gameSystem.getType() , multiple);
 	if(response === undefined){
 	    console.log("challenge response is undefiend");
 	    return;
@@ -135,7 +135,7 @@ class StringGame extends Game{
     }
 
     continuousAudioChange(){
-	console.log("isContinuous: ", this.iContinuous);
+	console.log("iContinuous: ", this.iContinuous);
 	console.log("challengesLength: ", this.challenges.length);
 	if(this.iContinuous < this.challenges.length){
 	    console.log("Continue the audio change.");

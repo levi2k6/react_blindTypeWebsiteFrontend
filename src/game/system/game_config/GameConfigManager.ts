@@ -26,7 +26,7 @@ class GameConfigManager{
 	this.currentGameConfig = this.gameConfigRegistry.getGameConfig(type); 
     }
 
-    public getAmountRequest(){
+    public getGameConfigMultiple(){
 	return this.currentGameConfig?.getGameConfig().multiple;
     }
 

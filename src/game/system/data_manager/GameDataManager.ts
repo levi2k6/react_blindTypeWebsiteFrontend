@@ -7,7 +7,7 @@ export async function getStringChallenge(type: ChallengeType, amount: number) : 
 	// const response = await apiFetch<Challenge[]>("GET", `http://localhost:8080/Game/sentence/challenge?amount=${amount}`);
 	//
 	const typeString = ChallengeType[type].toLowerCase();
-	const response: Response<Challenge[]> | undefined = await apiFetch("GET", `http://localhost:8080/Game/${typeString}/challenge?amount=${amount}`);
+	const response: Response<Challenge[]> | undefined = await apiFetch("GET", `http://localhost:8080/Game/${typeString}/challenge/random?amount=${amount}`);
 	return response.data; 
 	
     }catch(err){
@@ -16,4 +16,4 @@ export async function getStringChallenge(type: ChallengeType, amount: number) : 
     }
 }
 
-// export async function getLetterChallenge(type: ChallengeType, ) 
+

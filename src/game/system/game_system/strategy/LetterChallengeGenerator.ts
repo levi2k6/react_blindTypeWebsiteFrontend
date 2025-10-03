@@ -1,8 +1,8 @@
 
 class LetterChallengeGenerator{
-    challenge: string = "";
+    private challenge: string = "";
 
-    duplicateChances: Array<{value: number; weight: number}> = [
+    private duplicateChances: Array<{value: number; weight: number}> = [
 	{value: 1, weight: 20},
 	{value: 2, weight: 30},
 	{value: 1, weight: 50}
@@ -36,6 +36,13 @@ class LetterChallengeGenerator{
 	    this.challenge += this.generateLetter();
 	}
 	console.log("generateLetters(): ", this.challenge);
+    }
+
+    getChallenge(){
+	return this.challenge;
+    }
+    setChallenge(challenge: string){
+	this.challenge = challenge;
     }
 
 }

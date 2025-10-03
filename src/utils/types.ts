@@ -4,4 +4,3 @@ export type GameConfig = {
     continuous: boolean;
 }
 
-

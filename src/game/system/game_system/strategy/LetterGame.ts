@@ -2,12 +2,10 @@ import GameRouter from "../../../component/GameRouter";
 import GameSystem from "../GameSystem";
 import Timer from "../../Timer";
 
-import type { Challenge, LetterChallenge } from "../../../../utils/interfaces";
 import Game from "./Game";
 import type TextHolder from "../../../component/TextHolder";
 import LetterChallengeGenerator from "./LetterChallengeGenerator";
 import type GameConfigManager from "../../game_config/GameConfigManager";
-import { getStringChallenge } from "../../data_manager/GameDataManager";
 
 class LetterGame extends Game{
 
@@ -21,7 +19,7 @@ class LetterGame extends Game{
 
     private timer: Timer;
 
-    private challenges: LetterChallenge[] = [];
+    private challenges: string[] = [];
     i: number = 0;
     iContinuous: number = 0;
 
@@ -34,7 +32,6 @@ class LetterGame extends Game{
 	this.timer = timer;
 	this.timer.initLoseState(this.gameLose.bind(this));
 	console.log("LetterGame");
-	this.letterChallengeGenerator.generateLetters(2);
     }
 
     gameReset(): void {
@@ -44,29 +41,27 @@ class LetterGame extends Game{
 	return this.name;
     }
 
-    async gameInit(){
+    gameInit(){
 	console.log("letter gameInit()");
 
-	const amount = this.gameConfigManager.getAmountRequest();
-	if(!amount){
-	    console.log("Game amount has no data");
-	    return;
-	}
-	const response: Challenge[] = await getStringChallenge(this.gameSystem.getType() , amount);
-	if(response === undefined){
-	    console.log("challenge response is undefiend");
+	const multiple = this.gameConfigManager.getGameConfigMultiple();
+	if(!multiple){
+	    console.log("LetterGameConfig has no multiple has no data");
 	    return;
 	}
 
-	this.challenges = response as LetterChallenge[];
+	this.letterChallengeGenerator.generateLetters(multiple);
+
+	for(const letter of this.letterChallengeGenerator.getChallenge()){
+	    this.challenges.push(letter.toUpperCase());
+	};
+
 	this.timer.startTimer();
 	if(!this.gameSystem.getIsContinuous()){
-	    this.setChallengeAudio(this.challenges[this.i].text);
+	    this.setChallengeAudio(this.challenges[this.i]);
 	}else{
 	    this.continuousAudioChange();
 	}
-	console.log("challenges: ", this.challenges);
-	console.log("letter: ", this.challenges[this.i].text);
     }
 
     setChallengeAudio(audioName: string){
@@ -76,7 +71,7 @@ class LetterGame extends Game{
     guessLetter(playerInput: string){
 	console.log("i: ", this.i);
 
-	if(playerInput == this.challenges[this.i].text.toLowerCase()){
+	if(playerInput == this.challenges[this.i].toLowerCase()){
 	    this.gameRouter.textAudio.system.ding();
 	    this.timer.startTimer();
 	    this.nextLetter();
@@ -95,23 +90,25 @@ class LetterGame extends Game{
 
 	this.i += 1;
 	if(!this.gameSystem.getIsContinuous()){
-	    this.setChallengeAudio(this.challenges[this.i].text);
+	    this.setChallengeAudio(this.challenges[this.i]);
 	}
 	this.timer.startTimer();
-	console.log("letter: ", this.challenges[this.i].text);
+	console.log("letter: ", this.challenges[this.i]);
     }
 
     continuousAudioChange(){
+	console.log("iContinuous: ", this.iContinuous);
+	console.log("challengesLength: ", this.challenges.length);
 	if(this.iContinuous < this.challenges.length){
 	    console.log("Continue the audio change.");
-	    this.setChallengeAudio(this.challenges[this.iContinuous].text);
+	    this.setChallengeAudio(this.challenges[this.iContinuous]);
 	    this.iContinuous += 1;
 	}
     }
 
     gameLose(){
 	console.log("game wrong");
-	this.textHolder.system.displayWrongLetter(this.challenges[this.i].text);
+	this.textHolder.system.displayWrongLetter(this.challenges[this.i]);
 	this.gameEnd();
     }
 
@@ -119,9 +116,12 @@ class LetterGame extends Game{
 	console.log("game ended");
 	this.timer.stopTimer();
 	this.textHolder.system.removeChallengeLetters();
+	this.letterChallengeGenerator.setChallenge("");
 	this.challenges = [];
 	this.i = 0;
+	this.iContinuous = 0;
 	this.gameSystem.gameEnd();
+	console.log("Letter gameEnd");
     }
 }
 
