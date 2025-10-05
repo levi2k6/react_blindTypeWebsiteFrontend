@@ -38,7 +38,7 @@ class StringGame extends Game{
     }
 
     gameReset(){
-
+	this.gameEnd();
     }
 
     async gameInit(){

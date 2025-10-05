@@ -35,6 +35,7 @@ class LetterGame extends Game{
     }
 
     gameReset(): void {
+	this.gameEnd();
     }
 
     getName(): string{

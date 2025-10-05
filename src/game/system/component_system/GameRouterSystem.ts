@@ -29,6 +29,7 @@ class GameRouterSystem{
 
     public reset(){
 	this.gameRouter.textHolder.system.reset();
+	this.gameSystem.gameReset();
 	this.gameRouter.startButton.disabled = true;
 	this.gameRouter.div1.style.display = "none"
     }
