@@ -9,6 +9,7 @@ import TextAudio from "./TextAudio.ts";
 import type { Component } from "../../class/Component.ts";
 import GameConfigModal from "./GameConfigModal.ts";
 import GameConfigManager from "../system/game_config/GameConfigManager.ts";
+import Visualizer from "../../component/Visualizer.ts";
 
 class GameRouter extends Box implements Component{
 
@@ -31,6 +32,8 @@ class GameRouter extends Box implements Component{
 		sentenceButton: HTMLButtonElement = createElement("button", "Sentence") as HTMLButtonElement;
 
     textAudio = new TextAudio("GameTextAudio"); 
+    visualizer: Visualizer = new Visualizer(this.textAudio.audio);
+
 
     private gameConfigManager: GameConfigManager = new GameConfigManager(); 
 

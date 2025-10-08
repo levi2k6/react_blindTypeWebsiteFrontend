@@ -1,5 +1,6 @@
 import Box from "../../class/Box";
 import type { Component } from "../../class/Component";
+import type Visualizer from "../../component/Visualizer";
 import { createElement } from "../../ui_system/Element";
 import TextAudioSystem from "../system/component_system/TextAudioSystem";
 import type GameSystem from "../system/game_system/GameSystem";
@@ -9,6 +10,8 @@ class TextAudio extends Box implements Component{
     public audio: HTMLAudioElement = createElement("audio") as HTMLAudioElement;
     public audioDing: HTMLAudioElement = createElement("audio") as HTMLAudioElement;
     public audioWrong: HTMLAudioElement = createElement("audio") as HTMLAudioElement;
+
+    private visualizer: Visualizer;
 
     private gameSystem?: GameSystem;
     private textAudioSystem: TextAudioSystem; 
@@ -21,6 +24,10 @@ class TextAudio extends Box implements Component{
 	this.gameSystem = gameSystem;
     }
 
+    setAnalyser(visualizer: Visualizer){
+	this.visualizer = visualizer;
+    }
+
     constructor(name : string){
 	super(name)
 	this.textAudioSystem = new TextAudioSystem(this);
@@ -28,12 +35,14 @@ class TextAudio extends Box implements Component{
     }
 
     init(){
+	this.initElements();
 	this.connectElements();
 	this.eventElements();
 	this.styleElements();
     }
 
     initElements(): void{
+	this.audio.crossOrigin = "anonymous";
     }
 
     connectElements(){
