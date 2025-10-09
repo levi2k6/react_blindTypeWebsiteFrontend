@@ -6,6 +6,7 @@ import { ChallengeType } from "../../../utils/enums";
 import type Game from "./strategy/Game";
 import GameRegistry from "./GameRegistry";
 import GameConfigManager from "../game_config/GameConfigManager";
+import type Visualizer from "../../../component/Visualizer";
 
 class GameSystem{
 
@@ -15,16 +16,17 @@ class GameSystem{
 
     private gameConfigManager: GameConfigManager;
     private gameRouter: GameRouter;
+    private visualizer: Visualizer;
     private isGaming: boolean = false;
     private gameRegistry: GameRegistry;
 
     private timer: Timer = new Timer(); 
 
-
-    constructor(gameRouter: GameRouter, gameConfigManager: GameConfigManager){
+    constructor(gameRouter: GameRouter, gameConfigManager: GameConfigManager, visualizer: Visualizer){
 	this.gameRouter = gameRouter;
 	this.gameConfigManager = gameConfigManager;   
 	this.gameRegistry = new GameRegistry(gameRouter, this, gameConfigManager , this.timer );
+	this.visualizer = visualizer;
     }
 
     getGame(){
@@ -57,11 +59,12 @@ class GameSystem{
 	this.currentGame!.guessLetter(playerInput);
     }  
 
-    gameEnd(){
+    async gameEnd(){
+	this.visualizer.system.startDisappear();
 	this.gameRouter.textHolder.style.display = "flex";
 	this.gameRouter.startButton.disabled = false;
 	this.isGaming = false; 
-	this.gameRouter.div1.style.display = "flex";
+	this.gameRouter.div1.style.visibility = "visible";
 	// this.gameRouter.system.getInput().turnOffInput();
     }
 

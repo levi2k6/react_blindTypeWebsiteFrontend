@@ -11,8 +11,6 @@ class TextAudio extends Box implements Component{
     public audioDing: HTMLAudioElement = createElement("audio") as HTMLAudioElement;
     public audioWrong: HTMLAudioElement = createElement("audio") as HTMLAudioElement;
 
-    private visualizer: Visualizer;
-
     private gameSystem?: GameSystem;
     private textAudioSystem: TextAudioSystem; 
 
@@ -22,10 +20,6 @@ class TextAudio extends Box implements Component{
 
     setGameSystem(gameSystem: GameSystem){
 	this.gameSystem = gameSystem;
-    }
-
-    setAnalyser(visualizer: Visualizer){
-	this.visualizer = visualizer;
     }
 
     constructor(name : string){
@@ -66,6 +60,7 @@ class TextAudio extends Box implements Component{
     }
 
     styleElements(){
+	this.style.display = "none";
 	this.style.border = "1px solid black";
 	this.style.height = "100px";
 	this.style.width = "100px";

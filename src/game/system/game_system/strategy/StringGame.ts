@@ -42,6 +42,8 @@ class StringGame extends Game{
     }
 
     async gameInit(){
+	this.textHolder.style.display = "none";
+	this.textHolder.system.checkOverflow();
 	const multiple = this.gameConfigManager.getGameConfigMultiple();
 	if(!multiple){
 	    console.log("Game amount has no data");
@@ -110,6 +112,7 @@ class StringGame extends Game{
 	    letter.turnRed();
 	}
 	this.textHolder.style.display = "flex";
+	this.textHolder.system.moveDown();
 	this.gameEnd();
 	return;
     }
@@ -128,6 +131,8 @@ class StringGame extends Game{
 	this.i1 += 1;
 	this.i2 = 0;
 	this.textHolder.system.displayLetters(this.i1);
+	this.textHolder.system.checkOverflow();
+	this.textHolder.system.moveDown();
 	if(!this.gameSystem.getIsContinuous()){
 	    this.setChallengeAudio(this.challenges[this.i1].audioName);
 	}
@@ -154,6 +159,7 @@ class StringGame extends Game{
 	this.textAudio.system.stopAudio();
 	console.log("String game finished");
 	this.textHolder.system.removeChallengeLetters();
+	this.textHolder.system.moveDown();
 	this.gameSystem.gameEnd();
     }
 

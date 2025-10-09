@@ -26,9 +26,10 @@ class TextHolder extends Box implements Component{
     eventElements(){}
 
     styleElements(){
-	this.style.background = "blue";
+	this.style.marginTop = "20px";
+	// this.style.background = "blue";
 	this.style.width = "80vw";
-	this.style.height = "300px";
+	this.style.height = "400px";
 	this.style.minHeight = "300px"; 
 	this.style.display = "flex"; 
 	this.style.flexDirection = "column";

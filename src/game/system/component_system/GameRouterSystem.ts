@@ -3,6 +3,7 @@ import GameSystem from "../game_system/GameSystem";
 import Input from "../Input";
 import { ChallengeType } from "../../../utils/enums";
 import GameConfigManager from "../game_config/GameConfigManager";
+import type Visualizer from "../../../component/Visualizer";
 
 class GameRouterSystem{
 
@@ -19,10 +20,10 @@ class GameRouterSystem{
 	return this.input; 
     }
 
-    public constructor(gameRouter: GameRouter, gameConfigManager: GameConfigManager){
+    public constructor(gameRouter: GameRouter, gameConfigManager: GameConfigManager, visualizer: Visualizer){
 	this.gameRouter = gameRouter;
 	this.gameConfigManager = gameConfigManager;
-	this.gameSystem = new GameSystem(gameRouter, this.gameConfigManager); 
+	this.gameSystem = new GameSystem(gameRouter, this.gameConfigManager, visualizer); 
 	this.input = new Input(this.gameRouter, this.gameSystem);
 	this.input.turnOnInput();
     }
@@ -31,7 +32,7 @@ class GameRouterSystem{
 	this.gameRouter.textHolder.system.reset();
 	this.gameSystem.gameReset();
 	this.gameRouter.startButton.disabled = true;
-	this.gameRouter.div1.style.display = "none"
+	this.gameRouter.div1.style.visibility = "hidden";
     }
 
     setGameType(type: ChallengeType){

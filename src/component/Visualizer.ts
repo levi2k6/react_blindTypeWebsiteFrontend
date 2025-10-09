@@ -38,7 +38,7 @@ class Visualizer implements Component {
 	window.addEventListener("resize", () => this.visualizerSystem.resize());
 	this.audio.addEventListener("play", async ()=> {
 	    await this.visualizerSystem.getAudioCtx().resume();
-	    this.visualizerSystem.draw();
+	    this.visualizerSystem.startAppear();
 	});
     }
 

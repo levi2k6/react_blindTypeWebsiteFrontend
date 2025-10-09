@@ -38,7 +38,7 @@ class GameRouter extends Box implements Component{
     private gameConfigManager: GameConfigManager = new GameConfigManager(); 
 
     private gameConfigModal: GameConfigModal = new GameConfigModal(this.gameConfigManager);
-    private gameRouterSystem: GameRouterSystem = new GameRouterSystem(this, this.gameConfigManager);
+    private gameRouterSystem: GameRouterSystem = new GameRouterSystem(this, this.gameConfigManager, this.visualizer);
 
 
     constructor( name: string ){
@@ -135,6 +135,7 @@ class GameRouter extends Box implements Component{
 	this.style.width =  "100%";
 	this.style.height = "100%";
 	this.style.display = "flex"; 
+	this.style.gap = "20px";
 	this.style.flexDirection = "column";
 	this.style.justifyContent = "center";
 	this.style.alignItems = "center";

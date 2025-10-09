@@ -78,6 +78,21 @@ class TextHolderSystem{
     getStringChallengeLetters(){
 	return this.challengeLetters;
     }
+
+    checkOverflow(){
+	const div = this.textHolder.self;
+	const hasOverflow = div.scrollHeight > div.clientHeight;
+	if(hasOverflow){
+	    div.style.justifyContent = "flex-start";
+	}else{
+	    div.style.justifyContent = "center";
+	}
+    }
+
+    moveDown(){
+	const div = this.textHolder.self;
+	div.scrollTop = div.scrollHeight;
+    }
 }
 
 export default TextHolderSystem; 
