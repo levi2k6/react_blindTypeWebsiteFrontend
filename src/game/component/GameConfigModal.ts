@@ -7,8 +7,6 @@ import GameConfigManager from "../system/game_config/GameConfigManager";
     import InputCreator from "../../ui_system/InputCreator";
 import type InputElementCreator from "../../ui_system/InputCreator";
 import type { GameConfig } from "../../utils/types";
-import type GameSystem from "../system/game_system/GameSystem";
-import type GameRouter from "./GameRouter";
 
 class GameConfigModal extends Box implements Component{
 
@@ -116,7 +114,7 @@ class GameConfigModal extends Box implements Component{
 	this.style.justifyContent = "center";
 	this.style.alignItems = "center";
 
-	this.div1.style.border = "1px solid yellow";
+	// this.div1.style.border = "1px solid yellow";
 	this.div1.style.display = "flex";
 	this.div1.style.alignItems = "center";
 	this.div1.style.justifyContent = "center";

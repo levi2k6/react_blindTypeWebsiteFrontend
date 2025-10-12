@@ -41,7 +41,7 @@ class TextHolderSystem{
     displayLetters(i: number){
 	const div = new Box("DivLine");
 	div.addChildren(this.challengeLetters[i]);
-	div.style.border = "1px solid green";
+	// div.style.border = "1px solid green";
 	div.style.display = "flex";
 	div.style.flexShrink = "0";
 	this.textHolder.addChild(div);

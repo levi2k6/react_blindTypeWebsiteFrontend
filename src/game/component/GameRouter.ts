@@ -13,6 +13,7 @@ import Visualizer from "../../component/Visualizer.ts";
 
 class GameRouter extends Box implements Component{
 
+    divGradient = new Box("divGradient");
     textHolder = new TextHolder("TextHolder");
 
     div1: Box = new Box("div1");
@@ -70,6 +71,7 @@ class GameRouter extends Box implements Component{
 
     connectElements(){
 	 this.addChildren([
+	     this.divGradient,
 	     this.textHolder,
 	     this.div1.addChildren([
 		 this.startButton,
@@ -100,6 +102,8 @@ class GameRouter extends Box implements Component{
      eventElements(){
 	this.startButton.addEventListener("click", ()=>{
 	    this.gameRouterSystem.startGame();
+	    // this.gameRouterSystem.setDivGradientSize();
+	    this.gameRouterSystem.setDivGradient();
 	});
 
 	this.letterButton.addEventListener("click", ()=>{
@@ -131,7 +135,25 @@ class GameRouter extends Box implements Component{
     }
 
     styleElements(): void{
-	this.style.border = "1px solid red"
+
+	if ((CSS as any).registerProperty) {
+	    (CSS as any).registerProperty({
+		name: "--upGradient",
+		syntax: "<percentage>",
+		inherits: false,
+		initialValue: "1%"
+	    });
+	     (CSS as any).registerProperty({
+		name: "--downGradient",
+		syntax: "<percentage>",
+		inherits: false,
+		initialValue: "99%"
+	    });
+	}
+
+
+	this.style.position = "relative";
+	// this.style.border = "5px solid pink"
 	this.style.width =  "100%";
 	this.style.height = "100%";
 	this.style.display = "flex"; 
@@ -140,7 +162,22 @@ class GameRouter extends Box implements Component{
 	this.style.justifyContent = "center";
 	this.style.alignItems = "center";
 
-	this.div1.style.height = "200px";
+	this.divGradient.style.position = "absolute"; 
+	// this.divGradient.style.border = "3px solid red";
+	this.divGradient.style.zIndex = "-1";
+	this.divGradient.style.height = "100%";
+	this.divGradient.style.width = "100%";
+	this.divGradient.style.transition = "height 1s ease-in-out, width 1s ease-in-out, --upGradient 1s ease-in-out, --downGradient 1s ease-in-out";
+	this.divGradient.style.background = `
+        linear-gradient(
+            to bottom,
+            black 0%,
+            transparent var(--upGradient),
+            transparent var(--downGradient),
+            black 100%
+        )
+	`;
+	// this.div1.style.height = "100px";
 	this.div1.style.width = "500px";
 	this.div1.style.border = "1px solid white";
 	this.div1.style.display = "flex";

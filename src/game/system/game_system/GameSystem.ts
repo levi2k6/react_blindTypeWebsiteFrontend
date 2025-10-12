@@ -65,6 +65,9 @@ class GameSystem{
 	this.gameRouter.startButton.disabled = false;
 	this.isGaming = false; 
 	this.gameRouter.div1.style.visibility = "visible";
+	// this.gameRouter.system.setRootBackgroundColor();
+	// this.gameRouter.system.setDivGradientSize();
+	this.gameRouter.system.setDivGradient();
 	// this.gameRouter.system.getInput().turnOffInput();
     }
 

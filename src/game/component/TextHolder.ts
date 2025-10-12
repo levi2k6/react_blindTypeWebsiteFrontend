@@ -26,9 +26,10 @@ class TextHolder extends Box implements Component{
     eventElements(){}
 
     styleElements(){
-	this.style.marginTop = "20px";
-	// this.style.background = "blue";
-	this.style.width = "80vw";
+	console.log("TextHolder styleElements()");
+	this.style.marginTop = "10px";
+	// this.style.background = "linear-gradient(to bottom, #1a1a1a 0%, transparent 10%,transparent 10%, transparent 50%, transparent 90%, transparent 90%, #1a1a1a 100%)";
+	this.style.width = "100vw";
 	this.style.height = "400px";
 	this.style.minHeight = "300px"; 
 	this.style.display = "flex"; 
@@ -37,7 +38,6 @@ class TextHolder extends Box implements Component{
 	this.style.justifyContent = "center"; 
 	this.style.alignItems = "center";
 	this.style.whiteSpace = "normal";
-	this.style.gap = "2px";
     }
 }
 

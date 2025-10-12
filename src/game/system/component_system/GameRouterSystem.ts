@@ -47,6 +47,34 @@ class GameRouterSystem{
 	this.gameSystem.gameStart();
     }
 
+    setRootBackgroundColor(){
+	if(this.gameSystem.getIsGaming()){
+	    document.documentElement.style.background = "black";
+	}else{
+	    document.documentElement.style.background = "#242424";
+	}
+    }
+
+    setDivGradientSize(){
+
+	if(this.gameSystem.getIsGaming()){
+	    this.gameRouter.divGradient.style.height = "50%";
+	}else{
+	    this.gameRouter.divGradient.style.height = "100%";
+	}
+
+    }
+
+    setDivGradient(){
+	if(this.gameSystem.getIsGaming()){
+	    this.gameRouter.divGradient.style.setProperty("--upGradient", "40%");
+	    this.gameRouter.divGradient.style.setProperty("--downGradient", "60%");
+	}else{
+	    this.gameRouter.divGradient.style.setProperty("--upGradient", "1%");
+	    this.gameRouter.divGradient.style.setProperty("--downGradient", "99%");
+	}
+
+    }
 }
 
 export default GameRouterSystem; 
