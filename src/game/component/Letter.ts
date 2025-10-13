@@ -22,16 +22,16 @@ class Letter extends Box{
     }
 
     turnGreen(){
-	this.letter.style.color = "green";
+	this.letter.style.color = "#00bd33";
     }
 
     turnRed(){
-	this.letter.style.color = "red";
+	this.letter.style.color = "#cd0043";
     }
 
     turnBackgroundRed(){
-	this.letter.style.backgroundColor = "red";
+	this.letter.style.backgroundColor = "#cd0043";
     }
-}
 
+}
 export default Letter;

@@ -83,7 +83,7 @@ class VisualizerSystem {
 
   drawWave(progress: number) {
     this.ctx.lineWidth = 2;
-    this.ctx.strokeStyle = "#00ffcc";
+    this.ctx.strokeStyle = "white";
     this.ctx.beginPath();
 
     const sliceWidth = this.canvas.width / this.bufferLength;

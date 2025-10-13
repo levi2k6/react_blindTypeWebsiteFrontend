@@ -107,8 +107,8 @@ class GameConfigModal extends Box implements Component{
 	this.style.position = "fixed"
 	this.style.height = "400px";
 	this.style.width = "400px";
-	this.style.border = "1px solid green";
-	this.style.backgroundColor = "green";
+	// this.style.border = "1px solid green";
+	this.style.backgroundColor = "black";
 	this.style.display = "flex";
 	this.style.flexDirection = "column";
 	this.style.justifyContent = "center";

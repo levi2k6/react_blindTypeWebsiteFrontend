@@ -102,8 +102,6 @@ class GameRouter extends Box implements Component{
      eventElements(){
 	this.startButton.addEventListener("click", ()=>{
 	    this.gameRouterSystem.startGame();
-	    // this.gameRouterSystem.setDivGradientSize();
-	    this.gameRouterSystem.setDivGradient();
 	});
 
 	this.letterButton.addEventListener("click", ()=>{
@@ -141,13 +139,13 @@ class GameRouter extends Box implements Component{
 		name: "--upGradient",
 		syntax: "<percentage>",
 		inherits: false,
-		initialValue: "1%"
+		initialValue: "0%"
 	    });
 	     (CSS as any).registerProperty({
 		name: "--downGradient",
 		syntax: "<percentage>",
 		inherits: false,
-		initialValue: "99%"
+		initialValue: "100%"
 	    });
 	}
 
@@ -171,15 +169,16 @@ class GameRouter extends Box implements Component{
 	this.divGradient.style.background = `
         linear-gradient(
             to bottom,
-            black 0%,
+            #121212 0%,
             transparent var(--upGradient),
             transparent var(--downGradient),
-            black 100%
+            #121212 100%
         )
 	`;
 	// this.div1.style.height = "100px";
+	this.div1.style.marginTop = "50px";
 	this.div1.style.width = "500px";
-	this.div1.style.border = "1px solid white";
+	// this.div1.style.border = "1px solid white";
 	this.div1.style.display = "flex";
 	this.div1.style.flexDirection = "column";
 	this.div1.style.justifyContent = "center";

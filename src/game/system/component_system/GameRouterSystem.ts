@@ -45,6 +45,7 @@ class GameRouterSystem{
     async startGame(){
 	this.reset();
 	this.gameSystem.gameStart();
+	this.gameRouter.system.setDivGradient();
     }
 
     setRootBackgroundColor(){
@@ -70,8 +71,8 @@ class GameRouterSystem{
 	    this.gameRouter.divGradient.style.setProperty("--upGradient", "40%");
 	    this.gameRouter.divGradient.style.setProperty("--downGradient", "60%");
 	}else{
-	    this.gameRouter.divGradient.style.setProperty("--upGradient", "1%");
-	    this.gameRouter.divGradient.style.setProperty("--downGradient", "99%");
+	    this.gameRouter.divGradient.style.setProperty("--upGradient", "0%");
+	    this.gameRouter.divGradient.style.setProperty("--downGradient", "100%");
 	}
 
     }

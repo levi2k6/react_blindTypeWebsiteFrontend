@@ -61,12 +61,10 @@ class GameSystem{
 
     async gameEnd(){
 	this.visualizer.system.startDisappear();
-	this.gameRouter.textHolder.style.display = "flex";
+	this.gameRouter.textHolder.style.visibility = "visible";
 	this.gameRouter.startButton.disabled = false;
 	this.isGaming = false; 
 	this.gameRouter.div1.style.visibility = "visible";
-	// this.gameRouter.system.setRootBackgroundColor();
-	// this.gameRouter.system.setDivGradientSize();
 	this.gameRouter.system.setDivGradient();
 	// this.gameRouter.system.getInput().turnOffInput();
     }

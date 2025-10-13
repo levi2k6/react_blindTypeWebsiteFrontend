@@ -42,7 +42,7 @@ class StringGame extends Game{
     }
 
     async gameInit(){
-	this.textHolder.style.display = "none";
+	this.textHolder.style.visibility = "hidden";
 	this.textHolder.system.checkOverflow();
 	const multiple = this.gameConfigManager.getGameConfigMultiple();
 	if(!multiple){

@@ -44,7 +44,8 @@ class LetterGame extends Game{
 
     gameInit(){
 	console.log("letter gameInit()");
-
+	this.textHolder.style.visibility = "hidden";
+	this.textHolder.system.checkOverflow();
 	const multiple = this.gameConfigManager.getGameConfigMultiple();
 	if(!multiple){
 	    console.log("LetterGameConfig has no multiple has no data");
@@ -117,6 +118,7 @@ class LetterGame extends Game{
 	console.log("game ended");
 	this.timer.stopTimer();
 	this.textHolder.system.removeChallengeLetters();
+	this.textHolder.system.moveDown();
 	this.letterChallengeGenerator.setChallenge("");
 	this.challenges = [];
 	this.i = 0;

@@ -4,10 +4,14 @@ import GameRouter from "./game/component/GameRouter.ts"
 import Navigo from "navigo"
 import type Box from './class/Box.ts';
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import Header from './component/Header.ts';
 
 class Main{
 
-    header : HTMLElement = document.querySelector<HTMLDivElement>("#header")!; 
+    // header : HTMLElement = document.querySelector<HTMLDivElement>("#header")!; 
+    
+    header : Header = new Header();
+
     app : HTMLDivElement = document.querySelector<HTMLDivElement>('#app')!;  
 
     router = new Navigo("/", {hash: true});
@@ -21,7 +25,7 @@ class Main{
     addHeaderElement(route: Box): void{
 	if(route.self) return;
 	
-	this.header.appendChild(route.self);
+	this.header.self.appendChild(route.self);
     }
 
     addAppElement(route : Box): void{
