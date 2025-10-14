@@ -33,5 +33,8 @@ class Letter extends Box{
 	this.letter.style.backgroundColor = "#cd0043";
     }
 
+    styleElements(){
+	this.letter.style.color = "#d3d3d3";
+    }
 }
 export default Letter;

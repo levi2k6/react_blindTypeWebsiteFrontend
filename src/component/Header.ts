@@ -1,14 +1,17 @@
 import Box from "../class/Box";
 import type { Component } from "../class/Component";
+import RouteSystem from "../route/RouteSystem";
 import { createElement } from "../ui_system/Element";
 
 
 class Header implements Component{
 
+    routeSystem: RouteSystem | null = null;
+
     header: HTMLDivElement = document.querySelector<HTMLDivElement>("#header")!; 
     title: HTMLElement = createElement("h2", "Blind Type");
     navigation: Box = new Box();
-	navHome: HTMLAnchorElement = createElement("a", "Home") as HTMLAnchorElement; 
+	navAbout: HTMLAnchorElement = createElement("a", "About") as HTMLAnchorElement; 
 	navGame: HTMLAnchorElement = createElement("a", "Game") as HTMLAnchorElement;
 
     login: HTMLButtonElement = createElement("button", "Login") as HTMLButtonElement; 
@@ -21,6 +24,12 @@ class Header implements Component{
 	return this.header;
     }
 
+    setRouteSystem(routeSystem: RouteSystem){
+	console.log("setRouteSystem: ", routeSystem);
+	console.log("this is oviously working");
+	this.routeSystem = routeSystem; 
+	console.log("routeSystem:::: ", this.routeSystem);
+    }
 
     init(){
 	this.initElements();
@@ -37,7 +46,7 @@ class Header implements Component{
 	this.header.appendChild(this.title);
 
 	this.navigation.addChildren([
-	    this.navHome,
+	    this.navAbout,
 	    this.navGame
 	]);
 
@@ -46,7 +55,26 @@ class Header implements Component{
     }
 
     eventElements(): void {
-        
+	console.log("eventElements");
+
+	this.navGame.addEventListener("click", ()=>{
+	    console.log("routeSystem: ", this.routeSystem);
+	    if(!this.routeSystem) return; 
+	    this.routeSystem.navigate("/");
+	});
+
+	this.login.addEventListener("click", ()=>{
+	    console.log("routeSystem: ", this.routeSystem);
+	    if(!this.routeSystem) return; 
+	    this.routeSystem.navigate("/auth");
+	});
+
+	this.navAbout.addEventListener("click", ()=>{
+	    console.log("routeSystem: ", this.routeSystem);
+	    if(!this.routeSystem) return; 
+	    this.routeSystem.navigate("/about");
+	});
+
     }
 
     styleElements(): void {
@@ -67,8 +95,6 @@ class Header implements Component{
 	this.navigation.style.display = "flex";
 	this.navigation.style.gap = "30px";
 
-	this.navHome.href = "/";
-	this.navGame.href = "/game";
 	
 	this.login.style.position = "absolute";
 	this.login.style.right = "8vh";
