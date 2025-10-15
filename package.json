@@ -10,9 +10,11 @@
   },
   "devDependencies": {
     "typescript": "~5.8.3",
-    "vite": "^7.1.2"
+    "vite": "^7.1.2",
+    "vite-plugin-mkcert": "^1.17.9"
   },
   "dependencies": {
+    "@auth0/auth0-spa-js": "^2.6.0",
     "@fortawesome/fontawesome-free": "^7.0.1",
     "navigo": "^8.11.1"
   }

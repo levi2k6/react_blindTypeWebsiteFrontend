@@ -1,10 +1,19 @@
 import Box from "../class/Box";
 import type { Component } from "../class/Component";
+import { createElement } from "../ui_system/Element";
 import LoginBox from "./LoginBox";
+import Auth0 from "./Oauth0/Auth0";
+import AuthRouterSystem from "./system/AuthRouterSystem";
 
 class AuthRouter extends Box implements Component{
 
     loginBox: LoginBox = new LoginBox("LoginBox");
+
+    Auth0: Auth0 = new Auth0();
+    AuthRouterSystem: AuthRouterSystem = new AuthRouterSystem();
+
+    divAuth0: Box = new Box();
+	googleButton: HTMLButtonElement = createElement("button", "Google") as HTMLButtonElement;
 
     constructor( name: string){
 	super(name);
@@ -23,11 +32,16 @@ class AuthRouter extends Box implements Component{
     }
 
     connectElements(): void {
-	this.addChild(this.loginBox);
+	this.addChildren([
+	    this.loginBox,
+	    this.googleButton
+	]);
     }
 
     eventElements(): void {
-        
+	this.googleButton.addEventListener("click", ()=>{
+	    this.AuthRouterSystem.login();
+	});
     }
 
     styleElements(): void {
