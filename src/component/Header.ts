@@ -1,3 +1,4 @@
+import Auth0 from "../auth/Oauth0/Auth0";
 import Box from "../class/Box";
 import type { Component } from "../class/Component";
 import RouteSystem from "../route/RouteSystem";
@@ -9,6 +10,7 @@ class Header implements Component{
     routeSystem: RouteSystem | null = null;
 
     header: HTMLDivElement = document.querySelector<HTMLDivElement>("#header")!; 
+    buttonTest: HTMLButtonElement = createElement("button", "test") as HTMLButtonElement;
     title: HTMLElement = createElement("h2", "Blind Type");
     navigation: Box = new Box();
 	navAbout: HTMLAnchorElement = createElement("a", "About") as HTMLAnchorElement; 
@@ -38,12 +40,12 @@ class Header implements Component{
 	this.styleElements();
     }
 
-    initElements(): void{
-
+    async initElements(){
     }
 
     connectElements(): void {
 	this.header.appendChild(this.title);
+	this.header.appendChild(this.buttonTest);
 
 	this.navigation.addChildren([
 	    this.navAbout,
@@ -74,6 +76,13 @@ class Header implements Component{
 	    if(!this.routeSystem) return; 
 	    this.routeSystem.navigate("/about");
 	});
+
+	this.buttonTest.addEventListener("click", async()=>{
+	    const auth0 = await Auth0.getInstance()
+	    if(!auth0) return;
+	    const user = auth0.getCurrentUser();
+	    console.log("user: ", user);
+	})
 
     }
 

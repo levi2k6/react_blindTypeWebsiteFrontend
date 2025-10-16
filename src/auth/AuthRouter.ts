@@ -9,14 +9,15 @@ class AuthRouter extends Box implements Component{
 
     loginBox: LoginBox = new LoginBox("LoginBox");
 
-    Auth0: Auth0 = new Auth0();
-    AuthRouterSystem: AuthRouterSystem = new AuthRouterSystem();
+    authRouterSystem: AuthRouterSystem = new AuthRouterSystem();
 
     divAuth0: Box = new Box();
-	googleButton: HTMLButtonElement = createElement("button", "Google") as HTMLButtonElement;
+	googleButton: HTMLButtonElement = createElement("button", "") as HTMLButtonElement;
+	    googleImg: HTMLImageElement = createElement("img") as HTMLImageElement;
 
     constructor( name: string){
 	super(name);
+
 	this.init()
     }
 
@@ -27,8 +28,8 @@ class AuthRouter extends Box implements Component{
 	this.styleElements();
     }
 
-    initElements(): void{
-
+    initElements(){
+	this.googleImg.src = "https://developers.google.com/identity/images/g-logo.png";  
     }
 
     connectElements(): void {
@@ -36,11 +37,13 @@ class AuthRouter extends Box implements Component{
 	    this.loginBox,
 	    this.googleButton
 	]);
+
+	this.googleButton.appendChild(this.googleImg);
     }
 
     eventElements(): void {
 	this.googleButton.addEventListener("click", ()=>{
-	    this.AuthRouterSystem.login();
+	    this.authRouterSystem.login();
 	});
     }
 
@@ -54,6 +57,9 @@ class AuthRouter extends Box implements Component{
 	this.style.flexDirection = "column";
 	this.style.justifyContent = "center";
 	this.style.alignItems = "center";
+
+	this.googleImg.style.height = "30px";
+	
     }
 }
 

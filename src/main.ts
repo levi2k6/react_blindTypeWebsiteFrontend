@@ -5,13 +5,13 @@ import Header from './component/Header.ts';
 import AuthRouter from './auth/AuthRouter.ts';
 import AboutRouter from './about/AboutRouter.ts';
 import RouteSystem from './route/RouteSystem.ts';
+import Auth0 from './auth/Oauth0/Auth0.ts';
 
-function Main(){
+async function Main(){
     
-    // const app : HTMLDivElement = document.querySelector<HTMLDivElement>('#app')!;  
-    console.log("Main constructor start");
+    await Auth0.init();
+
     const header : Header = new Header();
-    console.log("Header created");
 
     const gameRouter: GameRouter = new GameRouter("Game");
     const aboutRouter: AboutRouter = new AboutRouter("About");
