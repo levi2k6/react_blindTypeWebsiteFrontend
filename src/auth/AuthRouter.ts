@@ -2,16 +2,16 @@ import Box from "../class/Box";
 import type { Component } from "../class/Component";
 import { createElement } from "../ui_system/Element";
 import LoginBox from "./LoginBox";
-import Auth0 from "./Oauth0/Auth0";
 import AuthRouterSystem from "./system/AuthRouterSystem";
 
 class AuthRouter extends Box implements Component{
 
     loginBox: LoginBox = new LoginBox("LoginBox");
 
-    authRouterSystem: AuthRouterSystem = new AuthRouterSystem();
+    authRouterSystem: AuthRouterSystem = new AuthRouterSystem(this);
 
     divAuth0: Box = new Box();
+	logoutTest: HTMLButtonElement = createElement("button", "logout") as HTMLButtonElement;
 	googleButton: HTMLButtonElement = createElement("button", "") as HTMLButtonElement;
 	    googleImg: HTMLImageElement = createElement("img") as HTMLImageElement;
 
@@ -35,6 +35,7 @@ class AuthRouter extends Box implements Component{
     connectElements(): void {
 	this.addChildren([
 	    this.loginBox,
+	    this.logoutTest,
 	    this.googleButton
 	]);
 
@@ -45,6 +46,10 @@ class AuthRouter extends Box implements Component{
 	this.googleButton.addEventListener("click", ()=>{
 	    this.authRouterSystem.login();
 	});
+
+	this.logoutTest.addEventListener("click", ()=>{
+	    this.authRouterSystem.logout();
+	})
     }
 
     styleElements(): void {

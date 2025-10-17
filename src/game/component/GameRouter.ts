@@ -10,7 +10,6 @@ import type { Component } from "../../class/Component.ts";
 import GameConfigModal from "./GameConfigModal.ts";
 import GameConfigManager from "../system/game_config/GameConfigManager.ts";
 import Visualizer from "../../component/Visualizer.ts";
-import Auth0 from "../../auth/Oauth0/Auth0.ts";
 
 class GameRouter extends Box implements Component{
 

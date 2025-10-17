@@ -1,13 +1,13 @@
-import Auth0 from "../auth/Oauth0/Auth0";
 import Box from "../class/Box";
 import type { Component } from "../class/Component";
+import ApiService from "../dataManager/ApiService";
+import DataManager from "../dataManager/ApiService";
 import RouteSystem from "../route/RouteSystem";
 import { createElement } from "../ui_system/Element";
+import HeaderSystem from "./system/HeaderSystem";
 
 
 class Header implements Component{
-
-    routeSystem: RouteSystem | null = null;
 
     header: HTMLDivElement = document.querySelector<HTMLDivElement>("#header")!; 
     buttonTest: HTMLButtonElement = createElement("button", "test") as HTMLButtonElement;
@@ -17,6 +17,9 @@ class Header implements Component{
 	navGame: HTMLAnchorElement = createElement("a", "Game") as HTMLAnchorElement;
 
     login: HTMLButtonElement = createElement("button", "Login") as HTMLButtonElement; 
+
+    routeSystem: RouteSystem | null = null;
+    headerSystem: HeaderSystem = new HeaderSystem(this); 
 
     constructor(){
 	this.init();
@@ -78,9 +81,8 @@ class Header implements Component{
 	});
 
 	this.buttonTest.addEventListener("click", async()=>{
-	    const auth0 = await Auth0.getInstance()
-	    if(!auth0) return;
-	    const user = auth0.getCurrentUser();
+	    const apiService: ApiService = ApiService.getInstance();
+	    const user = apiService.getCurrentUser();
 	    console.log("user: ", user);
 	})
 

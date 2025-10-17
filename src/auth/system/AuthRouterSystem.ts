@@ -1,28 +1,21 @@
-import Auth0 from "../Oauth0/Auth0";
+import type AuthRouter from "../AuthRouter";
 
 class AuthRouterSystem{
 
-    async login(){
-	const auth0: Auth0 | null = await Auth0.getInstance();
-	if(!auth0){
-	    console.error("AuthRouterSystem-login()-auth0 is null")
-	    return;
-	}
+    authRouter: AuthRouter;
 
-	const  auth0Client = auth0.getAuth0Client();
+    constructor(authRouter: AuthRouter){
+	this.authRouter = authRouter;
+    }
 
-	if(!auth0Client){
-	    console.error("Auth0 client not is initialized.");
-	    return;
-	}
+    async login() {
+	fetch("http://localhost:8080/api/public/auth/login", { method: "POST" })
+	  .then(res => res.json())
+	  .then(data => window.location.href = data.url);
+    }
 
-	await auth0Client.loginWithRedirect({
-	    authorizationParams:{
-		connection: "google-oauth2",
-		prompt: "select_account"
-	    }
-	});
-
+    logout() {
+        window.location.href = "http://localhost:8080/logout"; 
     }
 
 }

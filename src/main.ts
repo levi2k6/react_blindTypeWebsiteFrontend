@@ -5,11 +5,8 @@ import Header from './component/Header.ts';
 import AuthRouter from './auth/AuthRouter.ts';
 import AboutRouter from './about/AboutRouter.ts';
 import RouteSystem from './route/RouteSystem.ts';
-import Auth0 from './auth/Oauth0/Auth0.ts';
 
 async function Main(){
-    
-    await Auth0.init();
 
     const header : Header = new Header();
 
