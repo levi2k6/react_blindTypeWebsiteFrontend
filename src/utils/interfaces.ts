@@ -27,4 +27,10 @@ export interface UserGameConfig{
     sentenceConfig: GameConfig;
 }
 
+export interface User{
+    id: string;
+    name: string;
+    email: string;
+}
+
 

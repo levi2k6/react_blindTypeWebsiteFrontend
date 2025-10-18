@@ -1,13 +1,14 @@
 
 import type { Response } from "../utils/interfaces.ts"
 
-export async function apiFetch<T>(requestType: string, url: string) : Promise<Response<T>>{
+export async function apiFetch<T>(method: string, url: string) : Promise<Response<T>>{
     try{
 	const res = await fetch(url, {
-	    method: requestType,
+	    method: method,
 	    headers: {
 		"Content-Type": "application/json",
-	    }
+	    },
+	    credentials: "include"
 	}); 
 
 	if(!res.ok){
@@ -21,6 +22,5 @@ export async function apiFetch<T>(requestType: string, url: string) : Promise<Re
 	throw err;
     }
 }
-
 
 

@@ -1,4 +1,3 @@
-
 class ApiService{
 
     private static instance: ApiService = new ApiService();

@@ -1,9 +1,10 @@
 import Box from "../class/Box";
 import type { Component } from "../class/Component";
-import ApiService from "../dataManager/ApiService";
-import DataManager from "../dataManager/ApiService";
 import RouteSystem from "../route/RouteSystem";
 import { createElement } from "../ui_system/Element";
+import { apiFetch } from "../utils/apiUtils";
+import AuthState from "../utils/authState";
+import type { Response, User } from "../utils/interfaces";
 import HeaderSystem from "./system/HeaderSystem";
 
 
@@ -16,7 +17,11 @@ class Header implements Component{
 	navAbout: HTMLAnchorElement = createElement("a", "About") as HTMLAnchorElement; 
 	navGame: HTMLAnchorElement = createElement("a", "Game") as HTMLAnchorElement;
 
-    login: HTMLButtonElement = createElement("button", "Login") as HTMLButtonElement; 
+    divAuth: Box = new Box();
+	signup: HTMLButtonElement = createElement("button", "Signup") as HTMLButtonElement; 
+	login: HTMLButtonElement = createElement("button", "Login") as HTMLButtonElement; 
+	profile: HTMLAnchorElement = createElement("a", "alskdfjalskdfj") as HTMLAnchorElement;
+
 
     routeSystem: RouteSystem | null = null;
     headerSystem: HeaderSystem = new HeaderSystem(this); 
@@ -44,6 +49,7 @@ class Header implements Component{
     }
 
     async initElements(){
+	await this.headerSystem.updateProfile()
     }
 
     connectElements(): void {
@@ -56,7 +62,12 @@ class Header implements Component{
 	]);
 
 	this.header.appendChild(this.navigation.self);
-	this.header.appendChild(this.login);
+	this.divAuth.addChildren([
+	    this.signup,
+	    this.login,
+	    this.profile
+	]);
+	this.header.appendChild(this.divAuth.self);
     }
 
     eventElements(): void {
@@ -81,9 +92,9 @@ class Header implements Component{
 	});
 
 	this.buttonTest.addEventListener("click", async()=>{
-	    const apiService: ApiService = ApiService.getInstance();
-	    const user = apiService.getCurrentUser();
-	    console.log("user: ", user);
+	    const response: Response<User> = await apiFetch("GET", "http://localhost:8080/api/private/AuthUser");
+	    AuthState.setAuthUser(response.data);
+	    console.log("user: ", AuthState.getAuthUser());
 	})
 
     }
@@ -106,9 +117,11 @@ class Header implements Component{
 	this.navigation.style.display = "flex";
 	this.navigation.style.gap = "30px";
 
-	
-	this.login.style.position = "absolute";
-	this.login.style.right = "8vh";
+	this.divAuth.style.position = "absolute";
+	this.divAuth.style.right = "5vh";
+	this.divAuth.style.display = "flex";
+	this.divAuth.style.gap = "10px";
+	this.divAuth.style.alignItems = "center";
     }
 
 }
