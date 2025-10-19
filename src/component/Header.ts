@@ -2,7 +2,7 @@ import Box from "../class/Box";
 import type { Component } from "../class/Component";
 import RouteSystem from "../route/RouteSystem";
 import { createElement } from "../ui_system/Element";
-import { apiFetch } from "../utils/apiUtils";
+import { apiFetch, checkToken } from "../utils/apiUtils";
 import AuthState from "../utils/authState";
 import type { Response, User } from "../utils/interfaces";
 import HeaderSystem from "./system/HeaderSystem";
@@ -18,9 +18,10 @@ class Header implements Component{
 	navGame: HTMLAnchorElement = createElement("a", "Game") as HTMLAnchorElement;
 
     divAuth: Box = new Box();
-	signup: HTMLButtonElement = createElement("button", "Signup") as HTMLButtonElement; 
-	login: HTMLButtonElement = createElement("button", "Login") as HTMLButtonElement; 
-	profile: HTMLAnchorElement = createElement("a", "alskdfjalskdfj") as HTMLAnchorElement;
+	authButtons: Box = new Box();
+	    signup: HTMLButtonElement = createElement("button", "Signup") as HTMLButtonElement; 
+	    login: HTMLButtonElement = createElement("button", "Login") as HTMLButtonElement; 
+	profile: HTMLAnchorElement = createElement("a", "") as HTMLAnchorElement;
 
 
     routeSystem: RouteSystem | null = null;
@@ -49,7 +50,8 @@ class Header implements Component{
     }
 
     async initElements(){
-	await this.headerSystem.updateProfile()
+	await this.headerSystem.updateProfile();
+	this.headerSystem.switchAuthtoProfile();
     }
 
     connectElements(): void {
@@ -63,8 +65,10 @@ class Header implements Component{
 
 	this.header.appendChild(this.navigation.self);
 	this.divAuth.addChildren([
-	    this.signup,
-	    this.login,
+	    this.authButtons.addChildren([
+		this.signup,
+		this.login,
+	    ]),
 	    this.profile
 	]);
 	this.header.appendChild(this.divAuth.self);
@@ -91,10 +95,20 @@ class Header implements Component{
 	    this.routeSystem.navigate("/about");
 	});
 
+	this.profile.addEventListener("click", ()=>{
+	    window.location.href = "http://localhost:8080/api/public/auth/logout";
+	    localStorage.removeItem("user");
+	    AuthState.setAuthUser(null);
+	    this.headerSystem.switchAuthtoProfile();
+	})
+
 	this.buttonTest.addEventListener("click", async()=>{
-	    const response: Response<User> = await apiFetch("GET", "http://localhost:8080/api/private/AuthUser");
-	    AuthState.setAuthUser(response.data);
-	    console.log("user: ", AuthState.getAuthUser());
+	    // const response: Response<User> = await apiFetch("GET", "http://localhost:8080/api/private/AuthUser");
+	    // AuthState.setAuthUser(response.data);
+	    // console.log("user: ", AuthState.getAuthUser());
+	    //
+	    const response: boolean = await checkToken();
+	    console.log("response: ", response);
 	})
 
     }
@@ -113,15 +127,17 @@ class Header implements Component{
 	this.title.style.left = "10vh";
 	
 	this.navigation.style.position = "absolute";
-	this.navigation.style.right = "30vh";
+	this.navigation.style.right = "40vh";
 	this.navigation.style.display = "flex";
 	this.navigation.style.gap = "30px";
 
 	this.divAuth.style.position = "absolute";
 	this.divAuth.style.right = "5vh";
 	this.divAuth.style.display = "flex";
-	this.divAuth.style.gap = "10px";
 	this.divAuth.style.alignItems = "center";
+
+	this.authButtons.style.display = "flex";
+	this.authButtons.style.gap = "10px";
     }
 
 }

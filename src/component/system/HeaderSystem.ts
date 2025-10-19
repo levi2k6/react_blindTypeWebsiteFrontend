@@ -1,6 +1,6 @@
 import Header from "../Header";
 
-import { apiFetch } from "../../utils/apiUtils";
+import { apiFetch, checkToken } from "../../utils/apiUtils";
 import type { Response, User } from "../../utils/interfaces";
 import AuthState from "../../utils/authState";
 
@@ -13,26 +13,46 @@ class HeaderSystem{
 	this.header = header;
     }
 
+    switchAuthtoProfile(){
+	const user = AuthState.getAuthUser();
+	console.log("user", user);
+	if(user){
+	    this.header.authButtons.style.display = "none";
+	    this.header.profile.style.display = "flex";
+	}else{
+	    this.header.authButtons.style.display = "flex";
+	    this.header.profile.style.display = "none";
+	}
+    }
+
     async updateProfile(){
+	const tokenStatus = await checkToken();
+
+	if(!tokenStatus){
+	    localStorage.removeItem("user");
+	    return; 
+	}
+
 	const user = localStorage.getItem("user");
-	console.log("USER: ", user);
-	if(!user || user == "undefined"){
-	    console.log("l")
+
+	if(!user){
 	    const response: Response<User> = await apiFetch("GET", "http://localhost:8080/api/private/AuthUser");
 	    AuthState.setAuthUser(response.data);
 	    const responseUser: User | null = AuthState.getAuthUser();
-	    if(!responseUser){
-		return 
-	    }
+
+	    if(!responseUser) return;
+	    
 	    localStorage.setItem("user", JSON.stringify(responseUser));
 	    this.header.profile.innerText = responseUser.name;
 	}else{
-	    console.log("w");
 	    const localUser = localStorage.getItem("user");
-	    if(localUser){
-		const objLocalUser = JSON.parse(localUser);
-		this.header.profile.innerText = objLocalUser.name; 
-	    }
+
+	    if(!localUser) return;
+
+	    const objLocalUser = JSON.parse(localUser);
+	    AuthState.setAuthUser(objLocalUser);
+	    this.header.profile.innerText = objLocalUser.name; 
+	    
 	}
     }
 

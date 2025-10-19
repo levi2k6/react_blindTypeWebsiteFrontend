@@ -9,7 +9,7 @@ class AuthState{
 	// return this.instance;
 	//    } 
 
-    public static setAuthUser(user: User){
+    public static setAuthUser(user: User | null){
 	this.instance.authUser = user;
     }
 
