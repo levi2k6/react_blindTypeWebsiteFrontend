@@ -1,11 +1,11 @@
-import Box from "../class/Box";
-import type { Component } from "../class/Component";
-import RouteSystem from "../route/RouteSystem";
-import { createElement } from "../ui_system/Element";
-import { apiFetch, checkToken } from "../utils/apiUtils";
-import AuthState from "../utils/authState";
-import type { Response, User } from "../utils/interfaces";
-import HeaderSystem from "./system/HeaderSystem";
+import Box from "../../class/Box";
+import type { Component } from "../../class/Component";
+import RouteSystem from "../../route/RouteSystem";
+import { createElement } from "../../ui_system/Element";
+import { checkToken } from "../../utils/apiUtils";
+import AuthState from "../../utils/authState";
+import HeaderSystem from "./../system/HeaderSystem";
+import Profile from "./Profile";
 
 
 class Header implements Component{
@@ -21,7 +21,7 @@ class Header implements Component{
 	authButtons: Box = new Box();
 	    signup: HTMLButtonElement = createElement("button", "Signup") as HTMLButtonElement; 
 	    login: HTMLButtonElement = createElement("button", "Login") as HTMLButtonElement; 
-	profile: HTMLAnchorElement = createElement("a", "") as HTMLAnchorElement;
+	profile: Profile = new Profile(this, "Profile");
 
 
     routeSystem: RouteSystem | null = null;
@@ -51,7 +51,12 @@ class Header implements Component{
 
     async initElements(){
 	await this.headerSystem.updateProfile();
+
 	this.headerSystem.switchAuthtoProfile();
+
+	const name = AuthState.getAuthUser().name;
+	if(!name) return;
+	this.profile.setProfileName(name);
     }
 
     connectElements(): void {
@@ -69,7 +74,7 @@ class Header implements Component{
 		this.signup,
 		this.login,
 	    ]),
-	    this.profile
+	    this.profile,
 	]);
 	this.header.appendChild(this.divAuth.self);
     }
@@ -95,12 +100,12 @@ class Header implements Component{
 	    this.routeSystem.navigate("/about");
 	});
 
-	this.profile.addEventListener("click", ()=>{
-	    window.location.href = "http://localhost:8080/api/public/auth/logout";
-	    localStorage.removeItem("user");
-	    AuthState.setAuthUser(null);
-	    this.headerSystem.switchAuthtoProfile();
-	})
+	// this.profile..addEventListener("click", ()=>{
+	//     window.location.href = "http://localhost:8080/api/public/auth/logout";
+	//     localStorage.removeItem("user");
+	//     AuthState.setAuthUser(null);
+	//     this.headerSystem.switchAuthtoProfile();
+	// })
 
 	this.buttonTest.addEventListener("click", async()=>{
 	    // const response: Response<User> = await apiFetch("GET", "http://localhost:8080/api/private/AuthUser");
@@ -136,7 +141,8 @@ class Header implements Component{
 	this.divAuth.style.display = "flex";
 	this.divAuth.style.alignItems = "center";
 
-	this.authButtons.style.display = "flex";
+	// this.authButtons.style.display = "flex";
+	this.headerSystem.switchAuthtoProfile();
 	this.authButtons.style.gap = "10px";
     }
 

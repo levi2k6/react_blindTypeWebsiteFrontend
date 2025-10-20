@@ -7,6 +7,7 @@ class InputElementCreator{
     divHeight: string = "";
     divWidth: string = "";
 
+
     setDivBorder(divBorder: string){
 	this.divBorder = divBorder;
 	return this;

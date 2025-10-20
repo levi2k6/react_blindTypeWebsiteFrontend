@@ -1,4 +1,4 @@
-import Header from "../Header";
+import Header from "../header/Header";
 
 import { apiFetch, checkToken } from "../../utils/apiUtils";
 import type { Response, User } from "../../utils/interfaces";
@@ -14,9 +14,8 @@ class HeaderSystem{
     }
 
     switchAuthtoProfile(){
-	const user = AuthState.getAuthUser();
-	console.log("user", user);
-	if(user){
+	const user = localStorage.getItem("user");
+	if(user && user !== "undefined"){
 	    this.header.authButtons.style.display = "none";
 	    this.header.profile.style.display = "flex";
 	}else{
@@ -30,6 +29,9 @@ class HeaderSystem{
 
 	if(!tokenStatus){
 	    localStorage.removeItem("user");
+	    const response = await apiFetch("GET", "http://localhost:8080/api/public/auth/refresh");
+	    console.log("refreshed: ", response);
+	    this.updateProfile();
 	    return; 
 	}
 
@@ -43,7 +45,7 @@ class HeaderSystem{
 	    if(!responseUser) return;
 	    
 	    localStorage.setItem("user", JSON.stringify(responseUser));
-	    this.header.profile.innerText = responseUser.name;
+	    this.header.profile.aProfile.innerText = responseUser.name;
 	}else{
 	    const localUser = localStorage.getItem("user");
 
@@ -51,7 +53,7 @@ class HeaderSystem{
 
 	    const objLocalUser = JSON.parse(localUser);
 	    AuthState.setAuthUser(objLocalUser);
-	    this.header.profile.innerText = objLocalUser.name; 
+	    this.header.profile.aProfile.innerText = objLocalUser.name; 
 	    
 	}
     }

@@ -12,13 +12,8 @@ class AuthRouterSystem{
 	fetch("http://localhost:8080/api/public/auth/login", { method: "POST" })
 	    .then(res => res.json())
 	    .then(data => window.location.href = data.url);
-	
     }
 
-    logout() {
-	window.location.href = "http://localhost:8080/api/public/auth/logout";
-	localStorage.removeItem("user");
-    }
 
 }
 

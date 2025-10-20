@@ -1,7 +1,7 @@
 import './style.css'
 import GameRouter from "./game/component/GameRouter.ts"  
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import Header from './component/Header.ts';
+import Header from './component/header/Header.ts';
 import AuthRouter from './auth/AuthRouter.ts';
 import AboutRouter from './about/AboutRouter.ts';
 import RouteSystem from './route/RouteSystem.ts';

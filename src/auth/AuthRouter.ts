@@ -11,7 +11,6 @@ class AuthRouter extends Box implements Component{
     authRouterSystem: AuthRouterSystem = new AuthRouterSystem(this);
 
     divAuth0: Box = new Box();
-	logoutTest: HTMLButtonElement = createElement("button", "logout") as HTMLButtonElement;
 	googleButton: HTMLButtonElement = createElement("button", "") as HTMLButtonElement;
 	    googleImg: HTMLImageElement = createElement("img") as HTMLImageElement;
 
@@ -35,7 +34,6 @@ class AuthRouter extends Box implements Component{
     connectElements(): void {
 	this.addChildren([
 	    this.loginBox,
-	    this.logoutTest,
 	    this.googleButton
 	]);
 
@@ -46,10 +44,6 @@ class AuthRouter extends Box implements Component{
 	this.googleButton.addEventListener("click", ()=>{
 	    this.authRouterSystem.login();
 	});
-
-	this.logoutTest.addEventListener("click", ()=>{
-	    this.authRouterSystem.logout();
-	})
     }
 
     styleElements(): void {

@@ -32,7 +32,7 @@ export async function checkToken() {
 
     if (!res.ok) {
 	if (res.status === 401) {
-	    console.log("Token is invalid or expired");
+	    console.error("Token is invalid or expired");
 	    return false;
 	}
 	throw new Error(`HTTP error: ${res.status}`);
@@ -43,7 +43,8 @@ export async function checkToken() {
     return data;
 
     } catch (err) {
-	console.error("Error checking token:", err);
+	// console.error("Error checking token:", err);
+	console.error("You are not authenticated");
 	return false; 
     }
 }
