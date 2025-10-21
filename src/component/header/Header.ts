@@ -2,7 +2,7 @@ import Box from "../../class/Box";
 import type { Component } from "../../class/Component";
 import RouteSystem from "../../route/RouteSystem";
 import { createElement } from "../../ui_system/Element";
-import { checkToken } from "../../utils/apiUtils";
+import { checkAccessToken } from "../../utils/apiUtils";
 import AuthState from "../../utils/authState";
 import HeaderSystem from "./../system/HeaderSystem";
 import Profile from "./Profile";
@@ -53,10 +53,11 @@ class Header implements Component{
 	await this.headerSystem.updateProfile();
 
 	this.headerSystem.switchAuthtoProfile();
+	const name = AuthState.getAuthUser()?.name;
 
-	const name = AuthState.getAuthUser().name;
 	if(!name) return;
-	this.profile.setProfileName(name);
+	console.log("name: ", name);
+	// this.profile.setProfileName(name);
     }
 
     connectElements(): void {
@@ -100,19 +101,9 @@ class Header implements Component{
 	    this.routeSystem.navigate("/about");
 	});
 
-	// this.profile..addEventListener("click", ()=>{
-	//     window.location.href = "http://localhost:8080/api/public/auth/logout";
-	//     localStorage.removeItem("user");
-	//     AuthState.setAuthUser(null);
-	//     this.headerSystem.switchAuthtoProfile();
-	// })
-
 	this.buttonTest.addEventListener("click", async()=>{
-	    // const response: Response<User> = await apiFetch("GET", "http://localhost:8080/api/private/AuthUser");
-	    // AuthState.setAuthUser(response.data);
-	    // console.log("user: ", AuthState.getAuthUser());
-	    //
-	    const response: boolean = await checkToken();
+
+	    const response: boolean = await checkAccessToken();
 	    console.log("response: ", response);
 	})
 

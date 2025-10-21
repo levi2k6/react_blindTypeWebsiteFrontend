@@ -1,4 +1,3 @@
-
 import type { Response } from "../utils/interfaces.ts"
 
 export async function apiFetch<T>(method: string, url: string) : Promise<Response<T>>{
@@ -23,16 +22,16 @@ export async function apiFetch<T>(method: string, url: string) : Promise<Respons
     }
 }
 
-export async function checkToken() {
+export async function apiToken(url: string, tokenType: string) {
     try {
-    const res = await fetch('http://localhost:8080/api/private/auth/checkToken', {
+	const res = await fetch(url , {
 	method: "GET",
 	credentials: 'include', 
     });
 
     if (!res.ok) {
 	if (res.status === 401) {
-	    console.error("Token is invalid or expired");
+	    console.error(`${tokenType} is invalid or expired`);
 	    return false;
 	}
 	throw new Error(`HTTP error: ${res.status}`);
@@ -43,10 +42,21 @@ export async function checkToken() {
     return data;
 
     } catch (err) {
-	// console.error("Error checking token:", err);
+	console.error(`Error checking ${tokenType}:`, err);
 	console.error("You are not authenticated");
 	return false; 
     }
 }
- 
+
+export async function checkAccessToken(){
+    const response = await apiToken("http://localhost:8080/api/private/auth/checkToken", "access_token");
+    return response; 
+}
+
+export async function refreshToken() {
+    const  response = await apiToken("http://localhost:8080/api/public/auth/refresh", "refresh_token");
+    return response;
+}
+
+
 

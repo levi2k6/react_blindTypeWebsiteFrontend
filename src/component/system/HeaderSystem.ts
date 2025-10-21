@@ -1,6 +1,6 @@
 import Header from "../header/Header";
 
-import { apiFetch, checkToken } from "../../utils/apiUtils";
+import { apiFetch, checkAccessToken, refreshToken } from "../../utils/apiUtils";
 import type { Response, User } from "../../utils/interfaces";
 import AuthState from "../../utils/authState";
 
@@ -25,18 +25,26 @@ class HeaderSystem{
     }
 
     async updateProfile(){
-	const tokenStatus = await checkToken();
+	const tokenStatus = await checkAccessToken();
 
 	if(!tokenStatus){
 	    localStorage.removeItem("user");
-	    const response = await apiFetch("GET", "http://localhost:8080/api/public/auth/refresh");
-	    console.log("refreshed: ", response);
+	    const response = await refreshToken();
+	    if(!response){
+		return;
+	    }
+
 	    this.updateProfile();
 	    return; 
 	}
 
+	await this.setCurrentUser();
+    }
+
+    private async setCurrentUser(){
 	const user = localStorage.getItem("user");
 
+	console.log("user: ", user);
 	if(!user){
 	    const response: Response<User> = await apiFetch("GET", "http://localhost:8080/api/private/AuthUser");
 	    AuthState.setAuthUser(response.data);
@@ -53,11 +61,9 @@ class HeaderSystem{
 
 	    const objLocalUser = JSON.parse(localUser);
 	    AuthState.setAuthUser(objLocalUser);
-	    this.header.profile.aProfile.innerText = objLocalUser.name; 
-	    
+	    this.header.profile.setProfileName(objLocalUser.name); 
 	}
     }
-
 
 
 }
