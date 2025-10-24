@@ -4,8 +4,6 @@ import { ChallengeType } from "../../../utils/enums";
 
 export async function getStringChallenge(type: ChallengeType, amount: number) : Promise<Challenge[]>{
     try{
-	// const response = await apiFetch<Challenge[]>("GET", `http://localhost:8080/Game/sentence/challenge?amount=${amount}`);
-	//
 	const typeString = ChallengeType[type].toLowerCase();
 	const response: Response<Challenge[]> | undefined = await apiFetch("GET", `http://localhost:8080/api/public/game/${typeString}/challenge/random?amount=${amount}`);
 	return response.data; 

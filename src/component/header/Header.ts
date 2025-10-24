@@ -7,7 +7,6 @@ import AuthState from "../../utils/authState";
 import HeaderSystem from "./../system/HeaderSystem";
 import Profile from "./Profile";
 
-
 class Header implements Component{
 
     header: HTMLDivElement = document.querySelector<HTMLDivElement>("#header")!; 
