@@ -30,12 +30,15 @@ class HeaderSystem{
 	if(!tokenStatus){
 	    localStorage.removeItem("user");
 	    const response = await refreshToken();
-	    if(!response){
+	    if(!response.data){
 		return;
 	    }
 
-	    this.updateProfile();
-	    return; 
+	    const tokenStatus = await checkAccessToken();
+	    if(!tokenStatus.data){
+		console.warn("Waring in HeaderSystem updateProfile()");
+		return;
+	    }
 	}
 
 	await this.setCurrentUser();

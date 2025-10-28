@@ -9,9 +9,7 @@ class AuthRouterSystem{
     }
 
     async login() {
-	fetch("http://localhost:8080/api/public/auth0/login", { method: "POST" })
-	    .then(res => res.json())
-	    .then(data => window.location.href = data.url);
+	window.location.href = "http://localhost:8080/api/public/auth0/login";
     }
 
 
