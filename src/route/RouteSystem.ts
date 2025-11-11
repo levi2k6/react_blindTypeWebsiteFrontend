@@ -4,6 +4,8 @@ import GameRouter from "../game/component/GameRouter";
 import AuthRouter from "../auth/AuthRouter";
 import Box from "../class/Box";
 import AboutRouter from "../about/AboutRouter";
+import type VerifyFailedRouter from "../email_verification/VerifyFailedEmailRouter";
+import type AlreadyVerifiedEmailRouter from "../email_verification/AlreadyVerifiedRouter";
 
 class RouteSystem{
 
@@ -16,16 +18,21 @@ class RouteSystem{
     gameRouter: GameRouter;
     aboutRouter: AboutRouter;
     authRouter: AuthRouter;
-
+    verifyFailedRouter: VerifyFailedRouter;
+    alreadyVerifiedEmailRouter: AlreadyVerifiedEmailRouter;
 
     constructor(
 	gameRouter: GameRouter,
 	aboutRouter: AboutRouter,
-	authRouter: AuthRouter
+	authRouter: AuthRouter,
+	verifyFailedRouter: VerifyFailedRouter,
+	alreadyVerifiedEmailRouter: AlreadyVerifiedEmailRouter
     ){
 	this.gameRouter = gameRouter;
 	this.aboutRouter = aboutRouter;
 	this.authRouter = authRouter;
+	this.verifyFailedRouter = verifyFailedRouter;
+	this.alreadyVerifiedEmailRouter = alreadyVerifiedEmailRouter;
 	this.initRouteSystem();
     };
 
@@ -39,6 +46,9 @@ class RouteSystem{
 	})
 	.on("/auth", ()=> {
 	    this.addAppElement(this.authRouter);
+	})
+	.on("/verify_failed", ()=>{
+	    this.addAppElement(this.verifyFailedRouter);
 	})
 	.resolve();
     }
