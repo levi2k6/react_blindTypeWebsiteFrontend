@@ -1,6 +1,13 @@
 import type { GameConfig } from "./types";
 
+
+export interface LoginDTO{
+    username: string; 
+    password: string;
+}
+
 export interface Response<T>{
+    success: boolean;
     message: string;
     data: T;
 }

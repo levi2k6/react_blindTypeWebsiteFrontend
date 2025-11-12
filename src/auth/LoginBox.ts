@@ -1,6 +1,7 @@
 import Box from "../class/Box";
 import type { Component } from "../class/Component";
 import { createElement } from "../ui_system/Element";
+import LoginBoxSystem from "./system/LoginBoxSystem";
 
 
 class LoginBox extends  Box implements Component{
@@ -15,6 +16,9 @@ class LoginBox extends  Box implements Component{
 	passwordInput: HTMLInputElement = createElement("input") as HTMLInputElement;
 
     loginButton: HTMLButtonElement = createElement("button", "Login") as HTMLButtonElement;
+
+    loginBoxSystem: LoginBoxSystem = new LoginBoxSystem();
+
 
     constructor(name: string){
 	super(name);
@@ -47,7 +51,13 @@ class LoginBox extends  Box implements Component{
     }
 
     eventElements(): void {
-        
+	this.loginButton.addEventListener("click", ()=>{
+	    console.log("Auth login")
+	    const username = this.usernameInput.value;
+	    const password = this.passwordInput.value;
+
+	    this.loginBoxSystem.authenticate(username, password);
+	})
     }
 
     styleElements(): void {
