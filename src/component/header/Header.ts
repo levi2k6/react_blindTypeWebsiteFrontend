@@ -2,8 +2,9 @@ import Box from "../../class/Box";
 import type { Component } from "../../class/Component";
 import RouteSystem from "../../route/RouteSystem";
 import { createElement } from "../../ui_system/Element";
-import { checkAccessToken } from "../../utils/apiUtils";
+import { apiFetch, checkAccessToken } from "../../utils/apiUtils";
 import AuthState from "../../utils/authState";
+import type { Response, User } from "../../utils/interfaces";
 import HeaderSystem from "./../system/HeaderSystem";
 import Profile from "./Profile";
 
@@ -101,8 +102,8 @@ class Header implements Component{
 	});
 
 	this.buttonTest.addEventListener("click", async()=>{
-
-	    const response: boolean = await checkAccessToken();
+	    // const response: boolean = await checkAccessToken();
+	    const response: Response<User> = await apiFetch("GET", "http://localhost:8080/api/v1/private/auth/auth-user");
 	    console.log("response: ", response);
 	})
 

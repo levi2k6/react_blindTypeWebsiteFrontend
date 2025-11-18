@@ -3,7 +3,6 @@ import type { Component } from "../class/Component";
 import { createElement } from "../ui_system/Element";
 import LoginBoxSystem from "./system/LoginBoxSystem";
 
-
 class LoginBox extends  Box implements Component{
 
     h1: HTMLElement = createElement("h1", "Login");
@@ -16,8 +15,9 @@ class LoginBox extends  Box implements Component{
 	passwordInput: HTMLInputElement = createElement("input") as HTMLInputElement;
 
     loginButton: HTMLButtonElement = createElement("button", "Login") as HTMLButtonElement;
+    loginMessage: HTMLElement = createElement("label", "message");
 
-    loginBoxSystem: LoginBoxSystem = new LoginBoxSystem();
+    loginBoxSystem: LoginBoxSystem = new LoginBoxSystem(this);
 
 
     constructor(name: string){
@@ -46,7 +46,8 @@ class LoginBox extends  Box implements Component{
 		this.passwordLabel,
 		this.passwordInput
 	    ]),
-	    this.loginButton
+	    this.loginButton,
+	    this.loginMessage
 	]);
     }
 
@@ -80,7 +81,7 @@ class LoginBox extends  Box implements Component{
 	this.passwordLabel.style.marginTop = "30px";
 
 	this.loginButton.style.marginTop = "30px";
-
+	this.loginMessage.style.color = "red";
     }
 }
 

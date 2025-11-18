@@ -51,7 +51,7 @@ class Profile extends Box implements Component {
         });
 
 	this.logout.addEventListener("click", ()=>{
-	    window.location.href = "http://localhost:8080/api/public/auth0/logout";
+	    window.location.href = "http://localhost:8080/api/v1/public/auth0/logout";
 	    localStorage.removeItem("user");
 	    AuthState.setAuthUser(null);
 	    this.header.headerSystem.switchAuthtoProfile();

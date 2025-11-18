@@ -1,17 +1,22 @@
 import { apiFetch } from "../../utils/apiUtils";
 import type { LoginDTO } from "../../utils/interfaces";
+import type LoginBox from "../LoginBox";
 
 
 
 
 class LoginBoxSystem{
 
-    public constructor(){
+    loginBox: LoginBox;
+
+    public constructor(loginBox: LoginBox){
+	this.loginBox = loginBox; 
     } 
 
     public async authenticate(username: string, password: string) {
 	try {
 	    const loginUrl = import.meta.env.VITE_LOGIN_URL;
+	    console.log("loginUrl: ", loginUrl);
 
 	    const loginDto: LoginDTO = {
 		username: username,
@@ -37,6 +42,7 @@ class LoginBoxSystem{
 	    }
 
 	    if (!response.ok) {
+		this.loginBox.loginMessage.innerText = data?.message;
 		throw new Error(data?.message || "Login failed");
 	    }
 

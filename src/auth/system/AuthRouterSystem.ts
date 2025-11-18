@@ -9,7 +9,7 @@ class AuthRouterSystem{
     }
 
     async login() {
-	window.location.href = "http://localhost:8080/api/public/auth0/login";
+	window.location.href = "http://localhost:8080/api/v1/public/auth0/login";
     }
 
 

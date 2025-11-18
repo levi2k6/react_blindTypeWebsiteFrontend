@@ -49,7 +49,7 @@ class HeaderSystem{
 
 	console.log("user: ", user);
 	if(!user){
-	    const response: Response<User> = await apiFetch("GET", "http://localhost:8080/api/private/AuthUser");
+	    const response: Response<User> = await apiFetch("GET", "http://localhost:8080/api/v1/private/auth0/aut-user");
 	    AuthState.setAuthUser(response.data);
 	    const responseUser: User | null = AuthState.getAuthUser();
 
