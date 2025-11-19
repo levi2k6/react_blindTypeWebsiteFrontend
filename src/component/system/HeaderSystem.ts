@@ -3,11 +3,14 @@ import Header from "../header/Header";
 import { apiFetch, checkAccessToken, refreshToken } from "../../utils/apiUtils";
 import type { Response, User } from "../../utils/interfaces";
 import AuthState from "../../utils/authState";
+import type RouteSystem from "../../route/RouteSystem";
 
 
 class HeaderSystem{
 
     header: Header;
+
+    routeSystem: RouteSystem | undefined;
 
     constructor(header: Header){
 	this.header = header;
@@ -49,7 +52,7 @@ class HeaderSystem{
 
 	console.log("user: ", user);
 	if(!user){
-	    const response: Response<User> = await apiFetch("GET", "http://localhost:8080/api/v1/private/auth0/aut-user");
+	    const response: Response<User> = await apiFetch("GET", "http://localhost:8080/api/v1/private/user/auth-user");
 	    AuthState.setAuthUser(response.data);
 	    const responseUser: User | null = AuthState.getAuthUser();
 

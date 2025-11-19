@@ -29,6 +29,7 @@ async function Main(){
 
     console.log("Setting routeSystem");
     header.setRouteSystem(routeSystem);
+    authRouter.setRouteSystem(routeSystem);
     console.log("Route system set");
 }
 

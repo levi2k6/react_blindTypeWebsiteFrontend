@@ -36,10 +36,7 @@ class Header implements Component{
     }
 
     setRouteSystem(routeSystem: RouteSystem){
-	console.log("setRouteSystem: ", routeSystem);
-	console.log("this is oviously working");
-	this.routeSystem = routeSystem; 
-	console.log("routeSystem:::: ", this.routeSystem);
+	this.routeSystem = routeSystem;
     }
 
     init(){
@@ -103,7 +100,7 @@ class Header implements Component{
 
 	this.buttonTest.addEventListener("click", async()=>{
 	    // const response: boolean = await checkAccessToken();
-	    const response: Response<User> = await apiFetch("GET", "http://localhost:8080/api/v1/private/auth/auth-user");
+	    const response: Response<User> = await apiFetch("GET", "http://localhost:8080/api/v1/private/user/auth-user");
 	    console.log("response: ", response);
 	})
 

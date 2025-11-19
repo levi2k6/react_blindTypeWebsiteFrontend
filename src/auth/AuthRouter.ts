@@ -1,23 +1,29 @@
+import type { Route, RouterOptions } from "navigo";
 import Box from "../class/Box";
 import type { Component } from "../class/Component";
 import { createElement } from "../ui_system/Element";
 import LoginBox from "./LoginBox";
 import AuthRouterSystem from "./system/AuthRouterSystem";
+import type RouteSystem from "../route/RouteSystem";
 
 class AuthRouter extends Box implements Component{
 
-    loginBox: LoginBox = new LoginBox("LoginBox");
+    public loginBox: LoginBox = new LoginBox("LoginBox");
 
-    authRouterSystem: AuthRouterSystem = new AuthRouterSystem(this);
+    public authRouterSystem: AuthRouterSystem = new AuthRouterSystem(this);
 
-    divAuth0: Box = new Box();
-	googleButton: HTMLButtonElement = createElement("button", "") as HTMLButtonElement;
-	    googleImg: HTMLImageElement = createElement("img") as HTMLImageElement;
+    public divAuth0: Box = new Box();
+	public googleButton: HTMLButtonElement = createElement("button", "") as HTMLButtonElement;
+	public googleImg: HTMLImageElement = createElement("img") as HTMLImageElement;
 
     constructor( name: string){
 	super(name);
 
 	this.init()
+    }
+
+    setRouteSystem(routeSystem: RouteSystem){
+	this.loginBox.setRouteSystem(routeSystem);
     }
 
     init(): void{

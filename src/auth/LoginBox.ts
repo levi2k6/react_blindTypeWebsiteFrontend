@@ -1,9 +1,12 @@
+import type { RouterOptions } from "navigo";
 import Box from "../class/Box";
 import type { Component } from "../class/Component";
 import { createElement } from "../ui_system/Element";
 import LoginBoxSystem from "./system/LoginBoxSystem";
+import type RouteSystem from "../route/RouteSystem";
 
 class LoginBox extends  Box implements Component{
+    routeSytem: RouteSystem | undefined;
 
     h1: HTMLElement = createElement("h1", "Login");
 
@@ -17,12 +20,16 @@ class LoginBox extends  Box implements Component{
     loginButton: HTMLButtonElement = createElement("button", "Login") as HTMLButtonElement;
     loginMessage: HTMLElement = createElement("label", "message");
 
-    loginBoxSystem: LoginBoxSystem = new LoginBoxSystem(this);
+    loginBoxSystem: LoginBoxSystem = new LoginBoxSystem(this, );
 
 
     constructor(name: string){
 	super(name);
 	this.init();
+    }
+
+    setRouteSystem(routeSystem: RouteSystem){
+	this.routeSytem = routeSystem;
     }
 
     init(){

@@ -1,7 +1,8 @@
 import { createElement } from "../ui_system/Element";
+import type { Component } from "./Component";
 import System from "./System";
 
-class Box{
+class Box implements Component{
     private name: string | undefined = "";
     private element = createElement("div");
 
@@ -31,11 +32,11 @@ class Box{
 	this.componentSystem = system;
     }
     
-    init(funcs: Array<Function>){
-	funcs.forEach(func => {
-	    func();
-	})
-    }
+	//    init(funcs: Array<Function>){
+	// funcs.forEach(func => {
+	//     func();
+	// })
+	//    }
 
     addChild( child : HTMLElement | Box): HTMLElement{
 	    if(child instanceof HTMLElement){
