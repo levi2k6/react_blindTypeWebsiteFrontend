@@ -29,6 +29,7 @@ class HeaderSystem{
 
     async updateProfile(){
 	const tokenStatus = await checkAccessToken();
+	console.log("tokenStatus: ", tokenStatus);
 
 	if(!tokenStatus){
 	    localStorage.removeItem("user");
@@ -39,7 +40,7 @@ class HeaderSystem{
 
 	    const tokenStatus = await checkAccessToken();
 	    if(!tokenStatus.data){
-		console.warn("Waring in HeaderSystem updateProfile()");
+		console.warn("Warning in HeaderSystem updateProfile()");
 		return;
 	    }
 	}

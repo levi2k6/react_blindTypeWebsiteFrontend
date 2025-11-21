@@ -50,6 +50,7 @@ export async function apiToken(url: string, tokenType: string) {
 
 export async function checkAccessToken(){
     const response = await apiToken("http://localhost:8080/api/v1/private/auth0/checkToken", "access_token");
+
     return response; 
 }
 

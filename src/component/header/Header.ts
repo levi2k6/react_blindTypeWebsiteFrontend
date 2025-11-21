@@ -100,7 +100,9 @@ class Header implements Component{
 
 	this.buttonTest.addEventListener("click", async()=>{
 	    // const response: boolean = await checkAccessToken();
-	    const response: Response<User> = await apiFetch("GET", "http://localhost:8080/api/v1/private/user/auth-user");
+	    // const response: Response<User> = await apiFetch("GET", "http://localhost:8080/api/v1/private/user/auth-user");
+	    const response = await apiToken("http://localhost:8080/api/v1/private/auth0/checkToken", "access_token");
+
 	    console.log("response: ", response);
 	})
 
