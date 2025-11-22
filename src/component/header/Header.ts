@@ -2,7 +2,7 @@ import Box from "../../class/Box";
 import type { Component } from "../../class/Component";
 import RouteSystem from "../../route/RouteSystem";
 import { createElement } from "../../ui_system/Element";
-import { apiFetch, checkAccessToken } from "../../utils/apiUtils";
+import { apiFetch, apiToken, checkAccessToken } from "../../utils/apiUtils";
 import AuthState from "../../utils/authState";
 import type { Response, User } from "../../utils/interfaces";
 import HeaderSystem from "./../system/HeaderSystem";
