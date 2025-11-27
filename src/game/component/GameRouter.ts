@@ -1,5 +1,5 @@
 import { createElement } from "../../ui_system/Element.ts";
-import { ChallengeType } from "../../utils/enums.ts";
+import { ChallengeType } from "../../utils/enums/ChallengeTypeEnum.ts";
 
 import Box from "../../class/Box.ts";
 

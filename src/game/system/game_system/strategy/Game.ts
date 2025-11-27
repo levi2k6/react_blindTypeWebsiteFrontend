@@ -1,4 +1,4 @@
-import type { Challenge } from "../../../../utils/interfaces";
+// import type { Challenge } from "../../../../utils/interfaces";
 
 abstract class Game{
     public abstract getName(): string; 

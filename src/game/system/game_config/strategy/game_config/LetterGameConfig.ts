@@ -1,4 +1,4 @@
-import type { GameConfig } from "../../../../utils/types";
+import type { GameConfig } from "../../../../../utils/types/GameConfigType";
 import type { GameConfigStrategy } from "./GameConfigStrategy";
 
 class LetterGameConfig implements GameConfigStrategy{

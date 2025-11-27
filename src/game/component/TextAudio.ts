@@ -1,6 +1,5 @@
 import Box from "../../class/Box";
 import type { Component } from "../../class/Component";
-import type Visualizer from "../../component/Visualizer";
 import { createElement } from "../../ui_system/Element";
 import TextAudioSystem from "../system/component_system/TextAudioSystem";
 import type GameSystem from "../system/game_system/GameSystem";

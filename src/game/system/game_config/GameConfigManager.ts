@@ -1,5 +1,5 @@
-import { ChallengeType } from "../../../utils/enums";
-import type { GameConfig } from "../../../utils/types";
+import { ChallengeType } from "../../../utils/enums/ChallengeTypeEnum";
+import type { GameConfig } from "../../../utils/types/GameConfigType";
 import GameConfigRegistry from "./GameConfigRegistry";
 import type { GameConfigStrategy } from "./strategy/game_config/GameConfigStrategy";
 
@@ -12,7 +12,7 @@ class GameConfigManager{
 	this.gameConfigRegistry = new GameConfigRegistry();
     }
 
-    public getCurrentGameConfig(){
+    public getCurrentGameConfig(): GameConfig | undefined{
 	return this.currentGameConfig?.getGameConfig(); 
     } 
 

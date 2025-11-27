@@ -1,4 +1,4 @@
-import { ChallengeType } from "../../../utils/enums";
+import { ChallengeType } from "../../../utils/enums/ChallengeTypeEnum";
 import type { Challenge } from "../../../utils/interfaces";
 import GameSystem from "./GameSystem";
 import Game from "./strategy/Game";

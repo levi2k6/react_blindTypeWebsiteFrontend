@@ -2,11 +2,12 @@ import GameRouter from "../../component/GameRouter";
 
 import Timer from "../Timer";
 
-import { ChallengeType } from "../../../utils/enums";
+import { ChallengeType } from "../../../utils/enums/ChallengeTypeEnum";
 import type Game from "./strategy/Game";
 import GameRegistry from "./GameRegistry";
 import GameConfigManager from "../game_config/GameConfigManager";
 import type Visualizer from "../../../component/Visualizer";
+import type { GameConfig } from "../../../utils/types/GameConfigType";
 
 class GameSystem{
 
@@ -48,7 +49,12 @@ class GameSystem{
     async gameStart(){
 	//gameConfigManager setup
 	this.gameConfigManager.setGameConfig(this.type);
-	this.isContinuous = this.gameConfigManager.getCurrentGameConfig().continuous;
+	const currentGameConfig: GameConfig | undefined = this.gameConfigManager?.getCurrentGameConfig(); 
+	if(currentGameConfig == undefined){
+	    console.error("Failed to ");
+	    return;
+	}
+	this.isContinuous = currentGameConfig.continuous;
 	console.log("isContinuous: ", this.isContinuous);
 
 	this.gameInit();

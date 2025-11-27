@@ -2,9 +2,8 @@ import Box from "../../class/Box";
 import type { Component } from "../../class/Component";
 import RouteSystem from "../../route/RouteSystem";
 import { createElement } from "../../ui_system/Element";
-import { apiFetch, apiToken, checkAccessToken } from "../../utils/apiUtils";
+import { apiToken } from "../../utils/apiUtils";
 import AuthState from "../../utils/authState";
-import type { Response, User } from "../../utils/interfaces";
 import HeaderSystem from "./../system/HeaderSystem";
 import Profile from "./Profile";
 

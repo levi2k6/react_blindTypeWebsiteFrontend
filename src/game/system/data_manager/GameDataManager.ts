@@ -1,6 +1,6 @@
 import type { Response, Challenge } from "../../../utils/interfaces"; 
 import { apiFetch } from "../../../utils/apiUtils";
-import { ChallengeType } from "../../../utils/enums";
+import { ChallengeType } from "../../../utils/enums/ChallengeTypeEnum";
 
 export async function getStringChallenge(type: ChallengeType, amount: number) : Promise<Challenge[]>{
     try{

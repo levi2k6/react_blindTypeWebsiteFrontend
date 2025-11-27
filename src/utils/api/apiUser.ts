@@ -1,6 +1,4 @@
-import type { Response } from "../interfaces";
 import { Api } from "./Api";
-import FetchBuilder from "./ApiBuilder";
 
 const userUri = import.meta.env.VITE_USER_URI; 
 const headers = {"Content-Type": "application/json"}

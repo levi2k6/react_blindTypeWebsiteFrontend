@@ -1,4 +1,4 @@
-import { ChallengeType } from "../../../utils/enums";
+import { ChallengeType } from "../../../utils/enums/ChallengeTypeEnum";
 import type { GameConfigStrategy } from "./strategy/game_config/GameConfigStrategy";
 import LetterGameConfig from "./strategy/game_config/LetterGameConfig";
 import SentenceGameConfig from "./strategy/game_config/SentenceGameConfig";

@@ -1,9 +1,8 @@
 import Box from "../../../class/Box";
 import { createElement } from "../../../ui_system/Element";
-import { ChallengeType } from "../../../utils/enums";
-import type { GameConfig } from "../../../utils/types";
+import { ChallengeType } from "../../../utils/enums/ChallengeTypeEnum";
+import type { GameConfig } from "../../../utils/types/GameConfigType";
 import GameConfigModal from "../../component/GameConfigModal";
-import GameRouter from "../../component/GameRouter";
 import GameConfigManager from "../game_config/GameConfigManager";
 
 class GameConfigModalSystem{

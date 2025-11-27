@@ -1,4 +1,3 @@
-import type { RouterOptions } from "navigo";
 import Box from "../class/Box";
 import type { Component } from "../class/Component";
 import { createElement } from "../ui_system/Element";

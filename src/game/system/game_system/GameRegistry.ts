@@ -1,4 +1,4 @@
-import { ChallengeType } from "../../../utils/enums";
+import { ChallengeType } from "../../../utils/enums/ChallengeTypeEnum";
 import GameRouter from "../../component/GameRouter";
 import type GameConfigManager from "../game_config/GameConfigManager";
 import Timer from "../Timer";

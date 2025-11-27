@@ -1,8 +1,7 @@
 import { createElement } from "../ui_system/Element";
-import type { Component } from "./Component";
 import System from "./System";
 
-class Box implements Component{
+class Box {
     private name: string | undefined = "";
     private element = createElement("div");
 

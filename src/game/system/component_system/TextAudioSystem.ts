@@ -1,6 +1,5 @@
-import { ChallengeType } from "../../../utils/enums";
+import { ChallengeType } from "../../../utils/enums/ChallengeTypeEnum";
 import TextAudio from "../../component/TextAudio";
-import type GameSystem from "../game_system/GameSystem";
 
 class TextAudioSystem{
 

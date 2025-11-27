@@ -1,4 +1,4 @@
-import type { GameConfig } from "./types";
+import type { GameConfig } from "./types/GameConfigType";
 
 
 export interface LoginDTO{

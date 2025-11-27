@@ -6,7 +6,7 @@ import GameConfigManager from "../system/game_config/GameConfigManager";
 
     import InputCreator from "../../ui_system/InputCreator";
 import type InputElementCreator from "../../ui_system/InputCreator";
-import type { GameConfig } from "../../utils/types";
+import type { GameConfig } from "../../utils/types/GameConfigType";
 
 class GameConfigModal extends Box implements Component{
 

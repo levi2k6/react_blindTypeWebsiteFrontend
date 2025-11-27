@@ -6,7 +6,6 @@ import AuthRouter from './auth/AuthRouter.ts';
 import AboutRouter from './about/AboutRouter.ts';
 import RouteSystem from './route/RouteSystem.ts';
 import VerifyFailedEmailRouter from './email_verification/VerifyFailedEmailRouter.ts';
-import AlreadyVerified from './email_verification/AlreadyVerifiedRouter.ts';
 import AlreadyVerifiedEmailRouter from './email_verification/AlreadyVerifiedRouter.ts';
 
 async function Main(){

@@ -1,7 +1,7 @@
 import GameRouter from "../../component/GameRouter";
 import GameSystem from "../game_system/GameSystem";
 import Input from "../Input";
-import { ChallengeType } from "../../../utils/enums";
+import { ChallengeType } from "../../../utils/enums/ChallengeTypeEnum";
 import GameConfigManager from "../game_config/GameConfigManager";
 import type Visualizer from "../../../component/Visualizer";
 

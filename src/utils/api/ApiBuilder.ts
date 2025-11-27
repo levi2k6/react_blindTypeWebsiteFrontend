@@ -1,4 +1,3 @@
-import { Response } from "../interfaces";
 import { Api } from "./Api";
 
 export class ApiBuilder {
