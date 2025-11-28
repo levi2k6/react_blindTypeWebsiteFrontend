@@ -64,15 +64,25 @@ class GameConfigModalSystem{
 	const inputDifficulty = this.gameConfigModal.inputDifficulty.self.children[0] as HTMLSelectElement;
 	const inputMultiple = this.gameConfigModal.inputMultiple.self.children[0] as HTMLInputElement;
 	const inputContinuous = this.gameConfigModal.inputContinuous.self.children[0] as HTMLSelectElement;
-	console.log("one: ", inputDifficulty);
-	console.log("two: ", inputMultiple);
-	console.log("one: ", inputContinuous);
 
 	this.gameConfigManager?.setGameConfig(challengeType); 
 	console.log("gameconfigmanager: ",this.gameConfigManager?.getCurrentGameConfig());
-	inputDifficulty.value = this.gameConfigManager?.getCurrentGameConfig().difficulty;
-	inputMultiple.value = this.gameConfigManager?.getCurrentGameConfig().multiple;
-	inputContinuous.value = this.gameConfigManager?.getCurrentGameConfig().continuous;
+	const currentGameConfig = this.gameConfigManager?.getCurrentGameConfig();
+	if(currentGameConfig == undefined){
+	    return;
+	}
+
+	inputDifficulty.value = currentGameConfig.difficulty;
+	inputMultiple.value = currentGameConfig.multiple.toString();
+
+
+	let continuousValue: "true" | "false";   
+	if(currentGameConfig.continuous){
+	    continuousValue = "true";
+	}else{
+	    continuousValue = "false";
+	}
+	inputContinuous.value = continuousValue;
     }
 
 

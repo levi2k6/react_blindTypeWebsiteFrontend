@@ -1,5 +1,4 @@
 import { ChallengeType } from "../../../utils/enums/ChallengeTypeEnum";
-import type { Challenge } from "../../../utils/interfaces";
 import GameSystem from "./GameSystem";
 import Game from "./strategy/Game";
 
@@ -16,8 +15,8 @@ class GameManager{
 	this.games.set(type, game);
     }
 
-    public gameInit(challenges: Challenge[]){
-	this.games.get(this.gameSystem.getType())!.gameInit(challenges);
+    public gameInit(){
+	this.games.get(this.gameSystem.getType())!.gameInit();
     }
 
     public guessLetter(playerInput: string){
