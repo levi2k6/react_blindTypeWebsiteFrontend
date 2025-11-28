@@ -1,10 +1,9 @@
 import Box from "../../class/Box";
-import type { Component } from "../../class/Component";
 import { createElement } from "../../ui_system/Element";
 import TextAudioSystem from "../system/component_system/TextAudioSystem";
 import type GameSystem from "../system/game_system/GameSystem";
 
-class TextAudio extends Box implements Component{
+class TextAudio extends Box{
 
     public audio: HTMLAudioElement = createElement("audio") as HTMLAudioElement;
     public audioDing: HTMLAudioElement = createElement("audio") as HTMLAudioElement;
@@ -24,14 +23,6 @@ class TextAudio extends Box implements Component{
     constructor(name : string){
 	super(name)
 	this.textAudioSystem = new TextAudioSystem(this);
-	this.init();
-    }
-
-    init(){
-	this.initElements();
-	this.connectElements();
-	this.eventElements();
-	this.styleElements();
     }
 
     initElements(): void{

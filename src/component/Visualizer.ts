@@ -1,18 +1,17 @@
-
-import type { Component } from "../class/Component";
+import Component from "../class/Component";
 import VisualizerSystem from "./system/VisualizerSystem";
 
-class Visualizer implements Component {
+class Visualizer extends Component {
 
     audio: HTMLAudioElement;
-    canvas: HTMLCanvasElement = document.querySelector<HTMLCanvasElement>("#visualizer")!; 
 
     private visualizerSystem: VisualizerSystem;
 
     constructor(audio: HTMLAudioElement){
+	const mainElement: HTMLCanvasElement = document.querySelector<HTMLCanvasElement>("#visualizer")!; 
+	super(mainElement);
 	this.audio = audio;
-	this.visualizerSystem = new VisualizerSystem(this.audio, this.canvas); 
-	this.init()
+	this.visualizerSystem = new VisualizerSystem(this.audio, this.self as HTMLCanvasElement); 
     }
 
     get system(){
@@ -20,21 +19,14 @@ class Visualizer implements Component {
     } 
 
 
-    init(): void{
-	this.initElements();
-	this.connectElements();
-	this.eventElements();
-	this.styleElements();
-    }
-
-    initElements(): void{
+    override initElements(): void{
 
     }
 
-    connectElements(): void{
+    override connectElements(): void{
     }
 
-    eventElements(): void{
+    override eventElements(): void{
 	window.addEventListener("resize", () => this.visualizerSystem.resize());
 	this.audio.addEventListener("play", async ()=> {
 	    await this.visualizerSystem.getAudioCtx().resume();
@@ -42,17 +34,16 @@ class Visualizer implements Component {
 	});
     }
 
-    styleElements(): void{
-	const style = this.canvas.style;
+    override styleElements(): void{
 
 	// style.background = "red";
-	style.position = "fixed"; 
-	style.top = "0";
-	style.left = "0";
-	style.width = "100vw";
-	style.height = "100vh";
-	style.zIndex = "-1";
-	style.pointerEvents = "none";
+	this.style.position = "fixed"; 
+	this.style.top = "0";
+	this.style.left = "0";
+	this.style.width = "100vw";
+	this.style.height = "100vh";
+	this.style.zIndex = "-1";
+	this.style.pointerEvents = "none";
     }
 
 

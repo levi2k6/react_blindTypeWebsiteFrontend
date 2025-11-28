@@ -1,4 +1,3 @@
-import type { Component } from "../../class/Component";
 import Box from "../../class/Box";
 import { createElement } from "../../ui_system/Element";
 import GameConfigModalSystem from "../system/game_modal/GameConfigModalSystem";
@@ -8,7 +7,7 @@ import GameConfigManager from "../system/game_config/GameConfigManager";
 import type InputElementCreator from "../../ui_system/InputCreator";
 import type { GameConfig } from "../../utils/types/GameConfigType";
 
-class GameConfigModal extends Box implements Component{
+class GameConfigModal extends Box{
 
     gameConfigManager: GameConfigManager | undefined;
     gameConfigModalSystem: GameConfigModalSystem | undefined;
@@ -37,22 +36,11 @@ class GameConfigModal extends Box implements Component{
 
     constructor(gameConfigManager: GameConfigManager){
 	super();
-	console.log("HEEEERERERERER: ", gameConfigManager);
 	this.gameConfigManager = gameConfigManager; 
 	this.gameConfigModalSystem = new GameConfigModalSystem(this, this.gameConfigManager);
-	this.init();
     }
 
-
-
-    init(){
-	this.initElements();
-	this.connectElements();
-	this.eventElements();
-	this.styleElements();
-    }
-
-    connectElements(): void {
+    override connectElements(): void {
 	this.addChildren([
 	    this.div1.addChild(
 		this.divForm.addChildren([
@@ -78,12 +66,12 @@ class GameConfigModal extends Box implements Component{
 
     }
 
-    initElements(): void{
+    override initElements(): void{
 	this.inputMultipleChild.min = "1"; 
 	this.inputMultipleChild.max = "10"; 
     }
 
-    eventElements(): void {
+    override eventElements(): void {
 	this.apply.addEventListener("click", ()=>{
 	    const difficutlyData = this.inputDifficultyChild.value as "easy" | "normal" | "hard";
 	    const multipleData = Number(this.inputMultipleChild.value);
@@ -103,7 +91,7 @@ class GameConfigModal extends Box implements Component{
 	});
     }
 
-    styleElements(): void {
+    override styleElements(): void {
 	this.style.position = "fixed"
 	this.style.height = "400px";
 	this.style.width = "400px";

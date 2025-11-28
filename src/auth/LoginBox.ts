@@ -1,10 +1,9 @@
 import Box from "../class/Box";
-import type { Component } from "../class/Component";
 import { createElement } from "../ui_system/Element";
 import LoginBoxSystem from "./system/LoginBoxSystem";
 import type RouteSystem from "../route/RouteSystem";
 
-class LoginBox extends  Box implements Component{
+class LoginBox extends  Box{
     routeSytem: RouteSystem | undefined;
 
     h1: HTMLElement = createElement("h1", "Login");
@@ -24,26 +23,18 @@ class LoginBox extends  Box implements Component{
 
     constructor(name: string){
 	super(name);
-	this.init();
     }
 
     setRouteSystem(routeSystem: RouteSystem){
 	this.routeSytem = routeSystem;
     }
 
-    init(){
-	this.initElements();
-	this.connectElements();
-	this.eventElements();
-	this.styleElements();
-    }
-
-    initElements(): void {
+    override initElements(): void {
 	this.usernameInput.type = "text";
 	this.passwordInput.type = "password";
     }
 
-    connectElements(): void {
+    override connectElements(): void {
 	this.addChildren([
 	    this.h1,
 	    this.inputBox.addChildren([
@@ -57,7 +48,7 @@ class LoginBox extends  Box implements Component{
 	]);
     }
 
-    eventElements(): void {
+    override eventElements(): void {
 	this.loginButton.addEventListener("click", ()=>{
 	    console.log("Auth login")
 	    const username = this.usernameInput.value;
@@ -67,7 +58,7 @@ class LoginBox extends  Box implements Component{
 	})
     }
 
-    styleElements(): void {
+    override styleElements(): void {
 	this.style.border = "1px solid black";
 	this.style.background = "black";
 	this.style.height = "400px";

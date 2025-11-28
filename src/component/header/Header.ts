@@ -1,5 +1,5 @@
 import Box from "../../class/Box";
-import type { Component } from "../../class/Component";
+import Component from "../../class/Component";
 import RouteSystem from "../../route/RouteSystem";
 import { createElement } from "../../ui_system/Element";
 import { apiToken } from "../../utils/apiUtils";
@@ -7,9 +7,8 @@ import AuthState from "../../utils/authState";
 import HeaderSystem from "./../system/HeaderSystem";
 import Profile from "./Profile";
 
-class Header implements Component{
+class Header extends Component{
 
-    header: HTMLDivElement = document.querySelector<HTMLDivElement>("#header")!; 
     buttonTest: HTMLButtonElement = createElement("button", "test") as HTMLButtonElement;
     title: HTMLElement = createElement("h2", "Blind Type");
     navigation: Box = new Box();
@@ -24,28 +23,19 @@ class Header implements Component{
 
 
     routeSystem: RouteSystem | null = null;
-    headerSystem: HeaderSystem = new HeaderSystem(this); 
+    system: HeaderSystem = new HeaderSystem(this); 
 
     constructor(){
-	this.init();
-    }
+	const mainElement: HTMLDivElement = document.querySelector<HTMLDivElement>("#header")!; 
+	super(mainElement, this.system);
 
-    get self(){
-	return this.header;
     }
 
     setRouteSystem(routeSystem: RouteSystem){
 	this.routeSystem = routeSystem;
     }
 
-    init(){
-	this.initElements();
-	this.connectElements();
-	this.eventElements();
-	this.styleElements();
-    }
-
-    async initElements(){
+    override async initElements(){
 	await this.headerSystem.updateProfile();
 
 	this.headerSystem.switchAuthtoProfile();
@@ -56,16 +46,16 @@ class Header implements Component{
 	// this.profile.setProfileName(name);
     }
 
-    connectElements(): void {
-	this.header.appendChild(this.title);
-	this.header.appendChild(this.buttonTest);
+    override connectElements(): void {
+	this.self.appendChild(this.title);
+	this.self.appendChild(this.buttonTest);
 
 	this.navigation.addChildren([
 	    this.navAbout,
 	    this.navGame
 	]);
 
-	this.header.appendChild(this.navigation.self);
+	this.self.appendChild(this.navigation.self);
 	this.divAuth.addChildren([
 	    this.authButtons.addChildren([
 		this.signup,
@@ -73,10 +63,10 @@ class Header implements Component{
 	    ]),
 	    this.profile,
 	]);
-	this.header.appendChild(this.divAuth.self);
+	this.self.appendChild(this.divAuth.self);
     }
 
-    eventElements(): void {
+    override eventElements(): void {
 	console.log("eventElements");
 
 	this.navGame.addEventListener("click", ()=>{
@@ -107,15 +97,15 @@ class Header implements Component{
 
     }
 
-    styleElements(): void {
-	this.header.style.width = "100%";
-	this.header.style.height = "8vh";
-	this.header.style.border = "1px solid black";
-	this.header.style.backgroundColor = "black"; 
-	this.header.style.display = "flex";
-	this.header.style.alignItems = "center";
+    override styleElements(): void {
+	this.style.width = "100%";
+	this.style.height = "8vh";
+	this.style.border = "1px solid black";
+	this.style.backgroundColor = "black"; 
+	this.style.display = "flex";
+	this.style.alignItems = "center";
 
-	this.header.style.position = "relative";
+	this.style.position = "relative";
 
 	this.title.style.position = "absolute";
 	this.title.style.left = "10vh";

@@ -6,12 +6,11 @@ import Box from "../../class/Box.ts";
 import GameRouterSystem from "../system/component_system/GameRouterSystem.ts";
 import TextHolder from "./TextHolder.ts";
 import TextAudio from "./TextAudio.ts";
-import type { Component } from "../../class/Component.ts";
 import GameConfigModal from "./GameConfigModal.ts";
 import GameConfigManager from "../system/game_config/GameConfigManager.ts";
 import Visualizer from "../../component/Visualizer.ts";
 
-class GameRouter extends Box implements Component{
+class GameRouter extends Box{
 
     divGradient = new Box("divGradient");
     textHolder = new TextHolder("TextHolder");
@@ -44,21 +43,20 @@ class GameRouter extends Box implements Component{
 
     constructor( name: string ){
 	super(name);
-	this.init();
     }
 
     get system(){
 	return this.gameRouterSystem;
     }
 
-    init(){
-	this.initElements();
-	this.connectElements();
-	this.eventElements();
-	this.styleElements();
-    }
+	//    init(){
+	// this.initElements();
+	// this.connectElements();
+	// this.eventElements();
+	// this.styleElements();
+	//    }
 
-    async initElements(){
+    override async initElements(){
 
 	this.textAudio.setGameSystem(this.gameRouterSystem.getGameSystem());
 

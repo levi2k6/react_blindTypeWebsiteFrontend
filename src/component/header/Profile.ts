@@ -1,10 +1,9 @@
 import Box from "../../class/Box";
-import type { Component } from "../../class/Component";
 import { createElement } from "../../ui_system/Element";
 import AuthState from "../../utils/authState";
 import type Header from "./Header";
 
-class Profile extends Box implements Component {
+class Profile extends Box{
 
     isShow: boolean = false;
 
@@ -19,22 +18,13 @@ class Profile extends Box implements Component {
         super(name);
 
 	this.header = header;
-
-        this.init();
     }
 
-    init() {
-        this.initElements();
-        this.connectElements();
-        this.eventElements();
-        this.styleElements();
-    }
-
-    initElements(): void {
+    override initElements(): void {
         this.aProfile.href = "#";
     }
 
-    connectElements(): void {
+    override connectElements(): void {
         this.addChildren([
             this.aProfile,
             this.divOption.addChildren([
@@ -44,7 +34,7 @@ class Profile extends Box implements Component {
         ]);
     }
 
-    eventElements(): void {
+    override eventElements(): void {
         this.aProfile.addEventListener("click", (e) => {
             e.preventDefault();
             this.setOptionVisibility();
@@ -59,7 +49,7 @@ class Profile extends Box implements Component {
 
     }
 
-    styleElements(): void {
+    override styleElements(): void {
         // --- Main container ---
         this.style.position = "relative";
         this.style.display = "flex";

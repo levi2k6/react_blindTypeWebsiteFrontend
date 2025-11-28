@@ -1,64 +1,34 @@
 import { createElement } from "../ui_system/Element";
 import System from "./System";
+import Component from "./Component";
 
-class Box {
-    private name: string | undefined = "";
-    private element = createElement("div");
+class Box extends Component{
 
-    private componentSystem: System | undefined;
-
-    constructor();
-    constructor(name: string);
-    constructor(name: string, system: System);
-    constructor(name?: string, system?: System){
-	this.name = name;
-	this.componentSystem = system;
+    constructor(name?: string, system?: System) {
+	const element = createElement("div");
+	if(name && system) {
+	    super(element, system, name);
+	} else if(name) {
+	    super(element, undefined, name);
+	} else {
+	    super(element); 
+	}
     }
 
-    get self(){
-	return this.element;
+
+    override initElements(): void {
     }
 
-    get style(){
-	return this.element.style;
+    override connectElements(): void {
     } 
 
-    get system() : System | undefined{
-	return this.componentSystem;
+    override eventElements(): void {
     }
-    
-    set system(system: System){
-	this.componentSystem = system;
-    }
-    
-	//    init(funcs: Array<Function>){
-	// funcs.forEach(func => {
-	//     func();
-	// })
-	//    }
 
-    addChild( child : HTMLElement | Box): HTMLElement{
-	    if(child instanceof HTMLElement){
-		this.element.appendChild(child);
-	    }
-	    if(child instanceof Box){
-		this.element.append(child.self);
-	    }
-	return this.element;
-      }
-
-    addChildren( children : Array<HTMLElement | Box>): HTMLElement{
-	children.forEach(child => {
-	    if(child instanceof HTMLElement){
-		this.element.appendChild(child);
-	    }
-	    if(child instanceof Box){
-		console.log("child appended: ", child.name);
-		this.element.append(child.self);
-	    }
-	});
-	return this.element;
-    }
+    override styleElements(): void {
+	this.style.width = "200px";
+	this.style.height = "200px";
+    } 
 
 }
 

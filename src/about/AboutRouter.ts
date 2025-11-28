@@ -1,33 +1,24 @@
 import Box from "../class/Box";
-import type { Component } from "../class/Component";
 
-
-class AboutRouter extends Box implements Component{
+class AboutRouter extends Box{
 
     comstructor(){
-	this.init();
     }
 
-    init(): void{
-	this.initElements();
-	this.connectElements();
-	this.eventElements();
-	this.styleElements();
-    }
 
-    initElements(): void{
+    override initElements(): void{
 
     }
 
-    connectElements(): void {
+    override connectElements(): void {
         
     }
 
-    eventElements(): void {
+    override eventElements(): void {
         
     }
 
-    styleElements(): void {
+    override styleElements(): void {
         
     }
 
