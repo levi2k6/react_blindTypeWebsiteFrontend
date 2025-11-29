@@ -8,6 +8,7 @@ class VerifyFailedEmailRouter extends Box{
  
     public constructor(name: string){
 	super(name);
+	this.init();
     }
 
     override initElements(): void{

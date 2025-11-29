@@ -12,12 +12,12 @@ class Visualizer extends Component {
 	super(mainElement);
 	this.audio = audio;
 	this.visualizerSystem = new VisualizerSystem(this.audio, this.self as HTMLCanvasElement); 
+	this.init();
     }
 
     get system(){
 	return this.visualizerSystem;
     } 
-
 
     override initElements(): void{
 
@@ -35,7 +35,6 @@ class Visualizer extends Component {
     }
 
     override styleElements(): void{
-
 	// style.background = "red";
 	this.style.position = "fixed"; 
 	this.style.top = "0";

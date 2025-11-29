@@ -12,27 +12,27 @@ import Visualizer from "../../component/Visualizer.ts";
 
 class GameRouter extends Box{
 
-    divGradient = new Box("divGradient");
-    textHolder = new TextHolder("TextHolder");
+    public divGradient = new Box("divGradient");
+    public textHolder = new TextHolder("TextHolder");
 
-    div1: Box = new Box("div1");
-	startButton: HTMLButtonElement = createElement("button", "Start") as HTMLButtonElement; 
-	div2: Box = new Box("div2");
-	    divLetter: Box = new Box();
-		letterSettings: HTMLButtonElement = createElement("button") as HTMLButtonElement;
-		    letterSettingsIcon: HTMLElement = createElement("i"); 
-		letterButton: HTMLButtonElement = createElement("button", "Letter") as HTMLButtonElement;
-	    divWord: Box = new Box();
-		wordSettings: HTMLButtonElement = createElement("button") as HTMLButtonElement;
-		    wordSettingsIcon: HTMLElement = createElement("i");
-		wordButton: HTMLButtonElement = createElement("button", "Word") as HTMLButtonElement;
-	    divSentence: Box = new Box();
-		sentenceSettings: HTMLButtonElement = createElement("button") as HTMLButtonElement;
-		    sentenceSettingsIcon: HTMLElement = createElement("i");
-		sentenceButton: HTMLButtonElement = createElement("button", "Sentence") as HTMLButtonElement;
+    public div1: Box = new Box("div1");
+	public startButton: HTMLButtonElement = createElement("button", "Start") as HTMLButtonElement; 
+	public div2: Box = new Box("div2");
+	    public divLetter: Box = new Box();
+		public letterSettings: HTMLButtonElement = createElement("button") as HTMLButtonElement;
+		    public letterSettingsIcon: HTMLElement = createElement("i"); 
+		public letterButton: HTMLButtonElement = createElement("button", "Letter") as HTMLButtonElement;
+	    public divWord: Box = new Box();
+		public wordSettings: HTMLButtonElement = createElement("button") as HTMLButtonElement;
+		    public wordSettingsIcon: HTMLElement = createElement("i");
+		public wordButton: HTMLButtonElement = createElement("button", "Word") as HTMLButtonElement;
+	    public divSentence: Box = new Box();
+		public sentenceSettings: HTMLButtonElement = createElement("button") as HTMLButtonElement;
+		    public sentenceSettingsIcon: HTMLElement = createElement("i");
+		public sentenceButton: HTMLButtonElement = createElement("button", "Sentence") as HTMLButtonElement;
 
-    textAudio = new TextAudio("GameTextAudio"); 
-    visualizer: Visualizer = new Visualizer(this.textAudio.audio);
+    public textAudio = new TextAudio("GameTextAudio"); 
+    public visualizer: Visualizer = new Visualizer(this.textAudio.audio);
 
 
     private gameConfigManager: GameConfigManager = new GameConfigManager(); 
@@ -43,18 +43,12 @@ class GameRouter extends Box{
 
     constructor( name: string ){
 	super(name);
+	this.init();
     }
 
     get system(){
 	return this.gameRouterSystem;
     }
-
-	//    init(){
-	// this.initElements();
-	// this.connectElements();
-	// this.eventElements();
-	// this.styleElements();
-	//    }
 
     override async initElements(){
 

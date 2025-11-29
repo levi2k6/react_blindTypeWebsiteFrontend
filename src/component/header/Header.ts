@@ -23,12 +23,16 @@ class Header extends Component{
 
 
     routeSystem: RouteSystem | null = null;
-    system: HeaderSystem = new HeaderSystem(this); 
+    headerSystem: HeaderSystem = new HeaderSystem(this); 
 
     constructor(){
 	const mainElement: HTMLDivElement = document.querySelector<HTMLDivElement>("#header")!; 
-	super(mainElement, this.system);
+	super(mainElement);
+	this.init();
+    }
 
+    get system(){
+	return this.headerSystem;
     }
 
     setRouteSystem(routeSystem: RouteSystem){

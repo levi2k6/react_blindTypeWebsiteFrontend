@@ -4,6 +4,7 @@ class AlreadyVerifiedEmailRouter extends Box{
 
    public constructor(name: string){
        super(name);
+       this.init();
    } 
 
    public initElements(){

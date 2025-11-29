@@ -1,4 +1,3 @@
-
 import Navigo from "navigo"
 import GameRouter from "../game/component/GameRouter";
 import AuthRouter from "../auth/AuthRouter";
@@ -8,7 +7,6 @@ import type VerifyFailedRouter from "../email_verification/VerifyFailedEmailRout
 import type AlreadyVerifiedEmailRouter from "../email_verification/AlreadyVerifiedRouter";
 
 class RouteSystem{
-
     // header : HTMLElement = document.querySelector<HTMLDivElement>("#header")!; 
     
     app : HTMLDivElement = document.querySelector<HTMLDivElement>('#app')!;  
@@ -33,6 +31,7 @@ class RouteSystem{
 	this.authRouter = authRouter;
 	this.verifyFailedRouter = verifyFailedRouter;
 	this.alreadyVerifiedEmailRouter = alreadyVerifiedEmailRouter;
+
 	this.initRouteSystem();
     };
 
@@ -54,12 +53,17 @@ class RouteSystem{
     }
 
     addAppElement(route : Box): void{
-	if(!route.self) return;
+	console.log("this this this here: ", route);
+	if(!route.self){
+	    console.error("route is emtpy");
+	};
+
 	this.app.innerHTML = "";
 	this.app.appendChild(route.self);
     }
 
     navigate(routerName: string){
+	console.log("routing to: ", routerName);
 	this.router.navigate(routerName);
 	this.router.resolve();
     }

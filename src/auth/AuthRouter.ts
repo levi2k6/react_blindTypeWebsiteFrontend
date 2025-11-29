@@ -16,6 +16,7 @@ class AuthRouter extends Box{
 
     constructor( name: string){
 	super(name);
+	this.init();
     }
 
     setRouteSystem(routeSystem: RouteSystem){

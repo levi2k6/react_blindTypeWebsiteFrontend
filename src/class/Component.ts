@@ -7,12 +7,11 @@ abstract class Component{
 
     constructor(element: HTMLElement);
     constructor(element: HTMLElement, system: System);
-    constructor(element: HTMLElement, system: System, name: string);
-    constructor(element: HTMLElement, system?: System | undefined, name?: string){
+    constructor(element: HTMLElement, system?: System, name?: string);
+    constructor(element: HTMLElement, system?: System, name?: string){
 	this.element = element;
 	this.componentSystem = system;
 	this.name = name;
-	this.init();
     }
 
     get self(){
@@ -31,13 +30,21 @@ abstract class Component{
 	this.componentSystem = system;
     }
 
+    public init(): void{
+	this.initElements();
+	this.connectElements();
+	this.eventElements();
+	this.styleElements();
+    }
+
+
     public addChild( child : HTMLElement | Component): HTMLElement{
-	    if(child instanceof HTMLElement){
-		this.element.appendChild(child);
-	    }
-	    if(child instanceof Component){
-		this.element.append(child.self);
-	    }
+	if(child instanceof HTMLElement){
+	    this.element.appendChild(child);
+	}
+	if(child instanceof Component){
+	    this.element.append(child.self);
+	}
 	return this.element;
       }
 
@@ -54,12 +61,6 @@ abstract class Component{
 	return this.element;
     }
 
-    private init(): void{
-	this.initElements();
-	this.connectElements();
-	this.eventElements();
-	this.styleElements();
-    }
 
     abstract initElements(): void;
 

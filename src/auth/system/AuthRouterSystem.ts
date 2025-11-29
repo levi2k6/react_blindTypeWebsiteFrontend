@@ -2,7 +2,7 @@ import type AuthRouter from "../AuthRouter";
 
 class AuthRouterSystem{
 
-    authRouter: AuthRouter;
+    authRouter: AuthRouter; 
 
     constructor(authRouter: AuthRouter){
 	this.authRouter = authRouter;

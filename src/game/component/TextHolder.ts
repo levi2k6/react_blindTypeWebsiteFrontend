@@ -1,5 +1,4 @@
 import Box from "../../class/Box";
-import type Component from "../../class/Component";
 import TextHolderSystem from "../system/component_system/TextHolderSystem";
 
 class TextHolder extends Box{
