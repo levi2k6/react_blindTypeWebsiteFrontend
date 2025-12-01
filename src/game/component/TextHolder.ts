@@ -7,6 +7,7 @@ class TextHolder extends Box{
 
      constructor(name: string){
 	 super(name);
+	 this.init();
      }
 
      get system(){

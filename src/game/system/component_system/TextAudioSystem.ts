@@ -27,7 +27,6 @@ class TextAudioSystem{
 	const typeString = ChallengeType[type].toLowerCase();
 	let url;
 	url  = `http://localhost:8080/api/v1/public/audio/${typeString}/${audioName}`;
-	console.log("url: ", url);
 
 	this.textAudio.audio.src = url; 
 	this.textAudio.audio.load();

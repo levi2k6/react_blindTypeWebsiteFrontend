@@ -16,8 +16,8 @@ class Profile extends Box{
 
     constructor(header: Header, name: string) {
         super(name);
-
 	this.header = header;
+	this.init();
     }
 
     override initElements(): void {
@@ -41,7 +41,8 @@ class Profile extends Box{
         });
 
 	this.logout.addEventListener("click", ()=>{
-	    window.location.href = "http://localhost:8080/api/v1/public/auth/logout";
+	    const uri = import.meta.env.VITE_URL + "public/auth/logout";
+	    window.location.href = uri;
 	    localStorage.removeItem("user");
 	    AuthState.setAuthUser(null);
 	    this.header.headerSystem.switchAuthtoProfile();

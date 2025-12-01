@@ -23,6 +23,7 @@ class LoginBox extends  Box{
 
     constructor(name: string){
 	super(name);
+	this.init();
     }
 
     setRouteSystem(routeSystem: RouteSystem){

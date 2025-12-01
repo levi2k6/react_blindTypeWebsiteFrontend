@@ -4,7 +4,7 @@ import RouteSystem from "../../route/RouteSystem";
 import { createElement } from "../../ui_system/Element";
 import { apiToken } from "../../utils/apiUtils";
 import AuthState from "../../utils/authState";
-import HeaderSystem from "./../system/HeaderSystem";
+import HeaderSystem from "./system/HeaderSystem";
 import Profile from "./Profile";
 
 class Header extends Component{
@@ -92,10 +92,8 @@ class Header extends Component{
 	});
 
 	this.buttonTest.addEventListener("click", async()=>{
-	    // const response: boolean = await checkAccessToken();
-	    // const response: Response<User> = await apiFetch("GET", "http://localhost:8080/api/v1/private/user/auth-user");
-	    const response = await apiToken("http://localhost:8080/api/v1/private/auth0/checkToken", "access_token");
-
+	    const uri = import.meta.env.VITE_AUTH_PUBLIC_URI + "/auth0/checkToken";
+	    const response = await apiToken(uri, "access_token");
 	    console.log("response: ", response);
 	})
 

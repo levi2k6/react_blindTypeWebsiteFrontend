@@ -9,35 +9,36 @@ import type { GameConfig } from "../../utils/types/GameConfigType";
 
 class GameConfigModal extends Box{
 
-    gameConfigManager: GameConfigManager | undefined;
-    gameConfigModalSystem: GameConfigModalSystem | undefined;
-    inputElementCreator: InputElementCreator = new InputCreator().setDivBorder("1px solid blue").setDivHeight("30px").setDivWidth("100%");
+    public gameConfigManager: GameConfigManager | undefined;
+    public gameConfigModalSystem: GameConfigModalSystem | undefined;
+    public inputElementCreator: InputElementCreator = new InputCreator().setDivBorder("1px solid blue").setDivHeight("30px").setDivWidth("100%");
 
-    divForm = new Box();
+    public divForm = new Box();
 
-    div1 = new Box();
-	divLabel = new Box();
-	    labelDifficulty = this.inputElementCreator.createLabel("Difficulty");
-	    labelMultiple  = this.inputElementCreator.createLabel("Multiple");
-	    labelContinuous = this.inputElementCreator.createLabel("Continuous");
+    public div1 = new Box();
+	public divLabel = new Box();
+	    public labelDifficulty = this.inputElementCreator.createLabel("Difficulty");
+	    public labelMultiple  = this.inputElementCreator.createLabel("Multiple");
+	    public labelContinuous = this.inputElementCreator.createLabel("Continuous");
 
-	divInput = new Box(); 
-	    inputDifficulty = this.inputElementCreator.createSelect(["easy", "normal", "hard"]);
-		inputDifficultyChild = this.inputDifficulty.self.children[0] as HTMLSelectElement;
-	    inputMultiple = this.inputElementCreator.createInput("number");
-		inputMultipleChild = this.inputMultiple.self.children[0] as HTMLInputElement;
-	    inputContinuous = this.inputElementCreator.createSelect(["true", "false"]);
-		inputContinuousChild = this.inputContinuous.self.children[0] as HTMLSelectElement;
+	public divInput = new Box(); 
+	    public inputDifficulty = this.inputElementCreator.createSelect(["easy", "normal", "hard"]);
+		public inputDifficultyChild = this.inputDifficulty.self.children[0] as HTMLSelectElement;
+	    public inputMultiple = this.inputElementCreator.createInput("number");
+		public inputMultipleChild = this.inputMultiple.self.children[0] as HTMLInputElement;
+	    public inputContinuous = this.inputElementCreator.createSelect(["true", "false"]);
+		public inputContinuousChild = this.inputContinuous.self.children[0] as HTMLSelectElement;
 
-    div2 = new Box();
-	divButtons = new Box();
-	    apply = createElement("button", "apply"); 
-	    close = createElement("button", "close");
+    public div2 = new Box();
+	public divButtons = new Box();
+	    public apply = createElement("button", "apply"); 
+	    public close = createElement("button", "close");
 
     constructor(gameConfigManager: GameConfigManager){
 	super();
 	this.gameConfigManager = gameConfigManager; 
 	this.gameConfigModalSystem = new GameConfigModalSystem(this, this.gameConfigManager);
+	this.init();
     }
 
     override connectElements(): void {

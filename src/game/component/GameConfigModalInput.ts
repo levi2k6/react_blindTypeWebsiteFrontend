@@ -3,12 +3,13 @@ import { createElement } from "../../ui_system/Element";
 
 class GameConfigModalInput extends Box{
 
-    label = createElement("label"); 
-    input: HTMLInputElement = createElement("input") as HTMLInputElement;
+    public label = createElement("label"); 
+    public input: HTMLInputElement = createElement("input") as HTMLInputElement;
 
     constructor(labelText: string){
 	super();
 	this.label.innerText = labelText + ": ";
+	this.init();
     }
 
     override initElements(): void{

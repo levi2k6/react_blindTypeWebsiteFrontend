@@ -19,6 +19,7 @@ class Letter extends Box{
 	this.char = letter;
 	// console.log("char: ", this.char);
 	this.letter.innerText = letter;
+	this.init();
     }
 
     turnGreen(){

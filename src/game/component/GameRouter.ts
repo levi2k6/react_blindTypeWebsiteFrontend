@@ -8,7 +8,7 @@ import TextHolder from "./TextHolder.ts";
 import TextAudio from "./TextAudio.ts";
 import GameConfigModal from "./GameConfigModal.ts";
 import GameConfigManager from "../system/game_config/GameConfigManager.ts";
-import Visualizer from "../../component/Visualizer.ts";
+import Visualizer from "./Visualizer.ts";
 
 class GameRouter extends Box{
 
@@ -64,6 +64,7 @@ class GameRouter extends Box{
 
     connectElements(){
 	 this.addChildren([
+	     this.visualizer,
 	     this.divGradient,
 	     this.textHolder,
 	     this.div1.addChildren([

@@ -1,16 +1,17 @@
+import type { Response, User } from "../interfaces";
 import { Api } from "./Api";
 
-const userUri = import.meta.env.VITE_USER_URI; 
+const url = import.meta.env.VITE_URL; 
 const headers = {"Content-Type": "application/json"}
 const credentials = "include";
 
-const api = new Api(userUri, headers, credentials);
+const api = new Api(url, headers, credentials);
 
-export function getAuthUser(){
-    api.get("/user/auth-user");
+export function getAuthUser(): Promise<Response<User>>{
+    return api.get("private/user/auth-user");
 } 
 
 export function registerUser(registerPayload: Record<string, string>){
-    api.post("/user", registerPayload, )
+    api.post("private/user/register", registerPayload, )
 }
 

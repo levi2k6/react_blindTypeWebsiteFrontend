@@ -1,14 +1,14 @@
 import Box from "../class/Box";
 import { createElement } from "../ui_system/Element";
 import LoginBox from "./LoginBox";
-import AuthRouterSystem from "./system/AuthRouterSystem";
+import LoginRouterSystem from "./system/LoginRouterSystem";
 import type RouteSystem from "../route/RouteSystem";
 
-class AuthRouter extends Box{
+class LoginRouter extends Box{
 
     public loginBox: LoginBox = new LoginBox("LoginBox");
 
-    public authRouterSystem: AuthRouterSystem = new AuthRouterSystem(this);
+    public loginRouterSystem: LoginRouterSystem = new LoginRouterSystem(this);
 
     public divAuth0: Box = new Box();
 	public googleButton: HTMLButtonElement = createElement("button", "") as HTMLButtonElement;
@@ -38,7 +38,7 @@ class AuthRouter extends Box{
 
     override eventElements(): void {
 	this.googleButton.addEventListener("click", ()=>{
-	    this.authRouterSystem.login();
+	    this.loginRouterSystem.login();
 	});
     }
 
@@ -58,6 +58,6 @@ class AuthRouter extends Box{
     }
 }
 
-export default AuthRouter;
+export default LoginRouter;
 
 

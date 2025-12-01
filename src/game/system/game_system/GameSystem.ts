@@ -6,7 +6,7 @@ import { ChallengeType } from "../../../utils/enums/ChallengeTypeEnum";
 import type Game from "./strategy/Game";
 import GameRegistry from "./GameRegistry";
 import GameConfigManager from "../game_config/GameConfigManager";
-import type Visualizer from "../../../component/Visualizer";
+import Visualizer from "../../component/Visualizer";
 import type { GameConfig } from "../../../utils/types/GameConfigType";
 
 class GameSystem{

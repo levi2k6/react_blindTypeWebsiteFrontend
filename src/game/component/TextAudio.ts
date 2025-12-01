@@ -23,13 +23,14 @@ class TextAudio extends Box{
     constructor(name : string){
 	super(name)
 	this.textAudioSystem = new TextAudioSystem(this);
+	this.init();
     }
 
-    initElements(): void{
+    override initElements(): void{
 	this.audio.crossOrigin = "anonymous";
     }
 
-    connectElements(){
+    override connectElements(){
 	this.addChildren([
 	    this.audio,
 	    this.audioDing,
@@ -37,7 +38,7 @@ class TextAudio extends Box{
 	]);
     }
 
-    eventElements(){
+    override eventElements(){
 	this.audio.addEventListener("ended", ()=>{
 	    console.log("after audio done works");
 	    if(this.gameSystem?.getIsContinuous()){
@@ -49,7 +50,7 @@ class TextAudio extends Box{
 	});
     }
 
-    styleElements(){
+    override styleElements(){
 	this.style.display = "none";
 	this.style.border = "1px solid black";
 	this.style.height = "100px";

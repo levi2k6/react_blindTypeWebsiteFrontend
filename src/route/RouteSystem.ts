@@ -1,13 +1,12 @@
 import Navigo from "navigo"
 import GameRouter from "../game/component/GameRouter";
-import AuthRouter from "../auth/AuthRouter";
+import LoginRouter from "../login/LoginRouter";
 import Box from "../class/Box";
 import AboutRouter from "../about/AboutRouter";
 import type VerifyFailedRouter from "../email_verification/VerifyFailedEmailRouter";
 import type AlreadyVerifiedEmailRouter from "../email_verification/AlreadyVerifiedRouter";
 
 class RouteSystem{
-    // header : HTMLElement = document.querySelector<HTMLDivElement>("#header")!; 
     
     app : HTMLDivElement = document.querySelector<HTMLDivElement>('#app')!;  
 
@@ -15,20 +14,20 @@ class RouteSystem{
 
     gameRouter: GameRouter;
     aboutRouter: AboutRouter;
-    authRouter: AuthRouter;
+    loginRouter: LoginRouter;
     verifyFailedRouter: VerifyFailedRouter;
     alreadyVerifiedEmailRouter: AlreadyVerifiedEmailRouter;
 
     constructor(
 	gameRouter: GameRouter,
 	aboutRouter: AboutRouter,
-	authRouter: AuthRouter,
+	loginRouter: LoginRouter,
 	verifyFailedRouter: VerifyFailedRouter,
-	alreadyVerifiedEmailRouter: AlreadyVerifiedEmailRouter
+	alreadyVerifiedEmailRouter: AlreadyVerifiedEmailRouter,
     ){
 	this.gameRouter = gameRouter;
 	this.aboutRouter = aboutRouter;
-	this.authRouter = authRouter;
+	this.loginRouter = loginRouter;
 	this.verifyFailedRouter = verifyFailedRouter;
 	this.alreadyVerifiedEmailRouter = alreadyVerifiedEmailRouter;
 
@@ -44,7 +43,7 @@ class RouteSystem{
 	    this.addAppElement(this.aboutRouter);
 	})
 	.on("/auth", ()=> {
-	    this.addAppElement(this.authRouter);
+	    this.addAppElement(this.loginRouter);
 	})
 	.on("/verify_failed", ()=>{
 	    this.addAppElement(this.verifyFailedRouter);
@@ -52,18 +51,16 @@ class RouteSystem{
 	.resolve();
     }
 
-    addAppElement(route : Box): void{
-	console.log("this this this here: ", route);
-	if(!route.self){
-	    console.error("route is emtpy");
-	};
+    initRouterRouteSystem(){
 
+    }
+
+    addAppElement(route : Box): void{
 	this.app.innerHTML = "";
 	this.app.appendChild(route.self);
     }
 
     navigate(routerName: string){
-	console.log("routing to: ", routerName);
 	this.router.navigate(routerName);
 	this.router.resolve();
     }

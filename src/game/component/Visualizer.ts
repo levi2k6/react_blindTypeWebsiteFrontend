@@ -1,5 +1,6 @@
-import Component from "../class/Component";
-import VisualizerSystem from "./system/VisualizerSystem";
+import Component from "../../class/Component";
+import { createElement } from "../../ui_system/Element";
+import VisualizerSystem from "../system/visualizer/VisualizerSystem";
 
 class Visualizer extends Component {
 
@@ -8,7 +9,9 @@ class Visualizer extends Component {
     private visualizerSystem: VisualizerSystem;
 
     constructor(audio: HTMLAudioElement){
-	const mainElement: HTMLCanvasElement = document.querySelector<HTMLCanvasElement>("#visualizer")!; 
+	const mainElement: HTMLCanvasElement = createElement("canvas") as HTMLCanvasElement; 
+	console.log("MainElement: ", mainElement);
+	mainElement.id = "visualizer";
 	super(mainElement);
 	this.audio = audio;
 	this.visualizerSystem = new VisualizerSystem(this.audio, this.self as HTMLCanvasElement); 
@@ -35,7 +38,7 @@ class Visualizer extends Component {
     }
 
     override styleElements(): void{
-	// style.background = "red";
+	// this.style.background = "red";
 	this.style.position = "fixed"; 
 	this.style.top = "0";
 	this.style.left = "0";

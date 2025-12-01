@@ -1,10 +1,9 @@
-import Header from "../header/Header";
-
-import { apiFetch, checkAccessToken, refreshToken } from "../../utils/apiUtils";
-import type { Response, User } from "../../utils/interfaces";
-import AuthState from "../../utils/authState";
-import type RouteSystem from "../../route/RouteSystem";
-
+import Header from "../Header";
+import { apiFetch, checkAccessToken, refreshToken } from "../../../utils/apiUtils";
+import type { Response, User } from "../../../utils/interfaces";
+import AuthState from "../../../utils/authState";
+import type RouteSystem from "../../../route/RouteSystem";
+import { getAuthUser } from "../../../utils/api/apiUser";
 
 class HeaderSystem{
 
@@ -53,7 +52,8 @@ class HeaderSystem{
 
 	console.log("user: ", user);
 	if(!user){
-	    const response: Response<User> = await apiFetch("GET", "http://localhost:8080/api/v1/private/user/auth-user");
+	    // const response: Response<User> = await apiFetch("GET", "http://localhost:8080/api/v1/private/user/auth-user");
+	    const response: Response<User> = await getAuthUser(); 
 	    AuthState.setAuthUser(response.data);
 	    const responseUser: User | null = AuthState.getAuthUser();
 
