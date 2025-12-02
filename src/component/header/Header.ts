@@ -127,6 +127,8 @@ class Header extends Component{
 	this.authButtons.style.gap = "10px";
     }
 
+    override preDestroy(): void {
+    }
 }
 
 export default Header;

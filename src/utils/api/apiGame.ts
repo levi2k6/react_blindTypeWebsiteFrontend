@@ -8,7 +8,7 @@ const credentials = "include";
 const api = new Api(url, headers, credentials);
 
 
-export function getRandomGameText(type: string, amount: number): Promise<Response<Challenge[]>>{
+export function getRandomGameChallenge(type: string, amount: number): Promise<Response<Challenge[]>>{
     return api.get(`/public/game/${type.toLowerCase()}/challenge/random?amount=${amount}`)
 }
 

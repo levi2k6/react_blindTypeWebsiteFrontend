@@ -49,6 +49,8 @@ class Visualizer extends Component {
     }
 
 
+    override preDestroy(): void {
+    }
 }
 
 

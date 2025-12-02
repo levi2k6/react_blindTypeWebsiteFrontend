@@ -56,6 +56,9 @@ class LoginRouter extends Box{
 	this.googleImg.style.height = "30px";
 	
     }
+
+    preDestroy(): void {
+    }
 }
 
 export default LoginRouter;

@@ -3,14 +3,14 @@ import { createElement } from "../../ui_system/Element";
 import GameConfigModalSystem from "../system/game_modal/GameConfigModalSystem";
 import GameConfigManager from "../system/game_config/GameConfigManager";
 
-    import InputCreator from "../../ui_system/InputCreator";
+import InputCreator from "../../ui_system/InputCreator";
 import type InputElementCreator from "../../ui_system/InputCreator";
 import type { GameConfig } from "../../utils/types/GameConfigType";
 
 class GameConfigModal extends Box{
 
     public gameConfigManager: GameConfigManager | undefined;
-    public gameConfigModalSystem: GameConfigModalSystem | undefined;
+    public gameConfigModalSystem: GameConfigModalSystem;
     public inputElementCreator: InputElementCreator = new InputCreator().setDivBorder("1px solid blue").setDivHeight("30px").setDivWidth("100%");
 
     public divForm = new Box();
@@ -39,6 +39,10 @@ class GameConfigModal extends Box{
 	this.gameConfigManager = gameConfigManager; 
 	this.gameConfigModalSystem = new GameConfigModalSystem(this, this.gameConfigManager);
 	this.init();
+    }
+
+    get system(){
+	return this.gameConfigModalSystem;
     }
 
     override connectElements(): void {
@@ -91,6 +95,8 @@ class GameConfigModal extends Box{
 	    this.style.display = "none";
 	});
     }
+
+
 
     override styleElements(): void {
 	this.style.position = "fixed"

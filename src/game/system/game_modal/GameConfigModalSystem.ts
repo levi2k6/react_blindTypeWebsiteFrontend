@@ -11,6 +11,19 @@ class GameConfigModalSystem{
     gameConfigManager: GameConfigManager | undefined;
     gameConfigModal: GameConfigModal;
 
+    public setDefaultConfigLetterHandler = () => {
+	this.gameConfigModal.style.display = "flex";
+	this.setDefaultConfig(ChallengeType.LETTER);
+    }
+    public setDefaultConfigWordHandler = () => {
+	this.gameConfigModal.style.display = "flex";
+	this.setDefaultConfig(ChallengeType.WORD);
+    }
+    public setDefaultConfigSentenceHandler = () => {
+	this.gameConfigModal.style.display = "flex";
+	this.setDefaultConfig(ChallengeType.SENTENCE);
+    }
+
     constructor(gameConfigModal: GameConfigModal, gameConfigManager: GameConfigManager){
 	this.gameConfigModal = gameConfigModal;
 	this.gameConfigManager = gameConfigManager;
@@ -60,7 +73,7 @@ class GameConfigModalSystem{
 	this.gameConfigManager?.setChallengeGameConfig(gameConfig);
     }
 
-    setDefaultConfig(challengeType: ChallengeType){
+    public setDefaultConfig(challengeType: ChallengeType){
 	const inputDifficulty = this.gameConfigModal.inputDifficulty.self.children[0] as HTMLSelectElement;
 	const inputMultiple = this.gameConfigModal.inputMultiple.self.children[0] as HTMLInputElement;
 	const inputContinuous = this.gameConfigModal.inputContinuous.self.children[0] as HTMLSelectElement;

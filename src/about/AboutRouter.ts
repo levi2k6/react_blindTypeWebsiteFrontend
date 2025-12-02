@@ -23,6 +23,9 @@ class AboutRouter extends Box{
         
     }
 
+    override preDestroy(): void{
+
+    }
 }
 
 

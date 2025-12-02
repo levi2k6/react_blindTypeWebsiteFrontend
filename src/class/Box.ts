@@ -30,6 +30,9 @@ class Box extends Component{
 	this.style.height = "200px";
     } 
 
+    override preDestroy(): void {
+    }
+
 }
 
 export default Box;

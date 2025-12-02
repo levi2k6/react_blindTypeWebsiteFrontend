@@ -23,6 +23,9 @@ class AlreadyVerifiedEmailRouter extends Box{
 
    }
 
+   public preDestroy(): void {
+   }
+
 }
 
 

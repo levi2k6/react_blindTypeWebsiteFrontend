@@ -17,7 +17,7 @@ class Input{
     }
 
     turnOnInput(){
-	window.addEventListener("keydown", this.keydownHandler.bind(this) );
+	window.addEventListener("keydown", this.keydownHandler);
 	console.log("Input turned on.");
     }
 

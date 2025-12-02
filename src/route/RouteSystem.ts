@@ -56,7 +56,9 @@ class RouteSystem{
     }
 
     addAppElement(route : Box): void{
+	route.destroy();
 	this.app.innerHTML = "";
+	route.eventElements();
 	this.app.appendChild(route.self);
     }
 

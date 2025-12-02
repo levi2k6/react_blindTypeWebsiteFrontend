@@ -4,6 +4,7 @@ abstract class Component{
     private element: HTMLElement;  
     private componentSystem: System | undefined;
     private name: string | undefined = "";
+    private controller?: AbortController;
 
     constructor(element: HTMLElement);
     constructor(element: HTMLElement, system: System);
@@ -30,12 +31,26 @@ abstract class Component{
 	this.componentSystem = system;
     }
 
+    get abortController(){
+	return this.controller;
+    }
+
     public init(): void{
+	this.controller = new AbortController();
 	this.initElements();
 	this.connectElements();
 	this.eventElements();
 	this.styleElements();
+	console.log("INIT DONE");
     }
+
+    public destroy(): void{
+	this.preDestroy();
+	this.abortController?.abort();
+	this.self.remove();
+    };
+
+    abstract preDestroy(): void;
 
 
     public addChild( child : HTMLElement | Component): HTMLElement{
@@ -69,6 +84,7 @@ abstract class Component{
     abstract eventElements(): void;
 
     abstract styleElements(): void;
+
 
 }
 

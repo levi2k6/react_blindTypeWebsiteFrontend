@@ -30,6 +30,8 @@ class VerifyFailedEmailRouter extends Box{
 
     }
 
+    override preDestroy(): void {
+    }
 
 }
 

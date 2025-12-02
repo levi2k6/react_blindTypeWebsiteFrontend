@@ -1,5 +1,4 @@
 import { createElement } from "../../ui_system/Element.ts";
-import { ChallengeType } from "../../utils/enums/ChallengeTypeEnum.ts";
 
 import Box from "../../class/Box.ts";
 
@@ -9,6 +8,7 @@ import TextAudio from "./TextAudio.ts";
 import GameConfigModal from "./GameConfigModal.ts";
 import GameConfigManager from "../system/game_config/GameConfigManager.ts";
 import Visualizer from "./Visualizer.ts";
+import { ChallengeType } from "../../utils/enums/ChallengeTypeEnum.ts";
 
 class GameRouter extends Box{
 
@@ -34,12 +34,13 @@ class GameRouter extends Box{
     public textAudio = new TextAudio("GameTextAudio"); 
     public visualizer: Visualizer = new Visualizer(this.textAudio.audio);
 
-
     private gameConfigManager: GameConfigManager = new GameConfigManager(); 
 
     private gameConfigModal: GameConfigModal = new GameConfigModal(this.gameConfigManager);
     private gameRouterSystem: GameRouterSystem = new GameRouterSystem(this, this.gameConfigManager, this.visualizer);
 
+
+    public testButton = createElement("button", "DESTROY");
 
     constructor( name: string ){
 	super(name);
@@ -60,6 +61,8 @@ class GameRouter extends Box{
 	this.wordSettingsIcon.classList.add("fa-solid", "fa-gear");
 	this.sentenceSettingsIcon.classList.add("fa-solid", "fa-gear");
 	console.log("letterSettings: ", this.letterSettings);
+
+	this.gameRouterSystem.getInput().turnOnInput();
     }
 
     connectElements(){
@@ -85,7 +88,8 @@ class GameRouter extends Box{
 		 ]),
 	     ]),
 	     this?.textAudio,
-	     this.gameConfigModal
+	     this.gameConfigModal,
+	     this.testButton
 	 ]);
 
 	 this.letterSettings.appendChild(this.letterSettingsIcon);
@@ -93,40 +97,22 @@ class GameRouter extends Box{
 	 this.sentenceSettings.appendChild(this.sentenceSettingsIcon);
      }
 
-     eventElements(){
-	this.startButton.addEventListener("click", ()=>{
-	    this.gameRouterSystem.startGame();
-	});
+     override eventElements(){
+	this.startButton.addEventListener("click", () => this.gameRouterSystem.startGame(), {signal: this.abortController?.signal});
 
-	this.letterButton.addEventListener("click", ()=>{
-	    this.gameRouterSystem.setGameType(ChallengeType.LETTER);
-	})
+	this.letterButton.addEventListener("click", () => this.gameRouterSystem.setGameType(ChallengeType.LETTER), {signal: this.abortController?.signal});
+	this.wordButton.addEventListener("click", () => this.gameRouterSystem.setGameType(ChallengeType.WORD), {signal: this.abortController?.signal});
+	this.sentenceButton.addEventListener("click", () => this.gameRouterSystem.setGameType(ChallengeType.SENTENCE), {signal: this.abortController?.signal});
 
-	this.wordButton.addEventListener("click", ()=>{
-	    this.gameRouterSystem.setGameType(ChallengeType.WORD);
-	})
+	this.letterSettings.addEventListener("click", () => this.gameConfigModal.gameConfigModalSystem.setDefaultConfig(ChallengeType.LETTER), {signal: this.abortController?.signal});
+	this.wordSettings.addEventListener("click", () => this.gameConfigModal.gameConfigModalSystem.setDefaultConfig(ChallengeType.WORD), {signal: this.abortController?.signal});
+	this.sentenceSettings.addEventListener("click", () => this.gameConfigModal.gameConfigModalSystem.setDefaultConfig(ChallengeType.SENTENCE), {signal: this.abortController?.signal});
 
-	this.sentenceButton.addEventListener("click", ()=>{
-	    this.gameRouterSystem.setGameType(ChallengeType.SENTENCE);
-	})
-
-	this.letterSettings.addEventListener("click", ()=>{
-	    this.gameConfigModal.style.display =  "flex";
-	    this.gameConfigModal.gameConfigModalSystem?.setDefaultConfig(ChallengeType.LETTER);
-	})
-
-	this.wordSettings.addEventListener("click", ()=>{
-	    this.gameConfigModal.style.display = "flex";
-	    this.gameConfigModal.gameConfigModalSystem?.setDefaultConfig(ChallengeType.WORD);
-	})
-
-	this.sentenceSettings.addEventListener("click", ()=>{
-	    this.gameConfigModal.style.display = "flex";
-	    this.gameConfigModal.gameConfigModalSystem?.setDefaultConfig(ChallengeType.SENTENCE);
-	})
+	this.testButton.addEventListener("click", () => this.preDestroy());
     }
 
-    styleElements(): void{
+    
+    override styleElements(): void{
 
 	if ((CSS as any).registerProperty) {
 	    (CSS as any).registerProperty({
@@ -184,6 +170,12 @@ class GameRouter extends Box{
 
 	this.startButton.disabled = true;
     }
+    
+    override preDestroy(){
+	this.gameRouterSystem.getInput().turnOffInput();
+    }
+
+
 }
 
 export default GameRouter;

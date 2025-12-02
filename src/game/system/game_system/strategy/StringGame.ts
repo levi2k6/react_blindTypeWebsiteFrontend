@@ -7,7 +7,7 @@ import type {  Challenge, Response, StringChallenge } from "../../../../utils/in
 import Game from "./Game";
 import type Letter from "../../../component/Letter";
 import type GameConfigManager from "../../game_config/GameConfigManager";
-import { getRandomGameText } from "../../../../utils/api/apiGame";
+import { getRandomGameChallenge } from "../../../../utils/api/apiGame";
 // import { getStringChallenge } from "../../data_manager/GameDataManager";
 
 class StringGame extends Game{
@@ -52,7 +52,7 @@ class StringGame extends Game{
 	}
 
 	// const response: Challenge[] = await getStringChallenge(this.gameSystem.getType() , multiple);
-	const response: Response<Challenge[]> = await getRandomGameText(this.gameSystem.getType(), multiple);
+	const response: Response<Challenge[]> = await getRandomGameChallenge(this.gameSystem.getType(), multiple);
 	if(response === undefined){
 	    console.log("challenge response is undefiend");
 	    return;

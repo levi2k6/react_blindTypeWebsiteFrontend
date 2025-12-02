@@ -1,4 +1,4 @@
-import type LoginRouter from "../AuthRouter";
+import LoginRouter from "../LoginRouter";
 
 class LoginRouterSystem{
 
