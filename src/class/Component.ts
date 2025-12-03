@@ -36,13 +36,20 @@ abstract class Component{
     }
 
     public init(): void{
-	this.controller = new AbortController();
 	this.initElements();
 	this.connectElements();
-	this.eventElements();
+	this.initEvents;
 	this.styleElements();
 	console.log("INIT DONE");
     }
+
+    public initEvents(){
+	this.controller = new AbortController();
+	this.eventElements();
+	this.initChildrenEvents();
+    }
+
+    abstract initChildrenEvents(): void; 
 
     public destroy(): void{
 	this.preDestroy();

@@ -35,12 +35,6 @@ class Header extends Component{
 	return this.headerSystem;
     }
 
-    override initChildrenEvents(): void {
-        
-    }
-    override preDestroy(): void {
-    }
-
     setRouteSystem(routeSystem: RouteSystem){
 	this.routeSystem = routeSystem;
     }
@@ -133,7 +127,8 @@ class Header extends Component{
 	this.authButtons.style.gap = "10px";
     }
 
-    
+    override preDestroy(): void {
+    }
 }
 
 export default Header;

@@ -51,6 +51,14 @@ class GameRouter extends Box{
 	return this.gameRouterSystem;
     }
 
+    override initChildrenEvents(): void {
+	this.gameRouterSystem.getInput().turnOnInput();
+    }
+
+    override preDestroy(){
+	this.gameRouterSystem.getInput().turnOffInput();
+    }
+
     override async initElements(){
 
 	this.textAudio.setGameSystem(this.gameRouterSystem.getGameSystem());
@@ -62,7 +70,6 @@ class GameRouter extends Box{
 	this.sentenceSettingsIcon.classList.add("fa-solid", "fa-gear");
 	console.log("letterSettings: ", this.letterSettings);
 
-	this.gameRouterSystem.getInput().turnOnInput();
     }
 
     connectElements(){
@@ -171,9 +178,9 @@ class GameRouter extends Box{
 	this.startButton.disabled = true;
     }
     
-    override preDestroy(){
-	this.gameRouterSystem.getInput().turnOffInput();
-    }
+
+
+    
 
 
 }

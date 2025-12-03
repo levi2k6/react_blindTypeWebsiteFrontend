@@ -12,6 +12,8 @@ class RouteSystem{
 
     router = new Navigo("/", {hash: false});
 
+    currentRouter?: Box;
+
     gameRouter: GameRouter;
     aboutRouter: AboutRouter;
     loginRouter: LoginRouter;
@@ -37,15 +39,19 @@ class RouteSystem{
     initRouteSystem(){
 	this.router
 	.on("/", ()=> {
+	    this.gameRouter.initEvents();
 	    this.addAppElement(this.gameRouter);
 	})
 	.on("/about", ()=> {
+	    this.aboutRouter.initEvents();
 	    this.addAppElement(this.aboutRouter);
 	})
 	.on("/auth", ()=> {
+	    this.loginRouter.initEvents()
 	    this.addAppElement(this.loginRouter);
 	})
 	.on("/verify_failed", ()=>{
+	    this.verifyFailedRouter.initEvents()
 	    this.addAppElement(this.verifyFailedRouter);
 	})
 	.resolve();
@@ -56,13 +62,13 @@ class RouteSystem{
     }
 
     addAppElement(route : Box): void{
-	route.destroy();
 	this.app.innerHTML = "";
 	route.eventElements();
 	this.app.appendChild(route.self);
     }
 
     navigate(routerName: string){
+	this.currentRouter?.destroy();
 	this.router.navigate(routerName);
 	this.router.resolve();
     }
