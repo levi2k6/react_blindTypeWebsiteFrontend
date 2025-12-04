@@ -10,27 +10,30 @@ import AlreadyVerifiedEmailRouter from './email_verification/AlreadyVerifiedRout
 
 async function Main(){
 
-    const header : Header = new Header();
+	//    const header : Header = new Header();
+	//
+	//    const gameRouter: GameRouter = new GameRouter("Game");
+	//    const aboutRouter: AboutRouter = new AboutRouter("About");
+	//    const loginRouter: LoginRouter = new LoginRouter("Auth");
+	//    const verifyFailedRouter: VerifyFailedEmailRouter = new VerifyFailedEmailRouter("VerifyFailed"); 
+	//    const alreadyVerifiedEmailRouter: AlreadyVerifiedEmailRouter = new AlreadyVerifiedEmailRouter("AlreadyVerified"); 
+	//
+	//    const routeSystem: RouteSystem = new RouteSystem(
+	// gameRouter,
+	// aboutRouter,
+	// loginRouter,
+	// verifyFailedRouter,
+	// alreadyVerifiedEmailRouter
+	//    );
+	//
+	//    console.log("Setting routeSystem");
+	//    header.setRouteSystem(routeSystem);
+	//    loginRouter.setRouteSystem(routeSystem);
+	//    console.log("Route system set");
+    
 
-    const gameRouter: GameRouter = new GameRouter("Game");
-    const aboutRouter: AboutRouter = new AboutRouter("About");
-    const loginRouter: LoginRouter = new LoginRouter("Auth");
-    const verifyFailedRouter: VerifyFailedEmailRouter = new VerifyFailedEmailRouter("VerifyFailed"); 
-    const alreadyVerifiedEmailRouter: AlreadyVerifiedEmailRouter = new AlreadyVerifiedEmailRouter("AlreadyVerified"); 
-
-    const routeSystem: RouteSystem = new RouteSystem(
-	gameRouter,
-	aboutRouter,
-	loginRouter,
-	verifyFailedRouter,
-	alreadyVerifiedEmailRouter
-    );
-
-    console.log("Setting routeSystem");
-    header.setRouteSystem(routeSystem);
-    loginRouter.setRouteSystem(routeSystem);
-    console.log("Route system set");
 }
+
 
 
 Main();

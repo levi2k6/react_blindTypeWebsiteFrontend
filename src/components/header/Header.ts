@@ -50,6 +50,9 @@ class Header extends Component{
 	// this.profile.setProfileName(name);
     }
 
+    override initChildrenEvents(): void {
+    }
+
     override connectElements(): void {
 	this.self.appendChild(this.title);
 	this.self.appendChild(this.buttonTest);
