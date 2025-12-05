@@ -1,17 +1,43 @@
-import type Box from "../class/Box";
-import type Component from "../class/Component";
+import Component2 from "../class/Component2";
 
 class LifeCycleSystem{
 
-    public initComponent(router: HTMLElement){
-	const routerChildren  = router.self.children;
-	for(const child of routerChildren){
-	    child.init();
-	}
+    private currentComponent: Component2 | undefined;
+
+    // constructor(){
+    // }
+
+    public setCurrentComponent(component: Component2): void{
+	this.currentComponent = component;
+	console.log("currentComponent: ", component);
     }
 
-    public destroy(){
+    public getCurrentComponent(){
+	return this.currentComponent;
+    } 
 
+
+    public initComponent(){
+	if(!this.currentComponent){
+	    console.log("LifeCycleSystem[] initComponent: cannot init undefined component");
+	    return
+	};
+	this.currentComponent.initAllPresetChildren();
+	this.currentComponent.initAllInitElements();
+	this.currentComponent.initAllEventElements();
+	this.currentComponent.initAllStyleElements();
+	this.currentComponent.connectElements();
+	this.currentComponent.init();
+    }
+
+
+    public destroyComponent(){
+	if(!this.currentComponent){
+	    console.log("LifeCycleSystem[] initComponent: cannot destroy undefined component");
+	    return
+	};
+
+	this.currentComponent.destroy();
     }
 
 

@@ -1,12 +1,11 @@
 import './style.css'
 import GameRouter from "./game/component/GameRouter.ts"  
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import Header from './component/header/Header.ts';
-import LoginRouter from './login/LoginRouter.ts';
-import AboutRouter from './about/AboutRouter.ts';
-import RouteSystem from './route/RouteSystem.ts';
-import VerifyFailedEmailRouter from './email_verification/VerifyFailedEmailRouter.ts';
-import AlreadyVerifiedEmailRouter from './email_verification/AlreadyVerifiedRouter.ts';
+
+import LifeCycleSystem from './systems/LifeCycleSystem.ts';
+import RouteSystem2 from './route/RouteSystem2.ts';
+import Test1 from './test/Test1.ts';
+import Test2 from './test/Test2.ts';
 
 async function Main(){
 
@@ -31,6 +30,15 @@ async function Main(){
 	//    loginRouter.setRouteSystem(routeSystem);
 	//    console.log("Route system set");
     
+	const lifCycleSystem: LifeCycleSystem = new LifeCycleSystem();
+	const test1: Test1 = new Test1();
+	const test2: Test2 = new Test2();
+
+	const routeSystem2: RouteSystem2 = new RouteSystem2(
+	    lifCycleSystem,
+	    test1,
+	    test2
+	); 
 
 }
 

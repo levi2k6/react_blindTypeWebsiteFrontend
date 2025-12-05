@@ -1,21 +1,29 @@
 import { createElement } from "../ui_system/Element";
 import Component2 from "./Component2";
 
-
 class Box2 extends Component2{
 
-    constructor(name: string){
+    constructor(name: string, innerText?: string){
 	const element = createElement("div");
-	super(element, name);   
+	if(name && innerText){
+	    super(element, name, innerText);
+	}else if(name){
+	    super(element, name)
+	}	   
     }
 
-    structureElements(): Array< Component2>{
+    override initElements(): void {
+    }
+
+    override structureElements(): Array< Component2>{
 	return [];
     }
 
-    eventElements(): void {
+    override eventElements(): void {
     }
 
+    override styleElements(): void {
+    }
 
 
 }
