@@ -1,25 +1,27 @@
-import Component from "../../class/Component";
-import { createElement } from "../../ui_system/Element";
+import Component2 from "../../class/Component2";
+import  Element from "../../class/Element";
 import VisualizerSystem from "../system/visualizer/VisualizerSystem";
 
-class Visualizer extends Component {
+class Visualizer extends Component2{
 
     audio: HTMLAudioElement;
 
     private visualizerSystem: VisualizerSystem;
 
     constructor(audio: HTMLAudioElement){
-	const mainElement: HTMLCanvasElement = createElement("canvas") as HTMLCanvasElement; 
-	console.log("MainElement: ", mainElement);
-	mainElement.id = "visualizer";
-	super(mainElement);
+	const element: HTMLElement = new Element("canvas", "Visualizer").self; 
+	super(element, "Visualizer");
 	this.audio = audio;
 	this.visualizerSystem = new VisualizerSystem(this.audio, this.self as HTMLCanvasElement); 
-	this.init();
     }
 
     get system(){
 	return this.visualizerSystem;
+    } 
+
+    override structureElements(): Array<Component2> {
+	return[
+	]
     } 
 
     override initElements(): void{
@@ -48,9 +50,6 @@ class Visualizer extends Component {
 	this.style.pointerEvents = "none";
     }
 
-
-    override preDestroy(): void {
-    }
 }
 
 

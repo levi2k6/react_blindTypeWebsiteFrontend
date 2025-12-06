@@ -9,30 +9,17 @@ import GameConfigModal from "./GameConfigModal.ts";
 import GameConfigManager from "../system/game_config/GameConfigManager.ts";
 import Visualizer from "./Visualizer.ts";
 import { ChallengeType } from "../../utils/enums/ChallengeTypeEnum.ts";
+import Component2 from "../../class/Component2.ts";
+import Box2 from "../../class/Box2.ts";
+import Element from "../../class/Element.ts";
 
-class GameRouter extends Box{
-
-    public divGradient = new Box("divGradient");
-    public textHolder = new TextHolder("TextHolder");
-
-    public div1: Box = new Box("div1");
-	public startButton: HTMLButtonElement = createElement("button", "Start") as HTMLButtonElement; 
-	public div2: Box = new Box("div2");
-	    public divLetter: Box = new Box();
-		public letterSettings: HTMLButtonElement = createElement("button") as HTMLButtonElement;
-		    public letterSettingsIcon: HTMLElement = createElement("i"); 
-		public letterButton: HTMLButtonElement = createElement("button", "Letter") as HTMLButtonElement;
-	    public divWord: Box = new Box();
-		public wordSettings: HTMLButtonElement = createElement("button") as HTMLButtonElement;
-		    public wordSettingsIcon: HTMLElement = createElement("i");
-		public wordButton: HTMLButtonElement = createElement("button", "Word") as HTMLButtonElement;
-	    public divSentence: Box = new Box();
-		public sentenceSettings: HTMLButtonElement = createElement("button") as HTMLButtonElement;
-		    public sentenceSettingsIcon: HTMLElement = createElement("i");
-		public sentenceButton: HTMLButtonElement = createElement("button", "Sentence") as HTMLButtonElement;
+class GameRouter extends Box2{
 
     public textAudio = new TextAudio("GameTextAudio"); 
     public visualizer: Visualizer = new Visualizer(this.textAudio.audio);
+    public divGradient = new Box("divGradient");
+    public textHolder = new TextHolder("TextHolder");
+
 
     private gameConfigManager: GameConfigManager = new GameConfigManager(); 
 
@@ -44,19 +31,10 @@ class GameRouter extends Box{
 
     constructor( name: string ){
 	super(name);
-	this.init();
     }
 
     get system(){
 	return this.gameRouterSystem;
-    }
-
-    override initChildrenEvents(): void {
-	this.gameRouterSystem.getInput().turnOnInput();
-    }
-
-    override preDestroy(){
-	this.gameRouterSystem.getInput().turnOffInput();
     }
 
     override async initElements(){
@@ -65,57 +43,112 @@ class GameRouter extends Box{
 
 	this.gameConfigModal.style.display = "none";
 
-	this.letterSettingsIcon.classList.add("fa-solid", "fa-gear");
-	this.wordSettingsIcon.classList.add("fa-solid", "fa-gear");
-	this.sentenceSettingsIcon.classList.add("fa-solid", "fa-gear");
-	console.log("letterSettings: ", this.letterSettings);
+	this.getChild("letterSettingsIcon").self.classList.add("fa-solid", "fa-gear");
+	this.getChild("wordSettingsIcon").self.classList.add("fa-solid", "fa-gear");
+	this.getChild("sentenceSettingsIcon").self.classList.add("fa-solid", "fa-gear");
 
+	const startButton = this.getChild("startButton").self as HTMLButtonElement;
+	startButton.disabled = true;
     }
 
-    connectElements(){
-	 this.addChildren([
-	     this.visualizer,
-	     this.divGradient,
-	     this.textHolder,
-	     this.div1.addChildren([
-		 this.startButton,
-		 this.div2.addChildren([
-		     this.divLetter.addChildren([
-			 this.letterSettings,
-			 this.letterButton,
-		     ]),
-		     this.divWord.addChildren([
-			 this.wordSettings,
-			 this.wordButton,
-		     ]),
-		     this.divSentence.addChildren([
-			 this.sentenceSettings,
-			 this.sentenceButton
-		     ])
-		 ]),
-	     ]),
-	     this?.textAudio,
-	     this.gameConfigModal,
-	     this.testButton
-	 ]);
+    override structureElements(): Array<Component2> {
+	const textAudio = new TextAudio("GameTextAudio"); 
+	const visualizer: Visualizer = new Visualizer(textAudio.audio);
 
-	 this.letterSettings.appendChild(this.letterSettingsIcon);
-	 this.wordSettings.appendChild(this.wordSettingsIcon);
-	 this.sentenceSettings.appendChild(this.sentenceSettingsIcon);
-     }
+	const div1: Box2 = new Box2("div1");
+	    const startButton: Element = new Element("button", "Start"); 
+	    const div2: Box2 = new Box2("div2");
+		const divLetter: Box2 = new Box2("divLetter");
+		    const letterSettings: Element = new Element("button", "letterSettings");
+			const letterSettingsIcon: Element = new Element("i", "letterSettingsIcon"); 
+		    const letterButton: Element = new Element("button", "letterButton");
+		const divWord: Box2 = new Box2("divWord");
+		    const wordSettings: Element = new Element("button", "wordSettings");
+			const wordSettingsIcon: Element = new Element("i", "wordSettingsIcon");
+		    const wordButton: Element = new Element("button", "Word");
+		const divSentence: Box2 = new Box2("divSentence");
+		    const sentenceSettings: Element = new Element("button", "sentenceSettings");
+			const sentenceSettingsIcon: Element = new Element("i", "sentenceSettingsIcon");
+		    const sentenceButton: Element = new Element("button", "Sentence");
+
+	return [
+	    visualizer,
+	    div1.addChildren([
+		startButton,
+		div2.addChildren([
+		    divLetter.addChildren([
+			letterSettings.addChildren([
+			    letterSettingsIcon
+			]),
+			letterButton
+		    ]),
+		    divWord.addChildren([
+			wordSettings.addChildren([
+			    wordSettings.addChildren([
+				wordSettingsIcon
+			    ])
+			]),
+			wordButton
+		    ]),
+		    divSentence.addChildren([
+			sentenceSettings.addChildren([
+			    sentenceSettingsIcon
+			]),
+			sentenceButton
+		    ])
+		])
+	    ])
+	]
+
+    } 
+
+	 //   connectElements(){
+	 // this.addChildren([
+	 //     this.visualizer,
+	 //     this.divGradient,
+	 //     this.textHolder,
+	 //     this.div1.addChildren([
+	 //  this.startButton,
+	 //  this.div2.addChildren([
+	 //      this.divLetter.addChildren([
+	 // 	 this.letterSettings,
+	 // 	 this.letterButton,
+	 //      ]),
+	 //      this.divWord.addChildren([
+	 // 	 this.wordSettings,
+	 // 	 this.wordButton,
+	 //      ]),
+	 //      this.divSentence.addChildren([
+	 // 	 this.sentenceSettings,
+	 // 	 this.sentenceButton
+	 //      ])
+	 //  ]),
+	 //     ]),
+	 //     this?.textAudio,
+	 //     this.gameConfigModal,
+	 //     this.testButton
+	 // ]);
+	 //
+	 // this.letterSettings.appendChild(this.letterSettingsIcon);
+	 // this.wordSettings.appendChild(this.wordSettingsIcon);
+	 // this.sentenceSettings.appendChild(this.sentenceSettingsIcon);
+	 //    }
+
 
      override eventElements(){
-	this.startButton.addEventListener("click", () => this.gameRouterSystem.startGame(), {signal: this.abortController?.signal});
+	this.addEvent("startButton", "click", () => this.gameRouterSystem.startGame());
 
-	this.letterButton.addEventListener("click", () => this.gameRouterSystem.setGameType(ChallengeType.LETTER), {signal: this.abortController?.signal});
-	this.wordButton.addEventListener("click", () => this.gameRouterSystem.setGameType(ChallengeType.WORD), {signal: this.abortController?.signal});
-	this.sentenceButton.addEventListener("click", () => this.gameRouterSystem.setGameType(ChallengeType.SENTENCE), {signal: this.abortController?.signal});
+	this.addEvent("letterButton", "click", () => this.gameRouterSystem.setGameType(ChallengeType.LETTER))
 
-	this.letterSettings.addEventListener("click", () => this.gameConfigModal.gameConfigModalSystem.setDefaultConfig(ChallengeType.LETTER), {signal: this.abortController?.signal});
-	this.wordSettings.addEventListener("click", () => this.gameConfigModal.gameConfigModalSystem.setDefaultConfig(ChallengeType.WORD), {signal: this.abortController?.signal});
-	this.sentenceSettings.addEventListener("click", () => this.gameConfigModal.gameConfigModalSystem.setDefaultConfig(ChallengeType.SENTENCE), {signal: this.abortController?.signal});
+	this.addEvent("wordButton", "click", () => this.gameRouterSystem.setGameType(ChallengeType.WORD));
 
-	this.testButton.addEventListener("click", () => this.preDestroy());
+	this.addEvent("sentenceButton", "click", () => this.gameRouterSystem.setGameType(ChallengeType.SENTENCE));
+
+	this.addEvent("letterSettings", "click", () => this.gameConfigModal.system.setDefaultConfig(ChallengeType.LETTER) );
+
+	this.addEvent("wordSettings", "click", () => this.gameConfigModal.system.setDefaultConfig(ChallengeType.WORD));
+
+	this.addEvent("letterSettings", "click", () => this.gameConfigModal.system.setDefaultConfig(ChallengeType.SENTENCE));
     }
 
     
@@ -163,19 +196,18 @@ class GameRouter extends Box{
         )
 	`;
 	// this.div1.style.height = "100px";
-	this.div1.style.marginTop = "50px";
-	this.div1.style.width = "500px";
+	this.styleChild("div1").marginTop = "50px";
+	this.styleChild("div1").width = "500px";
 	// this.div1.style.border = "1px solid white";
-	this.div1.style.display = "flex";
-	this.div1.style.flexDirection = "column";
-	this.div1.style.justifyContent = "center";
-	this.div1.style.alignItems = "center";
-	this.div1.style.gap = "10px";
+	this.styleChild("div1").display = "flex";
+	this.styleChild("div1").flexDirection = "column";
+	this.styleChild("div1").justifyContent = "center";
+	this.styleChild("div1").alignItems = "center";
+	this.styleChild("div1").gap = "10px";
 
-	this.div2.style.display = "flex";
-	this.div2.style.gap = "4px";
+	this.styleChild("div2").display = "flex";
+	this.styleChild("div2").gap = "4px";
 
-	this.startButton.disabled = true;
     }
     
 

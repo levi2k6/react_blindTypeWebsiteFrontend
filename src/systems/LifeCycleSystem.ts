@@ -30,7 +30,6 @@ class LifeCycleSystem{
 	this.currentComponent.init();
     }
 
-
     public destroyComponent(){
 	if(!this.currentComponent){
 	    console.log("LifeCycleSystem[] initComponent: cannot destroy undefined component");

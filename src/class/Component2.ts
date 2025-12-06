@@ -3,6 +3,7 @@ abstract class Component2{
     private element: HTMLElement;
     private name: string;
     private children: Map<string, Component2> = new Map();
+    private controller: AbortController = new AbortController;
 
     constructor(element: HTMLElement, name: string);
     constructor(element: HTMLElement, name: string, innerText?: string);
@@ -16,12 +17,24 @@ abstract class Component2{
 	}
     }
 
+    public getName(){
+	return this.name;
+    }
+
     get self(){
 	return this.element;
     }
 
     get style(){
 	return this.element.style;
+    }
+
+    get abortController(){
+	return this.controller;
+    }
+
+    public getChildren(): Map<string, Component2>{
+	return this.children;
     }
 
     public init(){
@@ -50,6 +63,7 @@ abstract class Component2{
 	    }
 	}
 	this.setPresetChildren();
+	console.log("look at children: ", this.children);
 	console.log(`Component ${this.name} setPresetChildren done`);
     }
 
@@ -61,6 +75,7 @@ abstract class Component2{
 		child.initAllInitElements();
 	    }
 	}
+	this.controller = new AbortController;
 	this.initElements();
 	console.log(`Component ${this.name} initElements done`);
     }
@@ -101,18 +116,19 @@ abstract class Component2{
 
     
     public destroy(){
-	//destroy children
+	//destroy recursion 
 	for(const key of this.children.keys()){
 	    const child = this.children.get(key);
 	    if(!child) return;
-	    if(child?.children.size > 0){
-		child.destroy();
-	    }
+	    child.destroy();
 	}
 
-	//destroy self  
+	//the function of destroy  
+	console.log(`Component: ${this.name} removed`);
 	this.self.remove();
 	this.children = new Map();
+	console.log("children after destroy: ", this.children);
+	this.controller.abort();
     }
 
     public getChild(name: string): Component2{
@@ -128,16 +144,12 @@ abstract class Component2{
 
     }
 
+    public addEvent(childName: string, event: string, func: EventListener){
+	this.getChild(childName).self.addEventListener(event, func, {signal: this.controller.signal});
+    } 
+
     public styleChild(name: string): CSSStyleDeclaration{
-	try{
-	    const child = this.children.get(name);
-	    if(!child){
-		throw new Error(`Component ${name} does not exist in children`);
-	    }
-	    return child.style;
-	}catch(error){
-	    throw error;
-	}
+	return this.getChild(name).style;
     };
 
     public addChildren( children : Array<Component2> ): Component2{

@@ -32,7 +32,7 @@ async function Main(){
     
 	const lifCycleSystem: LifeCycleSystem = new LifeCycleSystem();
 	const test1: Test1 = new Test1();
-	const test2: Test2 = new Test2();
+	const test2: Test2 = new Test2(lifCycleSystem);
 
 	const routeSystem2: RouteSystem2 = new RouteSystem2(
 	    lifCycleSystem,

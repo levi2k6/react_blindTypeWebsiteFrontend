@@ -28,22 +28,16 @@ class RouteSystem2{
 	console.log("lifeCycleSystem instance:", this.lifeCycleSystem);
 	console.log("methods:", Object.getOwnPropertyNames(Object.getPrototypeOf(this.lifeCycleSystem)));
 
+	this.initRouterRouteSystem();
 	this.initRouteSystem();
     };
 
 
 
-    private gameRouteHandler(){
-	console.log("game");
-	this.lifeCycleSystem.setCurrentComponent(this.test1);
-	this.lifeCycleSystem.initComponent();
-	const currentComponent = this.lifeCycleSystem.getCurrentComponent();
-	console.log("currentComponent: ", currentComponent);
-	this.addAppElement(currentComponent);
-    };
-
-    private aboutRouteHandler(){
-	this.lifeCycleSystem.setCurrentComponent(this.test2);
+    private changeRouterHandler(router: Component2){
+	console.log("changing route handler");
+	this.lifeCycleSystem.destroyComponent();
+	this.lifeCycleSystem.setCurrentComponent(router);
 	this.lifeCycleSystem.initComponent();
 	const currentComponent = this.lifeCycleSystem.getCurrentComponent();
 	this.addAppElement(currentComponent);
@@ -51,12 +45,14 @@ class RouteSystem2{
 
     private initRouteSystem(){
 	this.router
-	.on("/", this.gameRouteHandler.bind(this))
-	.on("/about", this.aboutRouteHandler.bind(this))
+	.on("/", ()=> this.changeRouterHandler(this.test1))
+	.on("/about", ()=> this.changeRouterHandler(this.test2))
 	.resolve();
     }
 
     initRouterRouteSystem(){
+	this.test1.setRouteSystem(this);
+	this.test2.setRouteSystem(this);
     }
 
     addAppElement(route : Component2 | undefined): void{
@@ -64,14 +60,12 @@ class RouteSystem2{
 	    console.log("RouteSystem2[] initRouteSystem: cannot change route to undefined router");
 	    return;
 	}
-	console.log("addAppElement: ", route);
-	this.app.innerHTML = "";
-	route.eventElements();
+	// console.log("addAppElement: ", route);
+	// this.app.innerHTML = "";
 	this.app.appendChild(route.self);
     }
 
     navigate(routerName: string){
-	this.lifeCycleSystem.destroyComponent();
 	this.router.navigate(routerName);
 	this.router.resolve();
     }
