@@ -4,6 +4,7 @@ import Input from "../Input";
 import { ChallengeType } from "../../../utils/enums/ChallengeTypeEnum";
 import GameConfigManager from "../game_config/GameConfigManager";
 import Visualizer from "../../component/Visualizer";
+import type TextHolder from "../../component/TextHolder";
 
 class GameRouterSystem{
 
@@ -24,23 +25,28 @@ class GameRouterSystem{
 	return this.input; 
     }
 
-    public constructor(gameRouter: GameRouter, gameConfigManager: GameConfigManager, visualizer: Visualizer){
+    public constructor(gameRouter: GameRouter, gameConfigManager: GameConfigManager){
 	this.gameRouter = gameRouter;
 	this.gameConfigManager = gameConfigManager;
-	this.gameSystem = new GameSystem(gameRouter, this.gameConfigManager, visualizer); 
+	this.gameSystem = new GameSystem(gameRouter, this.gameConfigManager); 
 	this.input = new Input(this.gameRouter, this.gameSystem);
 	// this.input.turnOnInput();
     }
 
     public reset(){
-	this.gameRouter.textHolder.system.reset();
+
+	const textHolder = this.gameRouter.getChild("textHolder") as TextHolder;
+	textHolder.system.reset();
 	this.gameSystem.gameReset();
-	this.gameRouter.startButton.disabled = true;
-	this.gameRouter.div1.style.visibility = "hidden";
+	const startButton = this.gameRouter.getChildSelf("startButton") as HTMLButtonElement;
+	startButton.disabled = true;
+	this.gameRouter.getChild("div1").style.visibility = "hidden";
     }
 
     public setGameType(type: ChallengeType){
-	this.gameRouter.startButton.disabled = false;
+	const startButton = this.gameRouter.getChildSelf("startButton") as HTMLButtonElement;
+	startButton.disabled = false;
+
 	this.gameSystem.setType(type);
 	this.gameSystem.switchGame(type);
     }
@@ -60,22 +66,20 @@ class GameRouterSystem{
     }
 
     setDivGradientSize(){
-
 	if(this.gameSystem.getIsGaming()){
-	    this.gameRouter.divGradient.style.height = "50%";
+	    this.gameRouter.getChild("divGradient").style.height = "50%";
 	}else{
-	    this.gameRouter.divGradient.style.height = "100%";
+	    this.gameRouter.getChild("divGradient").style.height = "100%";
 	}
-
     }
 
     setDivGradient(){
 	if(this.gameSystem.getIsGaming()){
-	    this.gameRouter.divGradient.style.setProperty("--upGradient", "40%");
-	    this.gameRouter.divGradient.style.setProperty("--downGradient", "60%");
+	    this.gameRouter.getChild("divGradient").style.setProperty("--upGradient", "40%");
+	    this.gameRouter.getChild("divGradient").style.setProperty("--downGradient", "60%");
 	}else{
-	    this.gameRouter.divGradient.style.setProperty("--upGradient", "0%");
-	    this.gameRouter.divGradient.style.setProperty("--downGradient", "100%");
+	    this.gameRouter.getChild("divGradient").style.setProperty("--upGradient", "0%");
+	    this.gameRouter.getChild("divGradient").style.setProperty("--downGradient", "100%");
 	}
 
     }

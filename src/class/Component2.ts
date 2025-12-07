@@ -37,6 +37,25 @@ abstract class Component2{
 	return this.children;
     }
 
+    public getChild(name: string): Component2{
+	try{
+	    const child = this.children.get(name);
+	    if(!child){
+		throw new Error(`Component  ${name}  does not exist in children`);
+	    }
+	    return child;
+	}catch(error){
+	    throw error;
+	}
+
+    }
+
+    public getChildSelf(childName: string): HTMLElement{
+	return this.getChild(childName).self;
+    }
+
+    
+
     public init(){
 	console.log(this.name, ": is initing");
 	console.log(`${this.name} has a children of : `, this.children);
@@ -131,18 +150,6 @@ abstract class Component2{
 	this.controller.abort();
     }
 
-    public getChild(name: string): Component2{
-	try{
-	    const child = this.children.get(name);
-	    if(!child){
-		throw new Error(`Component  ${name}  does not exist in children`);
-	    }
-	    return child;
-	}catch(error){
-	    throw error;
-	}
-
-    }
 
     public addEvent(childName: string, event: string, func: EventListener){
 	this.getChild(childName).self.addEventListener(event, func, {signal: this.controller.signal});

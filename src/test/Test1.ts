@@ -30,7 +30,7 @@ class Test1 extends Box2{
     override eventElements(): void {
 	if(!this.routeSystem) throw new Error(`RouteSystem is undefined`);
 
-	this.addEvent("button1", "click", () => this.routeSystem?.navigate("/about"));
+	this.addEvent("button1", "click", () => this.routeSystem?.navigate("/game"));
     } 
 
     override styleElements(): void {

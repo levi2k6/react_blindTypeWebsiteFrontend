@@ -1,7 +1,7 @@
 import type { Challenge } from "../../../utils/interfaces";
 import TextHolder from "../../component/TextHolder";
-import Box from "../../../class/Box";
 import Letter from "../../component/Letter";
+import Box2 from "../../../class/Box2";
 
 class TextHolderSystem{
 
@@ -19,16 +19,17 @@ class TextHolderSystem{
     }
 
     displayWrongLetter(letter: string){
-	const wrongLetter = new Letter(letter);
+	const wrongLetter = new Letter("wrongLetter", letter);
 	wrongLetter.turnRed();
-	this.textHolder.addChild(wrongLetter);
+	this.textHolder.addChildren([wrongLetter]);
     }
 
     addLetters(challenges: Challenge[]){
 	challenges.forEach(challenge => {
 	    const letters = [];
 	    for(let i = 0; i < challenge.text.length; i++){
-		const letter = new Letter(challenge.text[i]);
+		const name = `letter${i}`
+		const letter = new Letter(name, challenge.text[i]);
 		if(letter.self.innerText == " "){
 		    letter.self.innerHTML = "&nbsp;";
 		}
@@ -39,12 +40,12 @@ class TextHolderSystem{
     }
 
     displayLetters(i: number){
-	const div = new Box("DivLine");
+	const div = new Box2("DivLine");
 	div.addChildren(this.challengeLetters[i]);
 	// div.style.border = "1px solid green";
 	div.style.display = "flex";
 	div.style.flexShrink = "0";
-	this.textHolder.addChild(div);
+	this.textHolder.addChildren([div]);
     }
 
     removeChallengeLetters(){

@@ -1,8 +1,6 @@
-import Box from "../../class/Box";
 import Box2 from "../../class/Box2";
 import type Component2 from "../../class/Component2";
 import  Element from "../../class/Element";
-import { createElement } from "../../ui_system/Element";
 import TextAudioSystem from "../system/component_system/TextAudioSystem";
 import type GameSystem from "../system/game_system/GameSystem";
 
@@ -41,13 +39,6 @@ class TextAudio extends Box2{
 	]
     } 
 
-	//    override connectElements(){
-	// this.addChildren([
-	//     this.audio,
-	//     this.audioDing,
-	//     this.audioWrong
-	// ]);
-	//    }
 
     override eventElements(){
 	// this.getChild("audio").self.addEventListener("ended", ()=>{

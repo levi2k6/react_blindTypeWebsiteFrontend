@@ -9,7 +9,6 @@ class LifeCycleSystem{
 
     public setCurrentComponent(component: Component2): void{
 	this.currentComponent = component;
-	console.log("currentComponent: ", component);
     }
 
     public getCurrentComponent(){
@@ -18,10 +17,14 @@ class LifeCycleSystem{
 
 
     public initComponent(){
+	console.log("currentComponent here: ", this.currentComponent);
+
 	if(!this.currentComponent){
 	    console.log("LifeCycleSystem[] initComponent: cannot init undefined component");
 	    return
 	};
+	console.log("test test");
+
 	this.currentComponent.initAllPresetChildren();
 	this.currentComponent.initAllInitElements();
 	this.currentComponent.initAllEventElements();

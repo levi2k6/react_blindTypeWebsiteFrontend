@@ -3,6 +3,7 @@ import LifeCycleSystem from "../systems/LifeCycleSystem";
 import Test1 from "../test/Test1";
 import Test2 from "../test/Test2";
 import Component2 from "../class/Component2";
+import type GameRouter from "../game/component/GameRouter";
 
 class RouteSystem2{
     
@@ -14,16 +15,19 @@ class RouteSystem2{
 
     test1: Test1;
     test2: Test2;
+    gameRouter: GameRouter;
 
 
     constructor(
 	lifeCycleSystem: LifeCycleSystem,
 	test1: Test1,
-	test2: Test2
+	test2: Test2,
+	gameRouter: GameRouter
     ){
 	this.lifeCycleSystem = lifeCycleSystem;
 	this.test1 = test1;
 	this.test2 = test2;
+	this.gameRouter = gameRouter;
 
 	console.log("lifeCycleSystem instance:", this.lifeCycleSystem);
 	console.log("methods:", Object.getOwnPropertyNames(Object.getPrototypeOf(this.lifeCycleSystem)));
@@ -35,7 +39,6 @@ class RouteSystem2{
 
 
     private changeRouterHandler(router: Component2){
-	console.log("changing route handler");
 	this.lifeCycleSystem.destroyComponent();
 	this.lifeCycleSystem.setCurrentComponent(router);
 	this.lifeCycleSystem.initComponent();
@@ -47,6 +50,7 @@ class RouteSystem2{
 	this.router
 	.on("/", ()=> this.changeRouterHandler(this.test1))
 	.on("/about", ()=> this.changeRouterHandler(this.test2))
+	.on("/game", ()=> this.changeRouterHandler(this.gameRouter))
 	.resolve();
     }
 

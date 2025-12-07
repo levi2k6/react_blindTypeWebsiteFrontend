@@ -17,17 +17,15 @@ class GameSystem{
 
     private gameConfigManager: GameConfigManager;
     private gameRouter: GameRouter;
-    private visualizer: Visualizer;
     private isGaming: boolean = false;
     private gameRegistry: GameRegistry;
 
     private timer: Timer = new Timer(); 
 
-    constructor(gameRouter: GameRouter, gameConfigManager: GameConfigManager, visualizer: Visualizer){
+    constructor(gameRouter: GameRouter, gameConfigManager: GameConfigManager){
 	this.gameRouter = gameRouter;
 	this.gameConfigManager = gameConfigManager;   
 	this.gameRegistry = new GameRegistry(gameRouter, this, gameConfigManager , this.timer );
-	this.visualizer = visualizer;
     }
 
     getGame(){
@@ -66,11 +64,17 @@ class GameSystem{
     }  
 
     async gameEnd(){
-	this.visualizer.system.startDisappear();
-	this.gameRouter.textHolder.style.visibility = "visible";
-	this.gameRouter.startButton.disabled = false;
+	const visualizer = this.gameRouter.getChild("visualizer") as Visualizer;
+	visualizer.system.startDisappear();
+
+	const textHolder = this.gameRouter.getChild("textHolder");
+	textHolder.style.visibility = "visible";
+
+	const startButton = this.gameRouter.getChildSelf("startButton") as HTMLButtonElement;
+	startButton.disabled = false;
+
 	this.isGaming = false; 
-	this.gameRouter.div1.style.visibility = "visible";
+	this.gameRouter.getChild("div1").style.visibility = "visible";
 	this.gameRouter.system.setDivGradient();
 	// this.gameRouter.system.getInput().turnOffInput();
     }

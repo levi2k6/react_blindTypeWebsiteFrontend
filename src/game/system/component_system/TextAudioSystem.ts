@@ -10,42 +10,48 @@ class TextAudioSystem{
 
     constructor(textAudio: TextAudio){
 	this.textAudio = textAudio;
+	console.log("textAudio children: ", textAudio.getChildren());
 	this.init();
     }
 
     init(){
-	this.textAudio.audioDing.src = this.dingPath;
-	this.textAudio.audioDing.load();
+	const audioDing = this.textAudio.getChildSelf("audioDing") as HTMLAudioElement;
+	audioDing.src = this.dingPath;
+	audioDing.load();
 
-	this.textAudio.audioWrong.src = this.wrongPath;
-	this.textAudio.audioWrong.load()
+	const audioWrong = this.textAudio.getChildSelf("audioWrong") as HTMLAudioElement;
+	audioWrong.src = this.wrongPath;
+	audioWrong.load();
     }
 
     addAudioSource(audioName: string, type: ChallengeType){
-	this.textAudio.audio.muted = false;
+	const audio = this.textAudio.getChildSelf("audio") as HTMLAudioElement;
+	audio.muted = false;
 
 	const typeString = ChallengeType[type].toLowerCase();
 	let url;
 	url  = `http://localhost:8080/api/v1/public/audio/${typeString}/${audioName}`;
 
-	this.textAudio.audio.src = url; 
-	this.textAudio.audio.load();
-	this.textAudio.audio.play();
+	audio.src = url; 
+	audio.load();
+	audio.play();
     }
 
     stopAudio(){
-	this.textAudio.audio.pause();
-	this.textAudio.audio.currentTime = 0;
+	const audio = this.textAudio.getChildSelf("audio") as HTMLAudioElement;
+	audio.pause();
+	audio.currentTime = 0;
     }
 
     ding(){
-	this.textAudio.audioDing.play();
+	const audioDing = this.textAudio.getChildSelf("audioDing") as HTMLAudioElement;
+	audioDing.play();
     }
 
     wrong(){
-	this.textAudio.audioWrong.play();
+	const audioWrong = this.textAudio.getChildSelf("audioWrong") as HTMLAudioElement;
+	audioWrong.play();
     }
-
 
 } 
 

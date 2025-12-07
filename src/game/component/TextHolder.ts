@@ -1,7 +1,7 @@
-import Box from "../../class/Box";
+import Box2 from "../../class/Box2";
 import TextHolderSystem from "../system/component_system/TextHolderSystem";
 
-class TextHolder extends Box{
+class TextHolder extends Box2{
 
     textHoldersystem: TextHolderSystem = new TextHolderSystem(this);
 
@@ -14,9 +14,8 @@ class TextHolder extends Box{
 	 return this.textHoldersystem;
      }
 
-    override initElements(){};
 
-    override connectElements(){}
+    override initElements(){};
 
     override eventElements(){}
 

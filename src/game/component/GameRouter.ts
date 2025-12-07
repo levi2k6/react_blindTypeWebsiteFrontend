@@ -1,7 +1,5 @@
 import { createElement } from "../../ui_system/Element.ts";
 
-import Box from "../../class/Box.ts";
-
 import GameRouterSystem from "../system/component_system/GameRouterSystem.ts";
 import TextHolder from "./TextHolder.ts";
 import TextAudio from "./TextAudio.ts";
@@ -14,17 +12,10 @@ import Box2 from "../../class/Box2.ts";
 import Element from "../../class/Element.ts";
 
 class GameRouter extends Box2{
-
-    public textAudio = new TextAudio("GameTextAudio"); 
-    public visualizer: Visualizer = new Visualizer(this.textAudio.audio);
-    public divGradient = new Box("divGradient");
-    public textHolder = new TextHolder("TextHolder");
-
-
     private gameConfigManager: GameConfigManager = new GameConfigManager(); 
 
     private gameConfigModal: GameConfigModal = new GameConfigModal(this.gameConfigManager);
-    private gameRouterSystem: GameRouterSystem = new GameRouterSystem(this, this.gameConfigManager, this.visualizer);
+    private gameRouterSystem: GameRouterSystem = new GameRouterSystem(this, this.gameConfigManager);
 
 
     public testButton = createElement("button", "DESTROY");
@@ -37,23 +28,11 @@ class GameRouter extends Box2{
 	return this.gameRouterSystem;
     }
 
-    override async initElements(){
-
-	this.textAudio.setGameSystem(this.gameRouterSystem.getGameSystem());
-
-	this.gameConfigModal.style.display = "none";
-
-	this.getChild("letterSettingsIcon").self.classList.add("fa-solid", "fa-gear");
-	this.getChild("wordSettingsIcon").self.classList.add("fa-solid", "fa-gear");
-	this.getChild("sentenceSettingsIcon").self.classList.add("fa-solid", "fa-gear");
-
-	const startButton = this.getChild("startButton").self as HTMLButtonElement;
-	startButton.disabled = true;
-    }
-
     override structureElements(): Array<Component2> {
 	const textAudio = new TextAudio("GameTextAudio"); 
-	const visualizer: Visualizer = new Visualizer(textAudio.audio);
+	const visualizer: Visualizer = new Visualizer(textAudio.getChildSelf("audio") as HTMLAudioElement);
+	const divGradient = new Box2("divGradient");
+	const textHolder = new TextHolder("TextHolder");
 
 	const div1: Box2 = new Box2("div1");
 	    const startButton: Element = new Element("button", "Start"); 
@@ -73,6 +52,8 @@ class GameRouter extends Box2{
 
 	return [
 	    visualizer,
+	    divGradient,
+	    textHolder,
 	    div1.addChildren([
 		startButton,
 		div2.addChildren([
@@ -100,7 +81,23 @@ class GameRouter extends Box2{
 	    ])
 	]
 
-    } 
+    }
+
+    override async initElements(){
+	const textAudio = this.getChild("textAudio") as TextAudio;
+	textAudio.setGameSystem(this.gameRouterSystem.getGameSystem());
+
+	this.gameConfigModal.style.display = "none";
+
+	this.getChild("letterSettingsIcon").self.classList.add("fa-solid", "fa-gear");
+	this.getChild("wordSettingsIcon").self.classList.add("fa-solid", "fa-gear");
+	this.getChild("sentenceSettingsIcon").self.classList.add("fa-solid", "fa-gear");
+
+	const startButton = this.getChild("startButton").self as HTMLButtonElement;
+	startButton.disabled = true;
+    }
+
+ 
 
 	 //   connectElements(){
 	 // this.addChildren([
@@ -180,13 +177,16 @@ class GameRouter extends Box2{
 	this.style.justifyContent = "center";
 	this.style.alignItems = "center";
 
-	this.divGradient.style.position = "absolute"; 
+
+	const divGradient = this.getChild("divGradient");
+
+	this.getChild("divGradient").style.position = "absolute"; 
 	// this.divGradient.style.border = "3px solid red";
-	this.divGradient.style.zIndex = "-1";
-	this.divGradient.style.height = "100%";
-	this.divGradient.style.width = "100%";
-	this.divGradient.style.transition = "height 1s ease-in-out, width 1s ease-in-out, --upGradient 1s ease-in-out, --downGradient 1s ease-in-out";
-	this.divGradient.style.background = `
+	divGradient.style.zIndex = "-1";
+	divGradient.style.height = "100%";
+	divGradient.style.width = "100%";
+	divGradient.style.transition = "height 1s ease-in-out, width 1s ease-in-out, --upGradient 1s ease-in-out, --downGradient 1s ease-in-out";
+	divGradient.style.background = `
         linear-gradient(
             to bottom,
             #121212 0%,
@@ -210,11 +210,6 @@ class GameRouter extends Box2{
 
     }
     
-
-
-    
-
-
 }
 
 export default GameRouter;

@@ -1,7 +1,7 @@
-import Box from "../../class/Box";
+import Box2 from "../../class/Box2";
 import { createElement } from "../../ui_system/Element";
 
-class Letter extends Box{
+class Letter extends Box2{
 
     private char: string;
     private letter = createElement("h1"); 
@@ -14,8 +14,8 @@ class Letter extends Box{
 	return this.char;
     }
 
-    constructor(letter: string){
-	super();
+    constructor(name: string, letter: string){
+	super(name);
 	this.char = letter;
 	// console.log("char: ", this.char);
 	this.letter.innerText = letter;
