@@ -64,8 +64,6 @@ class RouteSystem2{
 	    console.log("RouteSystem2[] initRouteSystem: cannot change route to undefined router");
 	    return;
 	}
-	// console.log("addAppElement: ", route);
-	// this.app.innerHTML = "";
 	this.app.appendChild(route.self);
     }
 

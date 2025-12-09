@@ -22,11 +22,6 @@ class TextAudio extends Box2{
 	this.textAudioSystem = new TextAudioSystem(this);
     }
 
-    override initElements(): void{
-	const audio = this.getChild("audio") .self as HTMLAudioElement;
-	audio.crossOrigin = "anonymous";
-    }
-
     override structureElements(): Array<Component2> {
 	const audio: Element = new Element("audio", "audio");
 	const audioDing: Element = new Element("audio", "audioDing");
@@ -39,6 +34,21 @@ class TextAudio extends Box2{
 	]
     } 
 
+    override initElements(): void{
+	const audio = this.getChild("audio").self as HTMLAudioElement;
+	audio.crossOrigin = "anonymous";
+
+	const dingPath: string = "/ding.mp3";
+	const wrongPath: string = "/wrong.wav";
+
+	const audioDing = this.getChildSelf("audioDing") as HTMLAudioElement;
+	audioDing.src = dingPath;
+	audioDing.load();
+
+	const audioWrong = this.getChildSelf("audioWrong") as HTMLAudioElement;
+	audioWrong.src = wrongPath;
+	audioWrong.load();
+    }
 
     override eventElements(){
 	// this.getChild("audio").self.addEventListener("ended", ()=>{
@@ -51,21 +61,21 @@ class TextAudio extends Box2{
 	//     }
 	// });
 
-	this.addEvent("audio", "ended", () => {
-	    if(this.gameSystem?.getIsContinuous()){
-		console.log("TextAudio eventElements: ", this.gameSystem.getGame());
-		this.gameSystem.getGame()?.continuousAudioChange();
-	    }else{
-		//debug here
-	    }
-	})
+	// this.addEvent("audio", "ended", () => {
+	//     if(this.gameSystem?.getIsContinuous()){
+	// 	console.log("TextAudio eventElements: ", this.gameSystem.getGame());
+	// 	this.gameSystem.getGame()?.continuousAudioChange();
+	//     }else{
+	// 	//debug here
+	//     }
+	// })
     }
 
     override styleElements(){
-	this.style.display = "none";
-	this.style.border = "1px solid black";
-	this.style.height = "100px";
-	this.style.width = "100px";
+	// this.style.display = "none";
+	// this.style.border = "1px solid black";
+	// this.style.height = "100px";
+	// this.style.width = "100px";
     }
 }
 

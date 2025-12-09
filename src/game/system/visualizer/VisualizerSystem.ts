@@ -32,6 +32,12 @@ class VisualizerSystem {
     this.resize();
   }
 
+
+
+  public setAudio(audio: HTMLAudioElement){
+      this.audio = audio;
+  }
+
   getAudioCtx() {
     return this.audioCtx;
   }

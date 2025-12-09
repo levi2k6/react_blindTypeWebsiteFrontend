@@ -1,23 +1,27 @@
 import Component2 from "../../class/Component2";
 import  Element from "../../class/Element";
 import VisualizerSystem from "../system/visualizer/VisualizerSystem";
+import type TextAudio from "./TextAudio";
 
 class Visualizer extends Component2{
 
-    audio: HTMLAudioElement;
+    private audio?: HTMLAudioElement;
 
     private visualizerSystem: VisualizerSystem;
 
-    constructor(audio: HTMLAudioElement){
+    constructor(){
 	const element: HTMLElement = new Element("canvas", "Visualizer").self; 
 	super(element, "Visualizer");
-	this.audio = audio;
 	this.visualizerSystem = new VisualizerSystem(this.audio, this.self as HTMLCanvasElement); 
     }
 
     get system(){
 	return this.visualizerSystem;
     } 
+
+    public setAudio(audio: HTMLAudioElement){
+	this.audio = audio;
+    }
 
     override structureElements(): Array<Component2> {
 	return[
@@ -26,9 +30,6 @@ class Visualizer extends Component2{
 
     override initElements(): void{
 
-    }
-
-    override connectElements(): void{
     }
 
     override eventElements(): void{

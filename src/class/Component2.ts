@@ -74,11 +74,13 @@ abstract class Component2{
     }
 
     public initAllPresetChildren(){ 
-	for(const key of this.children.keys()){
-	    const child = this.children.get(key);
-	    if(!child) return;
-	    if(child?.children.size > 0){
-		child.initAllPresetChildren();
+	if(this.children.size !== 0){
+	    for(const key of this.children.keys()){
+		const child = this.children.get(key);
+		if(!child) return;
+		if(child?.children.size > 0){
+		    child.initAllPresetChildren();
+		}
 	    }
 	}
 	this.setPresetChildren();
@@ -87,11 +89,13 @@ abstract class Component2{
     }
 
     public  initAllInitElements(){
-	for(const key of this.children.keys()){
-	    const child = this.children.get(key);
-	    if(!child) return;
-	    if(child?.children.size > 0){
-		child.initAllInitElements();
+	if(this.children.size !== 0){
+	    for(const key of this.children.keys()){
+		const child = this.children.get(key);
+		if(!child) return;
+		if(child?.children.size > 0){
+		    child.initAllInitElements();
+		}
 	    }
 	}
 	this.controller = new AbortController;
@@ -100,11 +104,13 @@ abstract class Component2{
     }
 
     public initAllEventElements(){
-	for(const key of this.children.keys()){
-	    const child = this.children.get(key);
-	    if(!child) return;
-	    if(child?.children.size > 0){
-		child.initAllEventElements();
+	if(this.children.size !== 0){
+	    for(const key of this.children.keys()){
+		const child = this.children.get(key);
+		if(!child) return;
+		if(child?.children.size > 0){
+		    child.initAllEventElements();
+		}
 	    }
 	}
 	this.eventElements();
@@ -112,11 +118,13 @@ abstract class Component2{
     }
 
     public initAllStyleElements(){
-	for(const key of this.children.keys()){
-	    const child = this.children.get(key);
-	    if(!child) return;
-	    if(child?.children.size > 0){
-		child.initAllStyleElements();
+	if(this.children.size !== 0){
+	    for(const key of this.children.keys()){
+		const child = this.children.get(key);
+		if(!child) return;
+		if(child?.children.size > 0){
+		    child.initAllStyleElements();
+		}
 	    }
 	}
 	this.styleElements();
@@ -124,22 +132,26 @@ abstract class Component2{
     }
 
     public connectElements(){
-	for(const key of this.children.keys()){
-	    const child = this.children.get(key);
-	    if(!child) return;
-	    child.connectElements();
-	    this.self.appendChild(child.self);
+
+	if(this.children.size !== 0){
+	    for(const key of this.children.keys()){
+		const child = this.children.get(key);
+		if(!child) return;
+		child.connectElements();
+		this.self.appendChild(child.self);
+	    }
 	}
 	console.log(`Component ${this.name} connectElements done`);
     }
-
     
     public destroy(){
 	//destroy recursion 
-	for(const key of this.children.keys()){
-	    const child = this.children.get(key);
-	    if(!child) return;
-	    child.destroy();
+	if(this.children.size !== 0){
+	    for(const key of this.children.keys()){
+		const child = this.children.get(key);
+		if(!child) return;
+		child.destroy();
+	    }
 	}
 
 	//the function of destroy  

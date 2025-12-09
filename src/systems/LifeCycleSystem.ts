@@ -18,6 +18,7 @@ class LifeCycleSystem{
 
     public initComponent(){
 	console.log("currentComponent here: ", this.currentComponent);
+	console.log("snapshot:", JSON.stringify(this.currentComponent?.getChildren()));
 
 	if(!this.currentComponent){
 	    console.log("LifeCycleSystem[] initComponent: cannot init undefined component");
@@ -35,7 +36,7 @@ class LifeCycleSystem{
 
     public destroyComponent(){
 	if(!this.currentComponent){
-	    console.log("LifeCycleSystem[] initComponent: cannot destroy undefined component");
+	    console.log("LifeCycleSystem[] destroyComponent: cannot destroy undefined component");
 	    return
 	};
 

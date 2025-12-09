@@ -11,7 +11,6 @@ class TextAudioSystem{
     constructor(textAudio: TextAudio){
 	this.textAudio = textAudio;
 	console.log("textAudio children: ", textAudio.getChildren());
-	this.init();
     }
 
     init(){

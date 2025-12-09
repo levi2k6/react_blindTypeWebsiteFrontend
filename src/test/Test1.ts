@@ -17,6 +17,7 @@ class Test1 extends Box2{
     }
 
     override structureElements(): Array<Component2>{
+	console.log("when was this even triggered");
 	return [
 	    new Box2("box2").addChildren([new Box2("henry")]),
 	    new Element("button", "button1", "click")
