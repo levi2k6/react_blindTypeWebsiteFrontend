@@ -192,6 +192,7 @@ abstract class Component2{
 
     abstract structureElements(): Array<Component2>;
 
+    abstract initComponent(): void;
     abstract initElements(): void;
     abstract eventElements(): void;
     abstract styleElements(): void; 

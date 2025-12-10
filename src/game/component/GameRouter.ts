@@ -29,9 +29,9 @@ class GameRouter extends Box2{
 	console.log("structureElements() GameRouter");
 
 	const textAudio = new TextAudio("GameTextAudio"); 
-	// const divGradient = new Box2("divGradient");
+	const divGradient = new Box2("divGradient");
 	console.log("textAudio: ", textAudio);
-	const visualizer: Visualizer = new Visualizer(textAudio);
+	const visualizer: Visualizer = new Visualizer();
 	const div1: Box2 = new Box2("div1");
 	    const startButton: Element = new Element("button", "startButton", "Start"); 
 	    const div2: Box2 = new Box2("div2");
@@ -51,7 +51,8 @@ class GameRouter extends Box2{
 
 	return [
 	    textAudio,
-
+	    visualizer,
+	    divGradient,
 	    div1.addChildren([
 		startButton,
 		div2.addChildren([

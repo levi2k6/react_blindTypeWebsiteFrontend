@@ -35,6 +35,7 @@ class TextAudio extends Box2{
     } 
 
     override initElements(): void{
+
 	const audio = this.getChild("audio").self as HTMLAudioElement;
 	audio.crossOrigin = "anonymous";
 

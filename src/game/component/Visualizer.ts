@@ -7,12 +7,11 @@ class Visualizer extends Component2{
 
     private audio?: HTMLAudioElement;
 
-    private visualizerSystem: VisualizerSystem;
+    private visualizerSystem: VisualizerSystem = new VisualizerSystem;
 
     constructor(){
 	const element: HTMLElement = new Element("canvas", "Visualizer").self; 
 	super(element, "Visualizer");
-	this.visualizerSystem = new VisualizerSystem(this.audio, this.self as HTMLCanvasElement); 
     }
 
     get system(){
@@ -29,13 +28,16 @@ class Visualizer extends Component2{
     } 
 
     override initElements(): void{
-
+	if(!this.audio) return;
+	this.visualizerSystem.initSystem(this.audio, this.self as HTMLCanvasElement);
     }
 
     override eventElements(): void{
+	if(!this.audio) throw new Error("Audio is undefined during add event to visualizer's element");
+
 	window.addEventListener("resize", () => this.visualizerSystem.resize());
 	this.audio.addEventListener("play", async ()=> {
-	    await this.visualizerSystem.getAudioCtx().resume();
+	    await this.visualizerSystem.getAudioCtx()?.resume();
 	    this.visualizerSystem.startAppear();
 	});
     }
