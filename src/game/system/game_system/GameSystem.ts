@@ -64,6 +64,8 @@ class GameSystem{
     }  
 
     async gameEnd(){
+	if(!this.gameRouter) return;
+
 	const visualizer = this.gameRouter.getChild("visualizer") as Visualizer;
 	visualizer.system.startDisappear();
 
@@ -75,6 +77,8 @@ class GameSystem{
 
 	this.isGaming = false; 
 	this.gameRouter.getChild("div1").style.visibility = "visible";
+
+	if(!this.gameRouter.system) return;
 	this.gameRouter.system.setDivGradient();
 	// this.gameRouter.system.getInput().turnOffInput();
     }

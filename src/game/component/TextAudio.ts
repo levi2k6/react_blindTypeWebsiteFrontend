@@ -2,7 +2,7 @@ import Box2 from "../../class/Box2";
 import type Component2 from "../../class/Component2";
 import  Element from "../../class/Element";
 import TextAudioSystem from "../system/component_system/TextAudioSystem";
-import type GameSystem from "../system/game_system/GameSystem";
+import GameSystem from "../system/game_system/GameSystem";
 
 class TextAudio extends Box2{
 
@@ -33,6 +33,11 @@ class TextAudio extends Box2{
 	    audioWrong
 	]
     } 
+
+    override initComponent(): void {
+	this.gameSystem = new GameSystem();
+	this.textAudioSystem = new TextAudioSystem(); 
+    }
 
     override initElements(): void{
 

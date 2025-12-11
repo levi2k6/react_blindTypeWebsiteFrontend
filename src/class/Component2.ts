@@ -88,6 +88,20 @@ abstract class Component2{
 	console.log(`Component ${this.name} setPresetChildren done`);
     }
 
+    public initAllInitComponents(){
+	if(this.children.size !== 0){
+	    for(const key of this.children.keys()){
+		const child = this.children.get(key);
+		if(!child) return;
+		if(child?.children.size > 0){
+		    child.initAllInitComponents();
+		}
+	    }
+	}
+	this.initComponent();
+	console.log(`Component ${this.name} initComponent done`)
+    }
+
     public  initAllInitElements(){
 	if(this.children.size !== 0){
 	    for(const key of this.children.keys()){
@@ -98,7 +112,6 @@ abstract class Component2{
 		}
 	    }
 	}
-	this.controller = new AbortController;
 	this.initElements();
 	console.log(`Component ${this.name} initElements done`);
     }
@@ -113,6 +126,7 @@ abstract class Component2{
 		}
 	    }
 	}
+	this.controller = new AbortController;
 	this.eventElements();
 	console.log(`Component ${this.name} eventElements done`);
     }

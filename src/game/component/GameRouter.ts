@@ -9,11 +9,10 @@ import Element from "../../class/Element.ts";
 import Visualizer from "./Visualizer.ts";
 
 class GameRouter extends Box2{
-    private gameConfigManager: GameConfigManager = new GameConfigManager(); 
+    private gameConfigManager?: GameConfigManager; 
 
-    private gameConfigModal: GameConfigModal = new GameConfigModal(this.gameConfigManager);
-    private gameRouterSystem: GameRouterSystem = new GameRouterSystem(this, this.gameConfigManager);
-
+    private gameConfigModal?: GameConfigModal;
+    private gameRouterSystem?: GameRouterSystem; 
 
     // public testButton = createElement("button", "DESTROY");
 
@@ -127,13 +126,26 @@ class GameRouter extends Box2{
 
     }
 
+    override initComponent(){
+	this.gameConfigManager = new GameConfigManager(); 
+	this.gameConfigModal = new GameConfigModal(this.gameConfigManager);
+
+	this.gameRouterSystem = new GameRouterSystem();
+	this.gameRouterSystem.initSystem(this, this.gameConfigManager);
+    }
+
     override async initElements(){
-	// const textAudio = this.getChild("textAudio") as TextAudio;
-	// textAudio.setGameSystem(this.gameRouterSystem.getGameSystem());
-	//
-	// this.gameConfigModal.style.display = "none";
-	//
+	if(!this.gameRouterSystem) return;
+	if(!this.gameConfigModal) return;
+
+	const textAudio = this.getChild("textAudio") as TextAudio;
+
+	const gameSystem = this.gameRouterSystem.getGameSystem();
+	if(!gameSystem) throw new Error("GameRouter[]: gameSystem is undefined during initElements");
+	textAudio.setGameSystem(gameSystem);
 	
+	this.gameConfigModal.style.display = "none";
+
 	const div2 = this.getChild("div1").getChild("div2");
 	div2.getChild("divLetter").getChild("letterSettings").getChildSelf("letterSettingsIcon").classList.add("fa-solid", "fa-gear");
 	div2.getChild("divWord").getChild("wordSettings").getChildSelf("wordSettingsIcon").classList.add("fa-solid", "fa-gear");
@@ -145,19 +157,22 @@ class GameRouter extends Box2{
 
 
      override eventElements(){
-	// this.addEvent("startButton", "click", () => this.gameRouterSystem.startGame());
-	//
-	// this.addEvent("letterButton", "click", () => this.gameRouterSystem.setGameType(ChallengeType.LETTER))
-	//
-	// this.addEvent("wordButton", "click", () => this.gameRouterSystem.setGameType(ChallengeType.WORD));
-	//
-	// this.addEvent("sentenceButton", "click", () => this.gameRouterSystem.setGameType(ChallengeType.SENTENCE));
-	//
-	// this.addEvent("letterSettings", "click", () => this.gameConfigModal.system.setDefaultConfig(ChallengeType.LETTER) );
-	//
-	// this.addEvent("wordSettings", "click", () => this.gameConfigModal.system.setDefaultConfig(ChallengeType.WORD));
-	//
-	// this.addEvent("letterSettings", "click", () => this.gameConfigModal.system.setDefaultConfig(ChallengeType.SENTENCE));
+	 if(!this.gameRouterSystem) throw new Error("GameRouter[]: gameRouterSystem is undefined during eventElements"); 
+	 if(!this.gameConfigModal) throw new Error("GameRouter[]: gameConfigModal is undefined during eventElements")
+
+	this.addEvent("startButton", "click", () => this.gameRouterSystem?.startGame());
+
+	this.addEvent("letterButton", "click", () => this.gameRouterSystem?.setGameType(ChallengeType.LETTER))
+
+	this.addEvent("wordButton", "click", () => this.gameRouterSystem?.setGameType(ChallengeType.WORD));
+
+	this.addEvent("sentenceButton", "click", () => this.gameRouterSystem?.setGameType(ChallengeType.SENTENCE));
+
+	this.addEvent("letterSettings", "click", () => this.gameConfigModal?.system.setDefaultConfig(ChallengeType.LETTER) );
+
+	this.addEvent("wordSettings", "click", () => this.gameConfigModal?.system.setDefaultConfig(ChallengeType.WORD));
+
+	this.addEvent("letterSettings", "click", () => this.gameConfigModal?.system.setDefaultConfig(ChallengeType.SENTENCE));
     }
 
     

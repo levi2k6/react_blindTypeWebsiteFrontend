@@ -12,6 +12,9 @@ class Box2 extends Component2{
 	}	   
     }
 
+    override initComponent(): void {
+    }
+
     override initElements(): void {
     }
 

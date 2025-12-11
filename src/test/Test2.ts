@@ -35,8 +35,6 @@ class Test2 extends Box2{
 	this.addEvent("button1", "click", () => this.routeSystem!.navigate("/"))
 
 
-
-
     } 
 
     override styleElements(): void {

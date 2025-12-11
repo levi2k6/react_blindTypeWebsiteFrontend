@@ -6,8 +6,9 @@ import GameConfigManager from "../system/game_config/GameConfigManager";
 import InputCreator from "../../ui_system/InputCreator";
 import type InputElementCreator from "../../ui_system/InputCreator";
 import type { GameConfig } from "../../utils/types/GameConfigType";
+import Box2 from "../../class/Box2";
 
-class GameConfigModal extends Box{
+class GameConfigModal extends Box2{
 
     public gameConfigManager: GameConfigManager | undefined;
     public gameConfigModalSystem: GameConfigModalSystem;
@@ -45,30 +46,35 @@ class GameConfigModal extends Box{
 	return this.gameConfigModalSystem;
     }
 
-    override connectElements(): void {
-	this.addChildren([
-	    this.div1.addChild(
-		this.divForm.addChildren([
-		    this.divLabel.addChildren([
-			this.labelDifficulty,
-			this.labelMultiple,
-			this.labelContinuous
-		    ]),
-		    this.divInput.addChildren([
-			this.inputDifficulty,
-			this.inputMultiple,
-			this.inputContinuous
-		    ])
-		])
-	    ),
-	    this.div2.addChild(
-		this.divButtons.addChildren([
-		    this.apply,
-		    this.close
-		])
-	    )
-	])
+    override structureElements(): void {
+	// this.addChildren([
+	//     this.div1.addChild(
+	// 	this.divForm.addChildren([
+	// 	    this.divLabel.addChildren([
+	// 		this.labelDifficulty,
+	// 		this.labelMultiple,
+	// 		this.labelContinuous
+	// 	    ]),
+	// 	    this.divInput.addChildren([
+	// 		this.inputDifficulty,
+	// 		this.inputMultiple,
+	// 		this.inputContinuous
+	// 	    ])
+	// 	])
+	//     ),
+	//     this.div2.addChild(
+	// 	this.divButtons.addChildren([
+	// 	    this.apply,
+	// 	    this.close
+	// 	])
+	//     )
+	// ])
+	
 
+
+    }
+
+    override initComponento(): void{
     }
 
     override initElements(): void{
