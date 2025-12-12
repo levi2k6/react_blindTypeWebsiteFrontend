@@ -73,34 +73,38 @@ abstract class Component2{
 	}
     }
 
-    public initAllPresetChildren(){ 
-	if(this.children.size !== 0){
-	    for(const key of this.children.keys()){
-		const child = this.children.get(key);
-		if(!child) return;
-		if(child?.children.size > 0){
-		    child.initAllPresetChildren();
-		}
-	    }
-	}
-	this.setPresetChildren();
-	console.log("look at children: ", this.children);
-	console.log(`Component ${this.name} setPresetChildren done`);
+    public initRootPresetChildren(){
     }
 
-    public initAllInitComponents(){
-	if(this.children.size !== 0){
-	    for(const key of this.children.keys()){
-		const child = this.children.get(key);
-		if(!child) return;
-		if(child?.children.size > 0){
-		    child.initAllInitComponents();
-		}
+    public initAllPresetChildren(){ 
+	this.setPresetChildren();
+	console.log(`initAllPresetChildren ${this.name} size: ${this.children.size}`);
+	for(const key of this.children.keys()){
+	    const child = this.children.get(key);
+	    if(!child) return;
+	    if(child?.children.size > 0){
+		console.log(`child ${child.name}: `, child.getChildren().size);
+		child.initAllPresetChildren();
 	    }
 	}
-	this.initComponent();
-	console.log(`Component ${this.name} initComponent done`)
+
+	console.log("look at children: ", this.children);
+	console.log(`Component ${this.name} setPresetChildren done, children size: ${this.getChildren()}`);
     }
+
+	//    public initAllInitComponents(){
+	// if(this.children.size !== 0){
+	//     for(const key of this.children.keys()){
+	// 	const child = this.children.get(key);
+	// 	if(!child) return;
+	// 	if(child?.children.size > 0){
+	// 	    child.initAllInitComponents();
+	// 	}
+	//     }
+	// }
+	// this.initComponent();
+	// console.log(`Component ${this.name} initComponent done`)
+	//    }
 
     public  initAllInitElements(){
 	if(this.children.size !== 0){
@@ -206,7 +210,7 @@ abstract class Component2{
 
     abstract structureElements(): Array<Component2>;
 
-    abstract initComponent(): void;
+    // abstract initComponent(): void;
     abstract initElements(): void;
     abstract eventElements(): void;
     abstract styleElements(): void; 

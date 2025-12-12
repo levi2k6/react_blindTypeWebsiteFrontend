@@ -17,9 +17,10 @@ class TextAudio extends Box2{
 	this.gameSystem = gameSystem;
     }
 
-    constructor(name : string){
-	super(name)
-	this.textAudioSystem = new TextAudioSystem(this);
+    constructor(gameSystem: GameSystem){
+	super("textAudio");
+	this.gameSystem = gameSystem;
+	this.textAudioSystem = new TextAudioSystem();
     }
 
     override structureElements(): Array<Component2> {
@@ -34,10 +35,6 @@ class TextAudio extends Box2{
 	]
     } 
 
-    override initComponent(): void {
-	this.gameSystem = new GameSystem();
-	this.textAudioSystem = new TextAudioSystem(); 
-    }
 
     override initElements(): void{
 

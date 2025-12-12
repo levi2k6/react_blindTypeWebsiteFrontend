@@ -7,36 +7,19 @@ import InputCreator from "../../ui_system/InputCreator";
 import type InputElementCreator from "../../ui_system/InputCreator";
 import type { GameConfig } from "../../utils/types/GameConfigType";
 import Box2 from "../../class/Box2";
+import Element from "../../class/Element";
+import Select from "../../class/Select";
+import InputComponent from "../../class/Input";
+import SelectComponent from "../../class/Select";
+import type Component2 from "../../class/Component2";
 
 class GameConfigModal extends Box2{
 
     public gameConfigManager: GameConfigManager | undefined;
     public gameConfigModalSystem: GameConfigModalSystem;
-    public inputElementCreator: InputElementCreator = new InputCreator().setDivBorder("1px solid blue").setDivHeight("30px").setDivWidth("100%");
-
-    public divForm = new Box();
-
-    public div1 = new Box();
-	public divLabel = new Box();
-	    public labelDifficulty = this.inputElementCreator.createLabel("Difficulty");
-	    public labelMultiple  = this.inputElementCreator.createLabel("Multiple");
-	    public labelContinuous = this.inputElementCreator.createLabel("Continuous");
-
-	public divInput = new Box(); 
-	    public inputDifficulty = this.inputElementCreator.createSelect(["easy", "normal", "hard"]);
-		public inputDifficultyChild = this.inputDifficulty.self.children[0] as HTMLSelectElement;
-	    public inputMultiple = this.inputElementCreator.createInput("number");
-		public inputMultipleChild = this.inputMultiple.self.children[0] as HTMLInputElement;
-	    public inputContinuous = this.inputElementCreator.createSelect(["true", "false"]);
-		public inputContinuousChild = this.inputContinuous.self.children[0] as HTMLSelectElement;
-
-    public div2 = new Box();
-	public divButtons = new Box();
-	    public apply = createElement("button", "apply"); 
-	    public close = createElement("button", "close");
 
     constructor(gameConfigManager: GameConfigManager){
-	super();
+	super("gameConfigModal");
 	this.gameConfigManager = gameConfigManager; 
 	this.gameConfigModalSystem = new GameConfigModalSystem(this, this.gameConfigManager);
 	this.init();
@@ -46,7 +29,7 @@ class GameConfigModal extends Box2{
 	return this.gameConfigModalSystem;
     }
 
-    override structureElements(): void {
+    override structureElements(): Array<Component2> {
 	// this.addChildren([
 	//     this.div1.addChild(
 	// 	this.divForm.addChildren([
@@ -71,22 +54,76 @@ class GameConfigModal extends Box2{
 	// ])
 	
 
+	const div1 = new Box2("div1");
+	    const divForm = new Box2("divForm");
+		const divLabel = new Box2("divLabel");
+		    const divLabel1 = new Box2("divLabel1");
+			const labelDifficulty = new Element("label", "labelDifficulty");
+		    const divLabel2 = new Box2("divLabel2");
+			const labelMultiple  = new Element("label", "labelMultiple");
+		    const divLabel3 = new Box2("divLabel3");
+			const labelContinuous = new Element("label", "labelContinuous");
+
+		const divInput = new Box2("divInput"); 
+		    const divInput1 = new Box2("divInput1");
+			const inputDifficulty = new Select("difficulty", ["easy", "normal", "hard"]);
+		    const divInput2 = new Box2("divInput2");
+			const inputMultiple = new InputComponent("multiple", "number");
+		    const divInput3 = new Box2("divInput3");
+			const inputContinuous = new SelectComponent("continuous", ["true", "false"]);
+
+	const div2 = new Box2("div2");
+	    const divButtons = new Box2("divButtons");
+		const apply = new Element("button", "apply"); 
+		const close = new Element("button", "close");
+
+	return [
+	    div1.addChildren([
+		divForm.addChildren([
+		    divLabel.addChildren([
+			divLabel1.addChildren([labelDifficulty]),
+			divLabel2.addChildren([labelMultiple]),
+			divLabel3.addChildren([labelContinuous])
+		    ]),
+		    divInput.addChildren([
+			divInput1.addChildren([inputDifficulty]),
+			divInput2.addChildren([inputMultiple]),
+			divInput3.addChildren([inputContinuous])
+		    ])
+		])
+	    ]),
+	    div2.addChildren([
+		divButtons.addChildren([
+		    apply,
+		    close
+		])
+	    ])
+	]
 
     }
 
-    override initComponento(): void{
+    override initComponent(): void {
+
     }
 
     override initElements(): void{
-	this.inputMultipleChild.min = "1"; 
-	this.inputMultipleChild.max = "10"; 
+	const inputMultiple = this.getChild("div1").getChild("divForm").getChild("divInput").getChild("divInput2").getChildSelf("inputMultiple") as HTMLInputElement; 
+	inputMultiple.min = "1"; 
+	inputMultiple.max = "10"; 
     }
 
     override eventElements(): void {
-	this.apply.addEventListener("click", ()=>{
-	    const difficutlyData = this.inputDifficultyChild.value as "easy" | "normal" | "hard";
-	    const multipleData = Number(this.inputMultipleChild.value);
-	    const continuousData = this.inputContinuousChild.value === "true";
+	const div2 = this.getChild("div2");
+
+	div2.addEvent("apply", "click", () => {
+	    const divInput = this.getChild("div1").getChild("divInput"); 
+	    const divInputDifficulty = divInput.getChildSelf("inputDifficulty") as HTMLSelectElement;
+	    const divInputMultiple =  divInput.getChildSelf("divInputMultiple") as HTMLInputElement;
+	    const divInputContinuous = divInput.getChildSelf("divInputContinuous") as HTMLInputElement; 
+
+	    const difficutlyData = divInputDifficulty.value as "easy" | "normal" | "hard";
+	    const multipleData = Number(divInputMultiple.value);
+	    const continuousData = divInputContinuous.value === "true";
 
 	    const newGameConfig: GameConfig = {
 		difficulty: difficutlyData,
@@ -97,7 +134,8 @@ class GameConfigModal extends Box2{
 	    this.gameConfigModalSystem?.applyNewConfig(newGameConfig)
 	    this.style.display = "none";
 	});
-	this.close.addEventListener("click", ()=>{
+
+	div2.addEvent("close", "click", () => {
 	    this.style.display = "none";
 	});
     }
@@ -115,37 +153,41 @@ class GameConfigModal extends Box2{
 	this.style.justifyContent = "center";
 	this.style.alignItems = "center";
 
+	const div1 = this.getChild("div1");
 	// this.div1.style.border = "1px solid yellow";
-	this.div1.style.display = "flex";
-	this.div1.style.alignItems = "center";
-	this.div1.style.justifyContent = "center";
-	this.div1.style.flex = "2";
-	this.div1.style.width = "100%";
+	    div1.style.display = "flex";
+	    div1.style.alignItems = "center";
+	    div1.style.justifyContent = "center";
+	    div1.style.flex = "2";
+	    div1.style.width = "100%";
 
-	    this.divForm.style.border = "1px solid black";
-	    this.divForm.style.display = "flex";
 
-		this.divLabel.style.border = "1px solid white";
-		this.divLabel.style.display = "flex";
-		this.divLabel.style.flexDirection = "column";
+	const divForm = div1.getChild("divForm"); 
+	    divForm.style.border = "1px solid black";
+	    divForm.style.display = "flex";
 
-		this.divInput.style.border = "1px solid white";
-		this.divInput.style.width = "100px";
-		this.divInput.style.display = "flex";
-		this.divInput.style.flexDirection = "column";
+	const divLabel = divForm.getChild("divLabel");
+	    divLabel.style.border = "1px solid white";
+	    divLabel.style.display = "flex";
+	    divLabel.style.flexDirection = "column";
 
-		this.inputDifficultyChild.style.width = "10vh";
-		this.inputMultipleChild.style.width = "10vh";
-		this.inputContinuousChild.style.width = "10vh";
-	
-	this.div2.style.border = "1px solid yellow";
-	this.div2.style.display = "flex";
-	this.div2.style.alignItems = "center";
-	this.div2.style.justifyContent = "center";
-	this.div2.style.flex = "1";
-	this.div2.style.width = "100%";
+	const divInput = divForm.getChild("divInput");
+	    divInput.style.border = "1px solid white";
+	    divInput.style.width = "100px";
+	    divInput.style.display = "flex";
+	    divInput.style.flexDirection = "column";
 
-	this.divButtons.style.border = "1px solid red";
+
+	const div2 = this.getChild("div2");
+	    div2.style.border = "1px solid yellow";
+	    div2.style.display = "flex";
+	    div2.style.alignItems = "center";
+	    div2.style.justifyContent = "center";
+	    div2.style.flex = "1";
+	    div2.style.width = "100%";
+
+	const divButtons = div2.getChild("divButtons");
+	    divButtons.style.border = "1px solid red";
 
     }
 

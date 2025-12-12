@@ -7,15 +7,22 @@ import type TextHolder from "../../component/TextHolder";
 
 class GameRouterSystem{
 
-    private gameRouter?: GameRouter;
+    private gameRouter: GameRouter;
 
-    private gameConfigManager?: GameConfigManager;
-    private gameSystem?: GameSystem;
-    private input?: Input;
+    private gameSystem: GameSystem;
+    private gameConfigManager: GameConfigManager;
+    private input: Input;
 
     public setGameTypeLetterHandler = () => this.setGameType(ChallengeType.LETTER)
     public setGameTypeWordHandler = () => this.setGameType(ChallengeType.WORD)
     public setGameTypeSentenceHandler = () => this.setGameType(ChallengeType.SENTENCE)
+
+    public constructor(gameRouter: GameRouter,  gameSystem: GameSystem, gameConfigManager: GameConfigManager, input: Input){
+	this.gameRouter = gameRouter; 
+	this.gameSystem = gameSystem;
+	this.gameConfigManager = gameConfigManager 
+	this.input = input;
+    }
 
     getGameSystem(): GameSystem | undefined{
 	return this.gameSystem;

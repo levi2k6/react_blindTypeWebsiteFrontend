@@ -7,17 +7,23 @@ import Component2 from "../../class/Component2.ts";
 import Box2 from "../../class/Box2.ts";
 import Element from "../../class/Element.ts";
 import Visualizer from "./Visualizer.ts";
+import type { GameConfig } from "../../utils/types/GameConfigType.ts";
+import GameSystem from "../system/game_system/GameSystem.ts";
 
 class GameRouter extends Box2{
-    private gameConfigManager?: GameConfigManager; 
+    private gameConfigManager: GameConfigManager; 
 
-    private gameConfigModal?: GameConfigModal;
-    private gameRouterSystem?: GameRouterSystem; 
+    private gameSystem: GameSystem;
+    private gameRouterSystem: GameRouterSystem; 
 
     // public testButton = createElement("button", "DESTROY");
 
-    constructor( name: string ){
+    constructor(name: string){
 	super(name);
+	this.gameConfigManager = new GameConfigManager(); 
+
+	this.gameSystem = new GameSystem(this, this.gameConfigManager);
+	this.gameRouterSystem = new GameRouterSystem(this.gameSystem);
     }
 
     get system(){
@@ -27,7 +33,9 @@ class GameRouter extends Box2{
     override structureElements(): Array<Component2> {
 	console.log("structureElements() GameRouter");
 
-	const textAudio = new TextAudio("GameTextAudio"); 
+	const gameConfigModal = new GameConfigModal(this.gameConfigManager);
+
+	const textAudio = new TextAudio(this.gameSystem); 
 	const divGradient = new Box2("divGradient");
 	console.log("textAudio: ", textAudio);
 	const visualizer: Visualizer = new Visualizer();
@@ -49,6 +57,7 @@ class GameRouter extends Box2{
 
 
 	return [
+	    gameConfigModal,
 	    textAudio,
 	    visualizer,
 	    divGradient,
@@ -128,7 +137,6 @@ class GameRouter extends Box2{
 
     override initComponent(){
 	this.gameConfigManager = new GameConfigManager(); 
-	this.gameConfigModal = new GameConfigModal(this.gameConfigManager);
 
 	this.gameRouterSystem = new GameRouterSystem();
 	this.gameRouterSystem.initSystem(this, this.gameConfigManager);
@@ -136,15 +144,14 @@ class GameRouter extends Box2{
 
     override async initElements(){
 	if(!this.gameRouterSystem) return;
-	if(!this.gameConfigModal) return;
 
 	const textAudio = this.getChild("textAudio") as TextAudio;
 
 	const gameSystem = this.gameRouterSystem.getGameSystem();
 	if(!gameSystem) throw new Error("GameRouter[]: gameSystem is undefined during initElements");
-	textAudio.setGameSystem(gameSystem);
+	// textAudio.setGameSystem(gameSystem);
 	
-	this.gameConfigModal.style.display = "none";
+	this.styleChild("gameConfigModal").display = "none";
 
 	const div2 = this.getChild("div1").getChild("div2");
 	div2.getChild("divLetter").getChild("letterSettings").getChildSelf("letterSettingsIcon").classList.add("fa-solid", "fa-gear");
@@ -158,7 +165,6 @@ class GameRouter extends Box2{
 
      override eventElements(){
 	 if(!this.gameRouterSystem) throw new Error("GameRouter[]: gameRouterSystem is undefined during eventElements"); 
-	 if(!this.gameConfigModal) throw new Error("GameRouter[]: gameConfigModal is undefined during eventElements")
 
 	this.addEvent("startButton", "click", () => this.gameRouterSystem?.startGame());
 
@@ -168,11 +174,13 @@ class GameRouter extends Box2{
 
 	this.addEvent("sentenceButton", "click", () => this.gameRouterSystem?.setGameType(ChallengeType.SENTENCE));
 
-	this.addEvent("letterSettings", "click", () => this.gameConfigModal?.system.setDefaultConfig(ChallengeType.LETTER) );
 
-	this.addEvent("wordSettings", "click", () => this.gameConfigModal?.system.setDefaultConfig(ChallengeType.WORD));
+	const gameConfigModal = this.getChild("gameConfigModal") as GameConfigModal;
+	this.addEvent("letterSettings", "click", () => gameConfigModal.system.setDefaultConfig(ChallengeType.LETTER) );
 
-	this.addEvent("letterSettings", "click", () => this.gameConfigModal?.system.setDefaultConfig(ChallengeType.SENTENCE));
+	this.addEvent("wordSettings", "click", () => gameConfigModal.system.setDefaultConfig(ChallengeType.WORD));
+
+	this.addEvent("letterSettings", "click", () => gameConfigModal.system.setDefaultConfig(ChallengeType.SENTENCE));
     }
 
     
