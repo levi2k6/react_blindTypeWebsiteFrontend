@@ -46,7 +46,7 @@ class GameRouterSystem{
 	const textHolder = this.gameRouter.getChild("textHolder") as TextHolder;
 	textHolder.system.reset();
 	this.gameSystem.gameReset();
-	const startButton = this.gameRouter.getChildSelf("startButton") as HTMLButtonElement;
+	const startButton = this.gameRouter.getChild("div1").getChildSelf("startButton") as HTMLButtonElement;
 	startButton.disabled = true;
 	this.gameRouter.getChild("div1").style.visibility = "hidden";
     }
@@ -55,7 +55,7 @@ class GameRouterSystem{
 	if(!this.gameRouter) throw new Error("GameRouterSystem[]: gameRouter is undefined during setGameType");
 	if(!this.gameSystem) throw new Error("GameRouterSystem[]: gameSystem is undefined during setGameType");
 
-	const startButton = this.gameRouter.getChildSelf("startButton") as HTMLButtonElement;
+	const startButton = this.gameRouter.getChild("div1").getChildSelf("startButton") as HTMLButtonElement;
 	startButton.disabled = false;
 
 	this.gameSystem.setType(type);

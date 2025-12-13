@@ -7,16 +7,21 @@ class Visualizer extends Component2{
 
     private audio?: HTMLAudioElement;
 
-    private visualizerSystem: VisualizerSystem = new VisualizerSystem;
+    private visualizerSystem?: VisualizerSystem;
 
     constructor(){
 	const element: HTMLElement = new Element("canvas", "Visualizer").self; 
-	super(element, "Visualizer");
+	super(element, "visualizer");
     }
 
     get system(){
 	return this.visualizerSystem;
     } 
+
+    initComponent(audio: HTMLAudioElement, ): void {
+	this.audio = audio;
+	this.visualizerSystem = new VisualizerSystem(); 
+    }
 
     public setAudio(audio: HTMLAudioElement){
 	this.audio = audio;

@@ -8,25 +8,43 @@ import GameConfigManager from "../game_config/GameConfigManager";
 class GameConfigModalSystem{
 
     gameType: string = "";
-    gameConfigManager: GameConfigManager | undefined;
-    gameConfigModal: GameConfigModal;
+    gameConfigManager?: GameConfigManager;
+    gameConfigModal?: GameConfigModal;
+
+
+    initSystem(gameConfigManager: GameConfigManager, gameConfigModal: GameConfigModal){
+	this.gameConfigManager = gameConfigManager;
+	this.gameConfigModal = gameConfigModal;
+    }
+
+    private assertInitialized(): asserts this is GameConfigModalSystem & {
+	gameConfigManager: GameConfigManager;
+	gameConfigModal: GameConfigModal;
+    }{
+	if(!this.gameConfigManager || !this.gameConfigModal){
+	    throw new Error("GameConfigModalSystem is not initialized");
+	}
+    }
+
 
     public setDefaultConfigLetterHandler = () => {
+	this.assertInitialized();
+
 	this.gameConfigModal.style.display = "flex";
 	this.setDefaultConfig(ChallengeType.LETTER);
     }
+
     public setDefaultConfigWordHandler = () => {
+	this.assertInitialized();
+
 	this.gameConfigModal.style.display = "flex";
 	this.setDefaultConfig(ChallengeType.WORD);
     }
     public setDefaultConfigSentenceHandler = () => {
+	this.assertInitialized();
+
 	this.gameConfigModal.style.display = "flex";
 	this.setDefaultConfig(ChallengeType.SENTENCE);
-    }
-
-    constructor(gameConfigModal: GameConfigModal, gameConfigManager: GameConfigManager){
-	this.gameConfigModal = gameConfigModal;
-	this.gameConfigManager = gameConfigManager;
     }
 
 
@@ -74,9 +92,13 @@ class GameConfigModalSystem{
     }
 
     public setDefaultConfig(challengeType: ChallengeType){
-	const inputDifficulty = this.gameConfigModal.inputDifficulty.self.children[0] as HTMLSelectElement;
-	const inputMultiple = this.gameConfigModal.inputMultiple.self.children[0] as HTMLInputElement;
-	const inputContinuous = this.gameConfigModal.inputContinuous.self.children[0] as HTMLSelectElement;
+	this.assertInitialized();
+	
+	const divInput = this.gameConfigModal.getChild("div1").getChild("divForm").getChild("divInput");
+
+	const inputDifficulty = divInput.getChildSelf("inputDifficulty").children[0] as HTMLSelectElement;
+	const inputMultiple = divInput.getChildSelf("inputMultiple.self").children[0] as HTMLInputElement;
+	const inputContinuous = divInput.getChildSelf("inputContinuous").children[0] as HTMLSelectElement;
 
 	this.gameConfigManager?.setGameConfig(challengeType); 
 	console.log("gameconfigmanager: ",this.gameConfigManager?.getCurrentGameConfig());

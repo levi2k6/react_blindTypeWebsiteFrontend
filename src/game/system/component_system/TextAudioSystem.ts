@@ -3,14 +3,15 @@ import TextAudio from "../../component/TextAudio";
 
 class TextAudioSystem{
 
-    private textAudio?: TextAudio; 
+    private textAudio: TextAudio; 
     private dingPath: string = "/ding.mp3";
     private wrongPath: string = "/wrong.wav";
 
+    public constructor(textAudio: TextAudio){
+	this.textAudio = textAudio;
+    }
 
     init(){
-	if(!this.textAudio) return;
-
 	const audioDing = this.textAudio.getChildSelf("audioDing") as HTMLAudioElement;
 	audioDing.src = this.dingPath;
 	audioDing.load();
@@ -21,8 +22,6 @@ class TextAudioSystem{
     }
 
     addAudioSource(audioName: string, type: ChallengeType){
-	if(!this.textAudio) return;
-
 	const audio = this.textAudio.getChildSelf("audio") as HTMLAudioElement;
 	audio.muted = false;
 
@@ -36,21 +35,17 @@ class TextAudioSystem{
     }
 
     stopAudio(){
-	if(!this.textAudio) return;
-
 	const audio = this.textAudio.getChildSelf("audio") as HTMLAudioElement;
 	audio.pause();
 	audio.currentTime = 0;
     }
 
     ding(){
-	if(!this.textAudio) return;
 	const audioDing = this.textAudio.getChildSelf("audioDing") as HTMLAudioElement;
 	audioDing.play();
     }
 
     wrong(){
-	if(!this.textAudio) return;
 	const audioWrong = this.textAudio.getChildSelf("audioWrong") as HTMLAudioElement;
 	audioWrong.play();
     }

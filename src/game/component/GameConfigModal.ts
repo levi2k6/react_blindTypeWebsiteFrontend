@@ -9,24 +9,35 @@ import type { GameConfig } from "../../utils/types/GameConfigType";
 import Box2 from "../../class/Box2";
 import Element from "../../class/Element";
 import Select from "../../class/Select";
-import InputComponent from "../../class/Input";
 import SelectComponent from "../../class/Select";
 import type Component2 from "../../class/Component2";
+import InputComponent from "../../class/InputComponent";
 
 class GameConfigModal extends Box2{
 
-    public gameConfigManager: GameConfigManager | undefined;
-    public gameConfigModalSystem: GameConfigModalSystem;
+    public gameConfigManager?: GameConfigManager;
+    public gameConfigModalSystem?: GameConfigModalSystem;
 
-    constructor(gameConfigManager: GameConfigManager){
+    constructor(){
 	super("gameConfigModal");
-	this.gameConfigManager = gameConfigManager; 
-	this.gameConfigModalSystem = new GameConfigModalSystem(this, this.gameConfigManager);
 	this.init();
     }
 
     get system(){
 	return this.gameConfigModalSystem;
+    }
+
+    public initComponent(gameConfigManager: GameConfigManager){
+	this.gameConfigManager = gameConfigManager;
+	this.gameConfigModalSystem = new GameConfigModalSystem();
+    }
+
+    private assertInitialized(): asserts this is GameConfigModal & {
+	gameConfigManager: GameConfigManager;
+    }{
+	if(!this.gameConfigManager){
+	    throw new Error("GameConfigModalSystem is not initialized");
+	}
     }
 
     override structureElements(): Array<Component2> {
@@ -102,11 +113,11 @@ class GameConfigModal extends Box2{
 
     }
 
-    override initComponent(): void {
-
-    }
-
     override initElements(): void{
+	this.assertInitialized();
+
+	this.system?.initSystem(this.gameConfigManager, this);
+
 	const inputMultiple = this.getChild("div1").getChild("divForm").getChild("divInput").getChild("divInput2").getChildSelf("inputMultiple") as HTMLInputElement; 
 	inputMultiple.min = "1"; 
 	inputMultiple.max = "10"; 
@@ -188,7 +199,6 @@ class GameConfigModal extends Box2{
 
 	const divButtons = div2.getChild("divButtons");
 	    divButtons.style.border = "1px solid red";
-
     }
 
 }

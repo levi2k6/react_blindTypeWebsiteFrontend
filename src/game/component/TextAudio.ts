@@ -7,20 +7,19 @@ import GameSystem from "../system/game_system/GameSystem";
 class TextAudio extends Box2{
 
     private gameSystem?: GameSystem;
-    private textAudioSystem: TextAudioSystem; 
+    private textAudioSystem?: TextAudioSystem; 
 
     get system(){
 	return this.textAudioSystem;
     }
 
-    setGameSystem(gameSystem: GameSystem){
-	this.gameSystem = gameSystem;
+    constructor(){
+	super("textAudio");
     }
 
-    constructor(gameSystem: GameSystem){
-	super("textAudio");
+    public initComponent(gameSystem: GameSystem){
 	this.gameSystem = gameSystem;
-	this.textAudioSystem = new TextAudioSystem();
+	this.textAudioSystem = new TextAudioSystem(this);
     }
 
     override structureElements(): Array<Component2> {
@@ -35,9 +34,7 @@ class TextAudio extends Box2{
 	]
     } 
 
-
     override initElements(): void{
-
 	const audio = this.getChild("audio").self as HTMLAudioElement;
 	audio.crossOrigin = "anonymous";
 
@@ -54,31 +51,31 @@ class TextAudio extends Box2{
     }
 
     override eventElements(){
-	// this.getChild("audio").self.addEventListener("ended", ()=>{
-	//     console.log("after audio done works");
-	//     if(this.gameSystem?.getIsContinuous()){
-	// 	console.log("TextAudio eventElements: ", this.gameSystem.getGame());
-	// 	this.gameSystem.getGame()?.continuousAudioChange();
-	//     }else{
-	// 	//debug here
-	//     }
-	// });
+	if(this.gameSystem) throw new Error("gameSystem is undefined");
+	if(this.textAudioSystem) throw new Error("textAudioSystem is undefined");
 
-	// this.addEvent("audio", "ended", () => {
-	//     if(this.gameSystem?.getIsContinuous()){
-	// 	console.log("TextAudio eventElements: ", this.gameSystem.getGame());
-	// 	this.gameSystem.getGame()?.continuousAudioChange();
-	//     }else{
-	// 	//debug here
-	//     }
-	// })
+	this.addEvent("audio", "ended", ()=>{
+	    console.log("after audio done works");
+
+	    if(this.gameSystem?.getIsContinuous()){
+		console.log("TextAudio eventElements: ", this.gameSystem.getGame());
+		this.gameSystem.getGame()?.continuousAudioChange();
+	    }
+	});
+
+	this.addEvent("audio", "ended", () => {
+	    if(this.gameSystem?.getIsContinuous()){
+		console.log("TextAudio eventElements: ", this.gameSystem.getGame());
+		this.gameSystem.getGame()?.continuousAudioChange();
+	    }
+	})
     }
 
     override styleElements(){
-	// this.style.display = "none";
-	// this.style.border = "1px solid black";
-	// this.style.height = "100px";
-	// this.style.width = "100px";
+	this.style.display = "none";
+	this.style.border = "1px solid black";
+	this.style.height = "100px";
+	this.style.width = "100px";
     }
 }
 

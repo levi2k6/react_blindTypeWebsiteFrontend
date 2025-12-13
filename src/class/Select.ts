@@ -24,9 +24,6 @@ class SelectComponent extends Component2{
 	})
     }
 
-    override initComponent(): void {
-    }
-
     override initElements(): void {
     }
 

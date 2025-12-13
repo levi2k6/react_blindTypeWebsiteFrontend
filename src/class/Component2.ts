@@ -73,38 +73,26 @@ abstract class Component2{
 	}
     }
 
-    public initRootPresetChildren(){
+    public setPresetChildren(): void{
+	// console.log(`Component: ${this.name} is setting preset children`);
+	const children = this.structureElements();
+	children.forEach(child => {
+	    this.children.set(child.name, child);
+	})
     }
 
     public initAllPresetChildren(){ 
 	this.setPresetChildren();
-	console.log(`initAllPresetChildren ${this.name} size: ${this.children.size}`);
+	console.log(`structureElements ${this.name}`);
+	console.log("children: ", this.children);
 	for(const key of this.children.keys()){
 	    const child = this.children.get(key);
 	    if(!child) return;
 	    if(child?.children.size > 0){
-		console.log(`child ${child.name}: `, child.getChildren().size);
 		child.initAllPresetChildren();
 	    }
 	}
-
-	console.log("look at children: ", this.children);
-	console.log(`Component ${this.name} setPresetChildren done, children size: ${this.getChildren()}`);
     }
-
-	//    public initAllInitComponents(){
-	// if(this.children.size !== 0){
-	//     for(const key of this.children.keys()){
-	// 	const child = this.children.get(key);
-	// 	if(!child) return;
-	// 	if(child?.children.size > 0){
-	// 	    child.initAllInitComponents();
-	// 	}
-	//     }
-	// }
-	// this.initComponent();
-	// console.log(`Component ${this.name} initComponent done`)
-	//    }
 
     public  initAllInitElements(){
 	if(this.children.size !== 0){
@@ -117,7 +105,7 @@ abstract class Component2{
 	    }
 	}
 	this.initElements();
-	console.log(`Component ${this.name} initElements done`);
+	console.log(`Component ${this.name} initElements success`);
     }
 
     public initAllEventElements(){
@@ -146,7 +134,7 @@ abstract class Component2{
 	    }
 	}
 	this.styleElements();
-	console.log(`Component ${this.name} styleElements done`);
+	console.log(`Component ${this.name} styleElements success`);
     }
 
     public connectElements(){
@@ -200,13 +188,6 @@ abstract class Component2{
 	return this;
     }
 
-    public setPresetChildren(): void{
-	console.log(`Component: ${this.name} is setting preset children`);
-	const children = this.structureElements();
-	children.forEach(child => {
-	    this.children.set(child.name, child);
-	})
-    }
 
     abstract structureElements(): Array<Component2>;
 

@@ -7,13 +7,14 @@ import Component2 from "../../class/Component2.ts";
 import Box2 from "../../class/Box2.ts";
 import Element from "../../class/Element.ts";
 import Visualizer from "./Visualizer.ts";
-import type { GameConfig } from "../../utils/types/GameConfigType.ts";
 import GameSystem from "../system/game_system/GameSystem.ts";
+import Input from "../system/Input.ts";
 
 class GameRouter extends Box2{
-    private gameConfigManager: GameConfigManager; 
 
+    private gameConfigManager: GameConfigManager; 
     private gameSystem: GameSystem;
+    private input: Input;
     private gameRouterSystem: GameRouterSystem; 
 
     // public testButton = createElement("button", "DESTROY");
@@ -21,27 +22,27 @@ class GameRouter extends Box2{
     constructor(name: string){
 	super(name);
 	this.gameConfigManager = new GameConfigManager(); 
-
 	this.gameSystem = new GameSystem(this, this.gameConfigManager);
-	this.gameRouterSystem = new GameRouterSystem(this.gameSystem);
+	this.input = new Input(this, this.gameSystem);
+	this.gameRouterSystem = new GameRouterSystem(this, this.gameSystem, this.gameConfigManager, this.input);
     }
 
     get system(){
 	return this.gameRouterSystem;
     }
 
+
     override structureElements(): Array<Component2> {
 	console.log("structureElements() GameRouter");
 
-	const gameConfigModal = new GameConfigModal(this.gameConfigManager);
+	const gameConfigModal = new GameConfigModal();
 
-	const textAudio = new TextAudio(this.gameSystem); 
+	const textAudio = new TextAudio(); 
 	const divGradient = new Box2("divGradient");
-	console.log("textAudio: ", textAudio);
 	const visualizer: Visualizer = new Visualizer();
 	const div1: Box2 = new Box2("div1");
 	    const startButton: Element = new Element("button", "startButton", "Start"); 
-	    const div2: Box2 = new Box2("div2");
+	    const divSettings: Box2 = new Box2("divSettings");
 		const divLetter: Box2 = new Box2("divLetter");
 		    const letterSettings: Element = new Element("button", "letterSettings");
 			const letterSettingsIcon: Element = new Element("i", "letterSettingsIcon"); 
@@ -49,11 +50,11 @@ class GameRouter extends Box2{
 		const divWord: Box2 = new Box2("divWord");
 		    const wordSettings: Element = new Element("button", "wordSettings");
 			const wordSettingsIcon: Element = new Element("i", "wordSettingsIcon");
-		    const wordButton: Element = new Element("button", "Word", "wordButton");
+		    const wordButton: Element = new Element("button", "wordButton", "wordButton");
 		const divSentence: Box2 = new Box2("divSentence");
 		    const sentenceSettings: Element = new Element("button", "sentenceSettings");
 			const sentenceSettingsIcon: Element = new Element("i", "sentenceSettingsIcon");
-		    const sentenceButton: Element = new Element("button", "Sentence", "sentenceButton");
+		    const sentenceButton: Element = new Element("button", "sentenceButton", "sentenceButton");
 
 
 	return [
@@ -63,7 +64,7 @@ class GameRouter extends Box2{
 	    divGradient,
 	    div1.addChildren([
 		startButton,
-		div2.addChildren([
+		divSettings.addChildren([
 		    divLetter.addChildren([
 			letterSettings.addChildren([letterSettingsIcon]),
 			letterButton
@@ -88,7 +89,7 @@ class GameRouter extends Box2{
 	//
 	// const div1: Box2 = new Box2("div1");
 	//     const startButton: Element = new Element("button", "Start"); 
-	//     const div2: Box2 = new Box2("div2");
+	//     const divSettings: Box2 = new Box2("div2");
 	// 	const divLetter: Box2 = new Box2("divLetter");
 	// 	    const letterSettings: Element = new Element("button", "letterSettings");
 	// 		const letterSettingsIcon: Element = new Element("i", "letterSettingsIcon"); 
@@ -108,7 +109,7 @@ class GameRouter extends Box2{
 	//     textHolder,
 	//     div1.addChildren([
 	// 	startButton,
-	// 	div2.addChildren([
+	// 	divSettings.addChildren([
 	// 	    divLetter.addChildren([
 	// 		letterSettings.addChildren([
 	// 		    letterSettingsIcon
@@ -135,28 +136,27 @@ class GameRouter extends Box2{
 
     }
 
-    override initComponent(){
-	this.gameConfigManager = new GameConfigManager(); 
-
-	this.gameRouterSystem = new GameRouterSystem();
-	this.gameRouterSystem.initSystem(this, this.gameConfigManager);
-    }
 
     override async initElements(){
-	if(!this.gameRouterSystem) return;
-
+	
+	//inits
+	const gameConfigModal = this.getChild("gameConfigModal") as GameConfigModal;
+	gameConfigModal.initComponent(this.gameConfigManager);
 	const textAudio = this.getChild("textAudio") as TextAudio;
+	textAudio.initComponent(this.gameSystem);
+	const visualizer = this.getChild("visualizer") as Visualizer; 
+	console.log("textAudio children: ", textAudio.getChildren());
+	const audio = textAudio.getChildSelf("audio") as HTMLAudioElement;
+	visualizer.initComponent(audio);
 
-	const gameSystem = this.gameRouterSystem.getGameSystem();
-	if(!gameSystem) throw new Error("GameRouter[]: gameSystem is undefined during initElements");
 	// textAudio.setGameSystem(gameSystem);
 	
 	this.styleChild("gameConfigModal").display = "none";
 
-	const div2 = this.getChild("div1").getChild("div2");
-	div2.getChild("divLetter").getChild("letterSettings").getChildSelf("letterSettingsIcon").classList.add("fa-solid", "fa-gear");
-	div2.getChild("divWord").getChild("wordSettings").getChildSelf("wordSettingsIcon").classList.add("fa-solid", "fa-gear");
-	div2.getChild("divSentence").getChild("sentenceSettings").getChildSelf("sentenceSettingsIcon").classList.add("fa-solid", "fa-gear");
+	const divSettings = this.getChild("div1").getChild("divSettings");
+	divSettings.getChild("divLetter").getChild("letterSettings").getChildSelf("letterSettingsIcon").classList.add("fa-solid", "fa-gear");
+	divSettings.getChild("divWord").getChild("wordSettings").getChildSelf("wordSettingsIcon").classList.add("fa-solid", "fa-gear");
+	divSettings.getChild("divSentence").getChild("sentenceSettings").getChildSelf("sentenceSettingsIcon").classList.add("fa-solid", "fa-gear");
 
 	// const startButton = this.getChild("startButton").self as HTMLButtonElement;
 	// startButton.disabled = true;
@@ -164,44 +164,38 @@ class GameRouter extends Box2{
 
 
      override eventElements(){
-	 if(!this.gameRouterSystem) throw new Error("GameRouter[]: gameRouterSystem is undefined during eventElements"); 
+	this.getChild("div1").addEvent("startButton", "click", () => this.gameRouterSystem?.startGame());
 
-	this.addEvent("startButton", "click", () => this.gameRouterSystem?.startGame());
-
-	this.addEvent("letterButton", "click", () => this.gameRouterSystem?.setGameType(ChallengeType.LETTER))
-
-	this.addEvent("wordButton", "click", () => this.gameRouterSystem?.setGameType(ChallengeType.WORD));
-
-	this.addEvent("sentenceButton", "click", () => this.gameRouterSystem?.setGameType(ChallengeType.SENTENCE));
-
+	const divSettings = this.getChild("div1").getChild("divSettings");
+	divSettings.getChild("divLetter").addEvent("letterButton", "click", () => this.gameRouterSystem?.setGameType(ChallengeType.LETTER))
+	divSettings.getChild("divWord").addEvent("wordButton", "click", () => this.gameRouterSystem?.setGameType(ChallengeType.WORD));
+	divSettings.getChild("divSentence").addEvent("sentenceButton", "click", () => this.gameRouterSystem?.setGameType(ChallengeType.SENTENCE));
 
 	const gameConfigModal = this.getChild("gameConfigModal") as GameConfigModal;
-	this.addEvent("letterSettings", "click", () => gameConfigModal.system.setDefaultConfig(ChallengeType.LETTER) );
 
-	this.addEvent("wordSettings", "click", () => gameConfigModal.system.setDefaultConfig(ChallengeType.WORD));
-
-	this.addEvent("letterSettings", "click", () => gameConfigModal.system.setDefaultConfig(ChallengeType.SENTENCE));
+	divSettings.getChild("divLetter").addEvent("letterSettings", "click", () => gameConfigModal.system?.setDefaultConfig(ChallengeType.LETTER) );
+	divSettings.getChild("divWord").addEvent("wordSettings", "click", () => gameConfigModal.system?.setDefaultConfig(ChallengeType.WORD));
+	divSettings.getChild("divSentence").addEvent("sentenceSettings", "click", () => gameConfigModal.system?.setDefaultConfig(ChallengeType.SENTENCE));
     }
 
     
     override styleElements(): void{
 
-	// if ((CSS as any).registerProperty) {
-	//     (CSS as any).registerProperty({
-	// 	name: "--upGradient",
-	// 	syntax: "<percentage>",
-	// 	inherits: false,
-	// 	initialValue: "0%"
-	//     });
-	//      (CSS as any).registerProperty({
-	// 	name: "--downGradient",
-	// 	syntax: "<percentage>",
-	// 	inherits: false,
-	// 	initialValue: "100%"
-	//     });
-	// }
-	//
-	//
+	if ((CSS as any).registerProperty) {
+	    (CSS as any).registerProperty({
+		name: "--upGradient",
+		syntax: "<percentage>",
+		inherits: false,
+		initialValue: "0%"
+	    });
+	     (CSS as any).registerProperty({
+		name: "--downGradient",
+		syntax: "<percentage>",
+		inherits: false,
+		initialValue: "100%"
+	    });
+	}
+
 	this.style.position = "relative";
 	// this.style.border = "5px solid pink"
 	this.style.width =  "100%";
@@ -242,9 +236,9 @@ class GameRouter extends Box2{
 	div1.alignItems = "center";
 	div1.gap = "10px";
 		
-	const div2 = this.getChild("div1").styleChild("div2");
-	div2.display = "flex";
-	div2.gap = "4px";
+	const divSettings = this.getChild("div1").styleChild("divSettings");
+	divSettings.display = "flex";
+	divSettings.gap = "4px";
 
     }
     
