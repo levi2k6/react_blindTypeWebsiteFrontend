@@ -136,18 +136,23 @@ class GameRouter extends Box2{
 
     }
 
+    override initSystems(): void {
+	console.log("initSystems: ", this.getName());
+	console.log("gameSystem: ", this.gameSystem);
 
-    override async initElements(){
-	
-	//inits
 	const gameConfigModal = this.getChild("gameConfigModal") as GameConfigModal;
 	gameConfigModal.initComponent(this.gameConfigManager);
 	const textAudio = this.getChild("textAudio") as TextAudio;
 	textAudio.initComponent(this.gameSystem);
 	const visualizer = this.getChild("visualizer") as Visualizer; 
-	console.log("textAudio children: ", textAudio.getChildren());
 	const audio = textAudio.getChildSelf("audio") as HTMLAudioElement;
+	console.log("visualizer: ", visualizer);
+	console.log("audio", audio);
 	visualizer.initComponent(audio);
+    } 
+
+    override async initElements(){
+	//inits
 
 	// textAudio.setGameSystem(gameSystem);
 	

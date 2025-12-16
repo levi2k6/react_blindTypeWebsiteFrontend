@@ -13,9 +13,12 @@ class Element extends Component2{
 
     }
 
-    structureElements(): Array<Component2> {
+    override structureElements(): Array<Component2> {
 	return [];
     }
+
+    override initSystems(): void{
+    } 
 
     override initElements(): void {
     }

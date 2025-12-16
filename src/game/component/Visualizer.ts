@@ -32,18 +32,23 @@ class Visualizer extends Component2{
 	]
     } 
 
+    override initSystems(): void {
+    }
+
     override initElements(): void{
 	if(!this.audio) return;
+	if(!this.visualizerSystem) throw new Error("Failed to initialized Visualizer");
 	this.visualizerSystem.initSystem(this.audio, this.self as HTMLCanvasElement);
     }
 
     override eventElements(): void{
 	if(!this.audio) throw new Error("Audio is undefined during add event to visualizer's element");
+	if(!this.visualizerSystem) throw new Error("Failed to initialized Visualizer");
 
-	window.addEventListener("resize", () => this.visualizerSystem.resize());
+	window.addEventListener("resize", () => this.visualizerSystem?.resize());
 	this.audio.addEventListener("play", async ()=> {
-	    await this.visualizerSystem.getAudioCtx()?.resume();
-	    this.visualizerSystem.startAppear();
+	    await this.visualizerSystem?.getAudioCtx()?.resume();
+	    this.visualizerSystem?.startAppear();
 	});
     }
 

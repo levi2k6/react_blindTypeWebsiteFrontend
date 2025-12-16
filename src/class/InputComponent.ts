@@ -9,6 +9,9 @@ class InputComponent extends Component2{
 	super(element, name);
     }
 
+    override initSystems(){
+    }
+
     override initElements(): void {
     }
 

@@ -26,18 +26,99 @@ class LifeCycleSystem{
 	};
 	console.log("test test");
 
-	this.currentComponent.initAllPresetChildren();
+	this.initAllPresetChildren(this.currentComponent);
 	console.log("initAllPresetChildren Done");
-	this.currentComponent.initAllInitElements();
+	this.initAllInitSystems(this.currentComponent);
+	console.log("initAllInitSystems Done");
+	this.initAllInitElements(this.currentComponent);
 	console.log("initAllInitElements Done");
-	this.currentComponent.initAllEventElements();
+	this.initAllEventElements(this.currentComponent);
 	console.log("initAllEventElements Done");
-	this.currentComponent.initAllStyleElements();
+	this.initAllStyleElements(this.currentComponent);
 	console.log("initAllStyleElements Done");
-	this.currentComponent.connectElements();
+	this.connectElements(this.currentComponent);
 	console.log("connectingElements Done");
-	this.currentComponent.init();
     }
+
+    public initAllPresetChildren(component: Component2){ 
+	console.log("current component initAllPresetChildren: ", component.getName());
+	if(component.getChildren().size === 0){
+	    component.setPresetChildren();
+	}
+
+	for(const key of component.getChildren().keys()){
+	    const child = component.getChildren().get(key);
+	    if(!child) throw new Error(`key: ${key} does not exist in component: ${component.getName()}`);
+	    this.initAllPresetChildren(child);
+	}
+    }
+
+    public initAllInitSystems(component: Component2){ 
+	component.initSystems();
+
+	for(const key of component.getChildren().keys()){
+	    const child = component.getChildren().get(key);
+	    if(!child) throw new Error(`key: ${key} does not exist in component: ${component.getName()}`);
+	    this.initAllInitSystems(child);
+	}
+    }
+
+
+    public  initAllInitElements(component: Component2){
+	if(component.getChildren().size !== 0){
+	    for(const key of component.getChildren().keys()){
+		const child = component.getChildren().get(key);
+		if(!child) return;
+		if(component.getChildren().size > 0){
+		    this.initAllInitElements(child);
+		}
+	    }
+	}
+	component.initElements();
+	console.log(`Component ${component.getName()} initElements success`);
+    }
+
+    public initAllEventElements(component: Component2){
+	if(component.getChildren().size !== 0){
+	    for(const key of component.getChildren().keys()){
+		const child = component.getChildren().get(key);
+		if(!child) return;
+		if(component.getChildren().size > 0){
+		    this.initAllEventElements(child);
+		}
+	    }
+	}
+	component.abortController = new AbortController;
+	component.eventElements();
+	console.log(`Component ${component.getName()} eventElements done`);
+    }
+
+    public initAllStyleElements(component: Component2){
+	if(component.getChildren().size !== 0){
+	    for(const key of component.getChildren().keys()){
+		const child = component.getChildren().get(key);
+		if(!child) return;
+		if(component.getChildren().size > 0){
+		    this.initAllStyleElements(child);
+		}
+	    }
+	}
+	component.styleElements();
+	console.log(`Component ${component.getName()} styleElements success`);
+    }
+
+    public connectElements(component: Component2){
+	if(component.getChildren().size !== 0){
+	    for(const key of component.getChildren().keys()){
+		const child = component.getChildren().get(key);
+		if(!child) return;
+		child.connectElements();
+		component.self.appendChild(child.self);
+	    }
+	}
+	console.log(`Component ${component.getName()} connectElements done`);
+    }
+
 
     public destroyComponent(){
 	if(!this.currentComponent){

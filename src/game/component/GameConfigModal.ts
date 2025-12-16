@@ -20,7 +20,6 @@ class GameConfigModal extends Box2{
 
     constructor(){
 	super("gameConfigModal");
-	this.init();
     }
 
     get system(){
@@ -28,6 +27,7 @@ class GameConfigModal extends Box2{
     }
 
     public initComponent(gameConfigManager: GameConfigManager){
+	console.log("GameConfigModal[] initComponent");
 	this.gameConfigManager = gameConfigManager;
 	this.gameConfigModalSystem = new GameConfigModalSystem();
     }
@@ -36,7 +36,7 @@ class GameConfigModal extends Box2{
 	gameConfigManager: GameConfigManager;
     }{
 	if(!this.gameConfigManager){
-	    throw new Error("GameConfigModalSystem is not initialized");
+	    throw new Error("GameConfigModal is not initialized");
 	}
     }
 
@@ -79,7 +79,7 @@ class GameConfigModal extends Box2{
 		    const divInput1 = new Box2("divInput1");
 			const inputDifficulty = new Select("difficulty", ["easy", "normal", "hard"]);
 		    const divInput2 = new Box2("divInput2");
-			const inputMultiple = new InputComponent("multiple", "number");
+			const inputMultiple = new InputComponent("inputMultiple", "number");
 		    const divInput3 = new Box2("divInput3");
 			const inputContinuous = new SelectComponent("continuous", ["true", "false"]);
 
@@ -110,14 +110,18 @@ class GameConfigModal extends Box2{
 		])
 	    ])
 	]
-
     }
 
-    override initElements(): void{
+    override initSystems(): void{
+	console.log("GameConfigModal: initElements");
+	console.log("gameConfigManger: ", this.gameConfigManager);
+	console.log("gameConfigModalSystem: ", this.gameConfigModalSystem);
 	this.assertInitialized();
 
 	this.system?.initSystem(this.gameConfigManager, this);
+    }
 
+    override initElements(): void{
 	const inputMultiple = this.getChild("div1").getChild("divForm").getChild("divInput").getChild("divInput2").getChildSelf("inputMultiple") as HTMLInputElement; 
 	inputMultiple.min = "1"; 
 	inputMultiple.max = "10"; 
@@ -126,7 +130,7 @@ class GameConfigModal extends Box2{
     override eventElements(): void {
 	const div2 = this.getChild("div2");
 
-	div2.addEvent("apply", "click", () => {
+	div2.getChild("divButtons").addEvent("apply", "click", () => {
 	    const divInput = this.getChild("div1").getChild("divInput"); 
 	    const divInputDifficulty = divInput.getChildSelf("inputDifficulty") as HTMLSelectElement;
 	    const divInputMultiple =  divInput.getChildSelf("divInputMultiple") as HTMLInputElement;
@@ -146,7 +150,7 @@ class GameConfigModal extends Box2{
 	    this.style.display = "none";
 	});
 
-	div2.addEvent("close", "click", () => {
+	div2.getChild("divButtons").addEvent("close", "click", () => {
 	    this.style.display = "none";
 	});
     }

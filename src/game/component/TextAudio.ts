@@ -18,6 +18,8 @@ class TextAudio extends Box2{
     }
 
     public initComponent(gameSystem: GameSystem){
+	console.log("TextAudio: initComponent");
+	console.log("gameSystem: ", gameSystem);
 	this.gameSystem = gameSystem;
 	this.textAudioSystem = new TextAudioSystem(this);
     }
@@ -51,8 +53,10 @@ class TextAudio extends Box2{
     }
 
     override eventElements(){
-	if(this.gameSystem) throw new Error("gameSystem is undefined");
-	if(this.textAudioSystem) throw new Error("textAudioSystem is undefined");
+
+	console.log("gameSystem: eventElements: ", this.gameSystem);
+	if(!this.gameSystem) throw new Error("gameSystem is undefined");
+	if(!this.textAudioSystem) throw new Error("textAudioSystem is undefined");
 
 	this.addEvent("audio", "ended", ()=>{
 	    console.log("after audio done works");

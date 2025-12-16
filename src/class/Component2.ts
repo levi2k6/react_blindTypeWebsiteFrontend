@@ -33,6 +33,9 @@ abstract class Component2{
 	return this.controller;
     }
 
+    set abortController(controller: AbortController){
+    }
+
     public getChildren(): Map<string, Component2>{
 	return this.children;
     }
@@ -54,24 +57,6 @@ abstract class Component2{
 	return this.getChild(childName).self;
     }
 
-    
-
-    public init(){
-	console.log(this.name, ": is initing");
-	console.log(`${this.name} has a children of : `, this.children);
-
-	if(this.children.size === 0){
-	    console.log("Component: ", this.name, "'s children is empty")
-	}
-
-	for(const key of this.children.keys()){
-	    const child = this.children.get(key);
-	    if(!child) return;
-	    if(child?.children.size > 0){
-		child.init();
-	    }
-	}
-    }
 
     public setPresetChildren(): void{
 	// console.log(`Component: ${this.name} is setting preset children`);
@@ -81,61 +66,67 @@ abstract class Component2{
 	})
     }
 
-    public initAllPresetChildren(){ 
-	this.setPresetChildren();
-	console.log(`structureElements ${this.name}`);
-	console.log("children: ", this.children);
-	for(const key of this.children.keys()){
-	    const child = this.children.get(key);
-	    if(!child) return;
-	    if(child?.children.size > 0){
-		child.initAllPresetChildren();
-	    }
-	}
-    }
+	//    public initAllPresetChildren(){ 
+	// //check root children if it is size 0
+	// console.log("current component initAllPresetChildren: ", this.name);
+	// if(this.children.size === 0){
+	//     this.setPresetChildren();
+	// }
+	//
+	// // console.log(`structureElements ${this.name}`);
+	// // console.log("children: ", this.children);
+	// for(const key of this.children.keys()){
+	//     const child = this.children.get(key);
+	//     if(!child) throw new Error(`key: ${key} does not exist in component: ${this.name}`);
+	// 	//    if(child?.children.size === 0){
+	// 	// child.setPresetChildren();
+	// 	//    }
+	// 	child.initAllPresetChildren();
+	// }
+	//    }
 
-    public  initAllInitElements(){
-	if(this.children.size !== 0){
-	    for(const key of this.children.keys()){
-		const child = this.children.get(key);
-		if(!child) return;
-		if(child?.children.size > 0){
-		    child.initAllInitElements();
-		}
-	    }
-	}
-	this.initElements();
-	console.log(`Component ${this.name} initElements success`);
-    }
-
-    public initAllEventElements(){
-	if(this.children.size !== 0){
-	    for(const key of this.children.keys()){
-		const child = this.children.get(key);
-		if(!child) return;
-		if(child?.children.size > 0){
-		    child.initAllEventElements();
-		}
-	    }
-	}
-	this.controller = new AbortController;
-	this.eventElements();
-	console.log(`Component ${this.name} eventElements done`);
-    }
-
-    public initAllStyleElements(){
-	if(this.children.size !== 0){
-	    for(const key of this.children.keys()){
-		const child = this.children.get(key);
-		if(!child) return;
-		if(child?.children.size > 0){
-		    child.initAllStyleElements();
-		}
-	    }
-	}
-	this.styleElements();
-	console.log(`Component ${this.name} styleElements success`);
-    }
+	//    public  initAllInitElements(){
+	// if(this.children.size !== 0){
+	//     for(const key of this.children.keys()){
+	// 	const child = this.children.get(key);
+	// 	if(!child) return;
+	// 	if(child?.children.size > 0){
+	// 	    child.initAllInitElements();
+	// 	}
+	//     }
+	// }
+	// this.initElements();
+	// console.log(`Component ${this.name} initElements success`);
+	//    }
+	//
+	//    public initAllEventElements(){
+	// if(this.children.size !== 0){
+	//     for(const key of this.children.keys()){
+	// 	const child = this.children.get(key);
+	// 	if(!child) return;
+	// 	if(child?.children.size > 0){
+	// 	    child.initAllEventElements();
+	// 	}
+	//     }
+	// }
+	// this.controller = new AbortController;
+	// this.eventElements();
+	// console.log(`Component ${this.name} eventElements done`);
+	//    }
+	//
+	//    public initAllStyleElements(){
+	// if(this.children.size !== 0){
+	//     for(const key of this.children.keys()){
+	// 	const child = this.children.get(key);
+	// 	if(!child) return;
+	// 	if(child?.children.size > 0){
+	// 	    child.initAllStyleElements();
+	// 	}
+	//     }
+	// }
+	// this.styleElements();
+	// console.log(`Component ${this.name} styleElements success`);
+	//    }
 
     public connectElements(){
 
@@ -190,8 +181,7 @@ abstract class Component2{
 
 
     abstract structureElements(): Array<Component2>;
-
-    // abstract initComponent(): void;
+    abstract initSystems(): void; 
     abstract initElements(): void;
     abstract eventElements(): void;
     abstract styleElements(): void; 
