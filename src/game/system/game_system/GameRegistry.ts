@@ -12,11 +12,11 @@ class GameRegistry{
 
     private games = new Map<ChallengeType, Game> 
 
-    public constructor(gameRouter: GameRouter, gameSystem: GameSystem, gameConfigManager: GameConfigManager ,timer: Timer){
+    public constructor(){
 
-	this.games.set(ChallengeType.LETTER, new LetterGame( gameRouter, gameSystem, gameConfigManager, timer ));
-	this.games.set(ChallengeType.WORD, new StringGame( gameRouter, gameSystem, gameConfigManager));
-	this.games.set(ChallengeType.SENTENCE, new StringGame( gameRouter, gameSystem, gameConfigManager));
+	this.games.set(ChallengeType.LETTER, new LetterGame());
+	this.games.set(ChallengeType.WORD, new StringGame());
+	this.games.set(ChallengeType.SENTENCE, new StringGame());
 
     }
 

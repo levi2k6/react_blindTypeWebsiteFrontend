@@ -13,25 +13,24 @@ import { getRandomGameChallenge } from "../../../../utils/api/apiGame";
 class StringGame extends Game{
 
     private name: string = "StringGame";
-    private gameRouter: GameRouter;
-    private textHolder: TextHolder;
-    private textAudio: TextAudio; 
-    private gameSystem: GameSystem;
-    private gameConfigManager: GameConfigManager;
+    private gameRouter?: GameRouter;
+    private textHolder?: TextHolder;
+    private textAudio?: TextAudio; 
+    private gameSystem?: GameSystem;
+    private gameConfigManager?: GameConfigManager;
 
     private challenges: StringChallenge[] = []; 
     private i1: number = 0;
     private i2: number = 0;
     private iContinuous: number = 0;
 
-    constructor(gameRouter: GameRouter, gameSystem: GameSystem, gameConfigManager: GameConfigManager){
-	super();
+
+    public initSystem(gameRouter: GameRouter, gameSystem: GameSystem, gameConfigManager: GameConfigManager){
 	this.gameRouter = gameRouter;
-	this.textHolder = gameRouter.textHolder;
-	this.textAudio = gameRouter.textAudio;
+	this.textHolder = gameRouter.getChild("textHolder") as TextHolder;
+	this.textAudio = gameRouter.getChild("textAudio") as TextAudio;
 	this.gameSystem = gameSystem;
 	this.gameConfigManager = gameConfigManager;
-	console.log("here: ", this.gameRouter.textHolder);
     }
 
     getName(): string{
@@ -43,9 +42,16 @@ class StringGame extends Game{
     }
 
     async gameInit(){
+
+	if(!this.textHolder) throw new Error("textHolder is undefined");
+	if(!this.gameConfigManager) throw new Error("gameConfigManager is undefined");
+	if(!this.gameSystem) throw new Error("gameSystem is undefined");
+	if(!this.textHolder) throw new Error("textHolder is undefined");
+	if(!this.gameRouter) throw new Error("gameRouter is undefined");
+
 	this.textHolder.style.visibility = "hidden";
-	this.textHolder.system.checkOverflow();
-	const multiple = this.gameConfigManager.getGameConfigMultiple();
+	this.textHolder.system?.checkOverflow();
+	const multiple = this.gameConfigManager?.getGameConfigMultiple();
 	if(!multiple){
 	    console.log("Game amount has no data");
 	    return;
@@ -67,16 +73,25 @@ class StringGame extends Game{
 	    this.continuousAudioChange();
 	}
 
-	this.textHolder.system.addLetters(this.challenges);
-	this.textHolder.system.displayLetters(this.i1);
+	this.textHolder.system?.addLetters(this.challenges);
+	this.textHolder.system?.displayLetters(this.i1);
     }
 
     setChallengeAudio(audioName: string){
-	this.gameRouter.textAudio.system.addAudioSource(audioName, this.gameSystem.getType());
+	const type = this.gameSystem?.getType();
+	if(!type) throw new Error("gameSystem's type is undefined"); 
+	if(!this.textAudio) throw new Error("textAudio is undefined");
+
+	this.textAudio.system?.addAudioSource(audioName, type);
+	// textAudio.system.addAudioSource(audioName, this.gameSystem.getType());
     }
 
     guessLetter(playerInput: string): void{
-	const challengeLetters = this.textHolder.system.getStringChallengeLetters(); 
+	if(!this.textHolder) throw new Error("textHolder is undefined");
+
+	const challengeLetters = this.textHolder.system?.getStringChallengeLetters(); 
+	if(!challengeLetters) throw new Error("challengeLetter is undefined")
+
 	const currentLetters = challengeLetters[this.i1];
 	const letter = currentLetters[this.i2];
 
@@ -93,29 +108,34 @@ class StringGame extends Game{
     }
 
     private correct(letter: Letter, currentLetters: Array<Letter>){
+	if(!this.textAudio) throw new Error("textAudio is undefined");
+
 	letter.turnGreen();
 	console.log("correct!");
 
 	if( this.i2 != currentLetters.length-1){
 	    if(currentLetters[this.i2].getChar == " "){
-		this.textAudio.system.ding();
+		this.textAudio.system?.ding();
 	    }
 	}else{
-	    this.textAudio.system.ding();
+	    this.textAudio.system?.ding();
 	}
 
 	this.i2 += 1;
     }
 
     private wrong(letter: Letter){
-	this.textAudio.system.wrong();
+	if(!this.textAudio) throw new Error("textAudio is undefined");
+	if(!this.textHolder) throw new Error("textHolder is undefined");
+
+	this.textAudio.system?.wrong();
 	if(letter.getChar === " "){
 	    letter.turnBackgroundRed();
 	}else{
 	    letter.turnRed();
 	}
 	this.textHolder.style.display = "flex";
-	this.textHolder.system.moveDown();
+	this.textHolder.system?.moveDown();
 	this.gameEnd();
 	return;
     }
@@ -131,11 +151,14 @@ class StringGame extends Game{
     }
 
     lineEnd(){
+	if(!this.gameSystem) throw new Error("gameSystem is undefined");
+	if(!this.textHolder) throw new Error("textHolder is undefined");
+
 	this.i1 += 1;
 	this.i2 = 0;
-	this.textHolder.system.displayLetters(this.i1);
-	this.textHolder.system.checkOverflow();
-	this.textHolder.system.moveDown();
+	this.textHolder.system?.displayLetters(this.i1);
+	this.textHolder.system?.checkOverflow();
+	this.textHolder.system?.moveDown();
 	if(!this.gameSystem.getIsContinuous()){
 	    this.setChallengeAudio(this.challenges[this.i1].audioName);
 	}
@@ -153,16 +176,21 @@ class StringGame extends Game{
     }
 
     gameEnd(){
+	if(!this.gameSystem) throw new Error("gameSystem is undefined");
+	if(!this.textHolder) throw new Error("textHolder is undefined");
+	if(!this.textAudio) throw new Error("textHolder is undefined");
+
+
 	// this.textHolder.system.removeLetters();
 	console.log("challenges: ", this.challenges);
 
 	this.i1= 0;
 	this.i2 = 0;
 	this.iContinuous = 0;
-	this.textAudio.system.stopAudio();
+	this.textAudio.system?.stopAudio();
 	console.log("String game finished");
-	this.textHolder.system.removeChallengeLetters();
-	this.textHolder.system.moveDown();
+	this.textHolder.system?.removeChallengeLetters();
+	this.textHolder.system?.moveDown();
 	this.gameSystem.gameEnd();
     }
 

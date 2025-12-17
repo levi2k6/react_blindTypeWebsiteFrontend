@@ -1,19 +1,26 @@
 import Box2 from "../../class/Box2";
+import type Component2 from "../../class/Component2";
 import TextHolderSystem from "../system/component_system/TextHolderSystem";
 
 class TextHolder extends Box2{
 
-    textHoldersystem: TextHolderSystem = new TextHolderSystem(this);
+    textHoldersystem?: TextHolderSystem;
 
-     constructor(name: string){
-	 super(name);
-	 this.init();
+     constructor(){
+	 super("textHolder");
      }
 
      get system(){
 	 return this.textHoldersystem;
      }
 
+     override structureElements(): Array<Component2> {
+	 return [];
+     }
+
+     override initSystems(): void {
+	 this.textHoldersystem = new TextHolderSystem(this);
+     }
 
     override initElements(){};
 

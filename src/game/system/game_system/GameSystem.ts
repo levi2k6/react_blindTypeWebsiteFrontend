@@ -8,6 +8,8 @@ import GameRegistry from "./GameRegistry";
 import GameConfigManager from "../game_config/GameConfigManager";
 import Visualizer from "../../component/Visualizer";
 import type { GameConfig } from "../../../utils/types/GameConfigType";
+import StringGame from "./strategy/StringGame";
+import LetterGame from "./strategy/LetterGame";
 
 class GameSystem{
 
@@ -25,8 +27,19 @@ class GameSystem{
     constructor(gameRouter: GameRouter, gameConfigManager: GameConfigManager){
 	this.gameRouter = gameRouter;
 	this.gameConfigManager = gameConfigManager;   
-	this.gameRegistry = new GameRegistry(gameRouter, this, gameConfigManager , this.timer );
+	this.gameRegistry = new GameRegistry();
     }
+
+    public initSystem(){
+	if(this.currentGame instanceof StringGame){
+	    const stringGame = this.currentGame as StringGame;
+	    stringGame.initSystem(this.gameRouter, this, this.gameConfigManager);
+	}else if(this.currentGame instanceof LetterGame){
+	    const letterGame = this.currentGame as LetterGame;
+	    letterGame.initSystem(this.gameRouter, this, this.gameConfigManager, this.timer);
+
+	}
+    } 
 
     getGame(){
 	return this.currentGame;
@@ -67,7 +80,7 @@ class GameSystem{
 	if(!this.gameRouter) return;
 
 	const visualizer = this.gameRouter.getChild("visualizer") as Visualizer;
-	visualizer.system.startDisappear();
+	visualizer.system?.startDisappear();
 
 	const textHolder = this.gameRouter.getChild("textHolder");
 	textHolder.style.visibility = "visible";

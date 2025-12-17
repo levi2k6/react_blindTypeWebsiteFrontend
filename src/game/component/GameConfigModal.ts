@@ -69,11 +69,11 @@ class GameConfigModal extends Box2{
 	    const divForm = new Box2("divForm");
 		const divLabel = new Box2("divLabel");
 		    const divLabel1 = new Box2("divLabel1");
-			const labelDifficulty = new Element("label", "labelDifficulty");
+			const labelDifficulty = new Element("label", "labelDifficulty", "Difficulty");
 		    const divLabel2 = new Box2("divLabel2");
-			const labelMultiple  = new Element("label", "labelMultiple");
+			const labelMultiple  = new Element("label", "labelMultiple", "Multiple");
 		    const divLabel3 = new Box2("divLabel3");
-			const labelContinuous = new Element("label", "labelContinuous");
+			const labelContinuous = new Element("label", "labelContinuous", "Continuous");
 
 		const divInput = new Box2("divInput"); 
 		    const divInput1 = new Box2("divInput1");
@@ -85,8 +85,8 @@ class GameConfigModal extends Box2{
 
 	const div2 = new Box2("div2");
 	    const divButtons = new Box2("divButtons");
-		const apply = new Element("button", "apply"); 
-		const close = new Element("button", "close");
+		const apply = new Element("button", "apply", "apply"); 
+		const close = new Element("button", "close", "close");
 
 	return [
 	    div1.addChildren([
@@ -123,6 +123,7 @@ class GameConfigModal extends Box2{
 
     override initElements(): void{
 	const inputMultiple = this.getChild("div1").getChild("divForm").getChild("divInput").getChild("divInput2").getChildSelf("inputMultiple") as HTMLInputElement; 
+	inputMultiple.defaultValue = "3";
 	inputMultiple.min = "1"; 
 	inputMultiple.max = "10"; 
     }
@@ -161,7 +162,7 @@ class GameConfigModal extends Box2{
 	this.style.position = "fixed"
 	this.style.height = "400px";
 	this.style.width = "400px";
-	// this.style.border = "1px solid green";
+	this.style.border = "1px solid green";
 	this.style.backgroundColor = "black";
 	this.style.display = "flex";
 	this.style.flexDirection = "column";

@@ -9,6 +9,7 @@ import Element from "../../class/Element.ts";
 import Visualizer from "./Visualizer.ts";
 import GameSystem from "../system/game_system/GameSystem.ts";
 import Input from "../system/Input.ts";
+import TextHolder from "./TextHolder.ts";
 
 class GameRouter extends Box2{
 
@@ -40,6 +41,7 @@ class GameRouter extends Box2{
 	const textAudio = new TextAudio(); 
 	const divGradient = new Box2("divGradient");
 	const visualizer: Visualizer = new Visualizer();
+	const textHolder: TextHolder = new TextHolder();
 	const div1: Box2 = new Box2("div1");
 	    const startButton: Element = new Element("button", "startButton", "Start"); 
 	    const divSettings: Box2 = new Box2("divSettings");
@@ -62,6 +64,7 @@ class GameRouter extends Box2{
 	    textAudio,
 	    visualizer,
 	    divGradient,
+	    textHolder,
 	    div1.addChildren([
 		startButton,
 		divSettings.addChildren([
@@ -140,6 +143,8 @@ class GameRouter extends Box2{
 	console.log("initSystems: ", this.getName());
 	console.log("gameSystem: ", this.gameSystem);
 
+	this.gameSystem.initSystem();
+
 	const gameConfigModal = this.getChild("gameConfigModal") as GameConfigModal;
 	gameConfigModal.initComponent(this.gameConfigManager);
 	const textAudio = this.getChild("textAudio") as TextAudio;
@@ -210,28 +215,28 @@ class GameRouter extends Box2{
 	this.style.flexDirection = "column";
 	this.style.justifyContent = "center";
 	this.style.alignItems = "center";
-	//
-	//
-	// const divGradient = this.getChild("divGradient");
-	//
-	// this.getChild("divGradient").style.position = "absolute"; 
-	// // this.divGradient.style.border = "3px solid red";
-	// divGradient.style.zIndex = "-1";
-	// divGradient.style.height = "100%";
-	// divGradient.style.width = "100%";
-	// divGradient.style.transition = "height 1s ease-in-out, width 1s ease-in-out, --upGradient 1s ease-in-out, --downGradient 1s ease-in-out";
-	// divGradient.style.background = `
-	//        linear-gradient(
-	//            to bottom,
-	//            #121212 0%,
-	//            transparent var(--upGradient),
-	//            transparent var(--downGradient),
-	//            #121212 100%
-	//        )
-	// `;
-	// this.div1.style.height = "100px";
-	
+
+	const divGradient = this.getChild("divGradient");
+
+	this.getChild("divGradient").style.position = "absolute"; 
+	// this.divGradient.style.border = "3px solid red";
+	divGradient.style.zIndex = "-1";
+	divGradient.style.height = "100%";
+	divGradient.style.width = "100%";
+	divGradient.style.transition = "height 1s ease-in-out, width 1s ease-in-out, --upGradient 1s ease-in-out, --downGradient 1s ease-in-out";
+	divGradient.style.background = `
+	       linear-gradient(
+	           to bottom,
+	           #121212 0%,
+	           transparent var(--upGradient),
+	           transparent var(--downGradient),
+	           #121212 100%
+	       )
+	`;
+
 	const div1 = this.styleChild("div1");
+
+	div1.height = "100px";
 	div1.marginTop = "50px";
 	div1.width = "500px";
 	div1.border = "1px solid white";

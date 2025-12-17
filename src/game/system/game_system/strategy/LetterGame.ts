@@ -6,27 +6,29 @@ import Game from "./Game";
 import type TextHolder from "../../../component/TextHolder";
 import LetterChallengeGenerator from "./LetterChallengeGenerator";
 import type GameConfigManager from "../../game_config/GameConfigManager";
+import type TextAudio from "../../../component/TextAudio";
 
 class LetterGame extends Game{
 
     private letterChallengeGenerator: LetterChallengeGenerator = new LetterChallengeGenerator(); 
 
     private name: string = "LetterGame";
-    private gameRouter: GameRouter;
-    private textHolder: TextHolder;
-    private gameSystem: GameSystem;
-    private gameConfigManager: GameConfigManager;
+    private gameRouter?: GameRouter;
+    private textAudio?: TextAudio;
+    private textHolder?: TextHolder;
+    private gameSystem?: GameSystem;
+    private gameConfigManager?: GameConfigManager;
 
-    private timer: Timer;
+    private timer?: Timer;
 
     private challenges: string[] = [];
     i: number = 0;
     iContinuous: number = 0;
 
-    constructor(gameRouter: GameRouter, gameSystem: GameSystem, gameConfigManager: GameConfigManager, timer: Timer){
-	super()
+    public initSystem(gameRouter: GameRouter, gameSystem: GameSystem, gameConfigManager: GameConfigManager, timer: Timer){
 	this.gameRouter = gameRouter;
-	this.textHolder = gameRouter.textHolder;
+	this.textAudio = gameRouter.getChild("textAudio") as TextAudio;
+	this.textHolder = gameRouter.getChild("textHolder") as TextHolder;
 	this.gameSystem = gameSystem;
 	this.gameConfigManager = gameConfigManager
 	this.timer = timer;
@@ -43,9 +45,14 @@ class LetterGame extends Game{
     }
 
     gameInit(){
+	if(!this.textHolder) throw new Error("textHolder is undefined");
+	if(!this.gameConfigManager) throw new Error("gameConfigManager is undefined");
+	if(!this.timer) throw new Error("timer is undefined");
+	if(!this.gameSystem) throw new Error("gameSystem is undefined");
+
 	console.log("letter gameInit()");
 	this.textHolder.style.visibility = "hidden";
-	this.textHolder.system.checkOverflow();
+	this.textHolder.system?.checkOverflow();
 	const multiple = this.gameConfigManager.getGameConfigMultiple();
 	if(!multiple){
 	    console.log("LetterGameConfig has no multiple has no data");
@@ -67,24 +74,33 @@ class LetterGame extends Game{
     }
 
     setChallengeAudio(audioName: string){
-	this.gameRouter.textAudio.system.addAudioSource(audioName, this.gameSystem.getType());
+	if(!this.gameRouter) throw new Error("gameRouter is undefined");
+	if(!this.gameSystem) throw new Error("gameSystem is undefined");
+	if(!this.textAudio) throw new Error("textAudio is undefined");
+
+	this.textAudio.system?.addAudioSource(audioName, this.gameSystem.getType());
     }	
 
     guessLetter(playerInput: string){
-	console.log("i: ", this.i);
+	console.log("input: ", this.i);
+	if(!this.textAudio) throw new Error("textAudio is undefined");
+	if(!this.timer) throw new Error("timer is undefined");
 
 	if(playerInput == this.challenges[this.i].toLowerCase()){
-	    this.gameRouter.textAudio.system.ding();
+	    this.textAudio.system?.ding();
 	    this.timer.startTimer();
 	    this.nextLetter();
 	}else{
 	    this.timer.stopTimer();
-	    this.gameRouter.textAudio.system.wrong();
+	    this.textAudio.system?.wrong();
 	    this.gameLose();
 	}
     }
 
     nextLetter(){
+	if(!this.gameSystem) throw new Error("gameSystem is undefined");
+	if(!this.timer) throw new Error("timer is undefined");
+
 	if(this.challenges.length-1 == this.i){
 	    this.gameEnd();
 	    return;
@@ -109,16 +125,23 @@ class LetterGame extends Game{
     }
 
     gameLose(){
+	if(!this.textHolder) throw new Error("textHolder is undefined");
+
 	console.log("game wrong");
-	this.textHolder.system.displayWrongLetter(this.challenges[this.i]);
+	this.textHolder.system?.displayWrongLetter(this.challenges[this.i]);
 	this.gameEnd();
     }
 
     gameEnd(){
+	if(!this.timer) throw new Error("timer is undefined"); 
+	if(!this.textHolder) throw new Error("textHolder is undefined"); 
+	if(!this.timer) throw new Error("timer is undefined"); 
+	if(!this.gameSystem) throw new Error("gameSystem is undefined");
+
 	console.log("game ended");
 	this.timer.stopTimer();
-	this.textHolder.system.removeChallengeLetters();
-	this.textHolder.system.moveDown();
+	this.textHolder.system?.removeChallengeLetters();
+	this.textHolder.system?.moveDown();
 	this.letterChallengeGenerator.setChallenge("");
 	this.challenges = [];
 	this.i = 0;
