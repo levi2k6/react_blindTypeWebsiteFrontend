@@ -9,13 +9,13 @@ import Test2 from './test/Test2.ts';
 
 async function Main(){
 
-	const lifCycleSystem: LifeCycleSystem = new LifeCycleSystem();
+	const lifeCycleSystem: LifeCycleSystem = new LifeCycleSystem();
 	const test1: Test1 = new Test1();
-	const test2: Test2 = new Test2(lifCycleSystem);
-	const gameRouter: GameRouter = new GameRouter("GameRouter");
+	const test2: Test2 = new Test2(lifeCycleSystem);
+	const gameRouter: GameRouter = new GameRouter("GameRouter", lifeCycleSystem);
 
 	const routeSystem2: RouteSystem2 = new RouteSystem2(
-	    lifCycleSystem,
+	    lifeCycleSystem,
 	    test1,
 	    test2,
 	    gameRouter

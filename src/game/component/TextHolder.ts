@@ -1,10 +1,13 @@
 import Box2 from "../../class/Box2";
 import type Component2 from "../../class/Component2";
+import type LifeCycleSystem from "../../systems/LifeCycleSystem";
 import TextHolderSystem from "../system/component_system/TextHolderSystem";
 
 class TextHolder extends Box2{
 
-    textHoldersystem?: TextHolderSystem;
+    private lifeCycleSystem?: LifeCycleSystem;
+
+    private textHoldersystem?: TextHolderSystem;
 
      constructor(){
 	 super("textHolder");
@@ -18,8 +21,14 @@ class TextHolder extends Box2{
 	 return [];
      }
 
+     public initcomponent(lifeCycleSystem: LifeCycleSystem){
+	 this.lifeCycleSystem = lifeCycleSystem;
+	 console.log("AAA: ", lifeCycleSystem);
+     };
+
      override initSystems(): void {
-	 this.textHoldersystem = new TextHolderSystem(this);
+	 if(!this.lifeCycleSystem) throw new Error("lifeCycleSystem is undefined"); 
+	 this.textHoldersystem = new TextHolderSystem(this, this.lifeCycleSystem);
      }
 
     override initElements(){};
@@ -28,6 +37,7 @@ class TextHolder extends Box2{
 
     override styleElements(){
 	console.log("TextHolder styleElements()");
+	this.style.border = "1px solid yellow";
 	this.style.marginTop = "10px";
 	this.style.background = "linear-gradient(to bottom, #1a1a1a 0%, transparent 10%,transparent 10%, transparent 50%, transparent 90%, transparent 90%, #1a1a1a 100%)";
 	this.style.width = "100vw";

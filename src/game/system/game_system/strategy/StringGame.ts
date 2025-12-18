@@ -26,6 +26,7 @@ class StringGame extends Game{
 
 
     public initSystem(gameRouter: GameRouter, gameSystem: GameSystem, gameConfigManager: GameConfigManager){
+	console.log("StringGame: initSystem");
 	this.gameRouter = gameRouter;
 	this.textHolder = gameRouter.getChild("textHolder") as TextHolder;
 	this.textAudio = gameRouter.getChild("textAudio") as TextAudio;

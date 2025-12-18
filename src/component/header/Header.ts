@@ -1,44 +1,26 @@
 import Box from "../../class/Box";
-import Component from "../../class/Component";
 import RouteSystem from "../../route/RouteSystem";
 import { createElement } from "../../ui_system/Element";
 import { apiToken } from "../../utils/apiUtils";
 import AuthState from "../../utils/authState";
 import HeaderSystem from "./system/HeaderSystem";
 import Profile from "./Profile";
+import Component2 from "../../class/Component2";
+import Element from "../../class/Element";
+import Box2 from "../../class/Box2";
 
-class Header extends Component{
-
-    buttonTest: HTMLButtonElement = createElement("button", "test") as HTMLButtonElement;
-    title: HTMLElement = createElement("h2", "Blind Type");
-    navigation: Box = new Box();
-	navAbout: HTMLAnchorElement = createElement("a", "About") as HTMLAnchorElement; 
-	navGame: HTMLAnchorElement = createElement("a", "Game") as HTMLAnchorElement;
-
-    divAuth: Box = new Box();
-	authButtons: Box = new Box();
-	    signup: HTMLButtonElement = createElement("button", "Signup") as HTMLButtonElement; 
-	    login: HTMLButtonElement = createElement("button", "Login") as HTMLButtonElement; 
-	profile: Profile = new Profile(this, "Profile");
-
+class Header extends Component2{
 
     routeSystem: RouteSystem | null = null;
     headerSystem: HeaderSystem = new HeaderSystem(this); 
 
     constructor(){
-	const mainElement: HTMLDivElement = document.querySelector<HTMLDivElement>("#header")!; 
-	super(mainElement);
-	this.init();
+	const rootElement: HTMLDivElement = document.querySelector<HTMLDivElement>("#header")!; 
+	super(rootElement, "header");
     }
 
     get system(){
 	return this.headerSystem;
-    }
-
-    override initChildrenEvents(): void {
-        
-    }
-    override preDestroy(): void {
     }
 
     setRouteSystem(routeSystem: RouteSystem){
@@ -56,48 +38,83 @@ class Header extends Component{
 	// this.profile.setProfileName(name);
     }
 
-    override connectElements(): void {
-	this.self.appendChild(this.title);
-	this.self.appendChild(this.buttonTest);
+    override structureElements(): Array<Component2> {
 
-	this.navigation.addChildren([
-	    this.navAbout,
-	    this.navGame
-	]);
+	// this.self.appendChild(this.title);
+	// this.self.appendChild(this.buttonTest);
+	//
+	// this.navigation.addChildren([
+	//     this.navAbout,
+	//     this.navGame
+	// ]);
+	//
+	// this.self.appendChild(this.navigation.self);
+	// this.divAuth.addChildren([
+	//     this.authButtons.addChildren([
+	// 	this.signup,
+	// 	this.login,
+	//     ]),
+	//     this.profile,
+	// ]);
+	// this.self.appendChild(this.divAuth.self);
+	
+	const buttonTest: Element = new Element("button", "busttonText", "text");
+	const title: Element = new Element("h2", "blindType", "Blind Type");
+	const navigation: Box2 = new Box2("navigation");
+	    const navAbout: Element = new Element("a", "navAbout", "about"); 
+	    const navGame: Element = new Element("a", "navGame");
+	const divAuth: Box2 = new Box2("divAuth");
+	    const authButtons: Box2 = new Box2("authButtons");
+		const signup: Element = new Element("button", "signup", "Singup"); 
+		const login: Element = new Element("button", "Login", "login"); 
+	    const profile: Profile = new Profile(this, "Profile");
 
-	this.self.appendChild(this.navigation.self);
-	this.divAuth.addChildren([
-	    this.authButtons.addChildren([
-		this.signup,
-		this.login,
+	return [
+	    buttonTest,
+	    title,
+	    navigation.addChildren([
+		navAbout,
+		navGame
 	    ]),
-	    this.profile,
-	]);
-	this.self.appendChild(this.divAuth.self);
+	    divAuth.addChildren([
+		authButtons.addChildren([
+		    signup,
+		    login
+		]),
+		profile
+	    ])
+	]
+
+    }
+
+    override initSystems(){
+
     }
 
     override eventElements(): void {
 	console.log("eventElements");
 
-	this.navGame.addEventListener("click", ()=>{
+	const authButtons = this.getChild("divAuth").getChild("authButtons")
+
+	authButtons.addEvent("navGame", "click", ()=>{
 	    console.log("routeSystem: ", this.routeSystem);
 	    if(!this.routeSystem) return; 
 	    this.routeSystem.navigate("/");
 	});
 
-	this.login.addEventListener("click", ()=>{
+	authButtons.addEvent("login", "click", ()=>{
 	    console.log("routeSystem: ", this.routeSystem);
 	    if(!this.routeSystem) return; 
 	    this.routeSystem.navigate("/auth");
 	});
 
-	this.navAbout.addEventListener("click", ()=>{
+	this.getChild("navigate").addEvent("navAbout", "click", ()=>{
 	    console.log("routeSystem: ", this.routeSystem);
 	    if(!this.routeSystem) return; 
 	    this.routeSystem.navigate("/about");
 	});
 
-	this.buttonTest.addEventListener("click", async()=>{
+	this.addEvent("buttonTest", "click", async()=>{
 	    const uri = import.meta.env.VITE_AUTH_PUBLIC_URI + "/auth0/checkToken";
 	    const response = await apiToken(uri, "access_token");
 	    console.log("response: ", response);
@@ -115,22 +132,25 @@ class Header extends Component{
 
 	this.style.position = "relative";
 
-	this.title.style.position = "absolute";
-	this.title.style.left = "10vh";
+	this.getChild("title").style.position = "absolute";
+	this.getChild("title").style.left = "10vh";
 	
-	this.navigation.style.position = "absolute";
-	this.navigation.style.right = "40vh";
-	this.navigation.style.display = "flex";
-	this.navigation.style.gap = "30px";
+	const navigation = this.getChild("navigation");
+	navigation.style.position = "absolute";
+	navigation.style.right = "40vh";
+	navigation.style.display = "flex";
+	navigation.style.gap = "30px";
 
-	this.divAuth.style.position = "absolute";
-	this.divAuth.style.right = "5vh";
-	this.divAuth.style.display = "flex";
-	this.divAuth.style.alignItems = "center";
+	const divAuth = this.getChild("divAuth");
+	divAuth.style.position = "absolute";
+	divAuth.style.right = "5vh";
+	divAuth.style.display = "flex";
+	divAuth.style.alignItems = "center";
 
 	// this.authButtons.style.display = "flex";
+	
 	this.headerSystem.switchAuthtoProfile();
-	this.authButtons.style.gap = "10px";
+	this.getChild("divAuth").styleChild("authButtons").gap = "10px";
     }
 
     

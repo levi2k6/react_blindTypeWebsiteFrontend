@@ -2,19 +2,25 @@ import type { Challenge } from "../../../utils/interfaces";
 import TextHolder from "../../component/TextHolder";
 import Letter from "../../component/Letter";
 import Box2 from "../../../class/Box2";
+import type LifeCycleSystem from "../../../systems/LifeCycleSystem";
 
 class TextHolderSystem{
 
+    private lifeCycleSystem: LifeCycleSystem;
     private textHolder: TextHolder; 
 
     private challengeLetters: Array<Letter[]> = [];  
 
-    constructor(textHolder: TextHolder){
+    constructor(textHolder: TextHolder, lifeCycleSystem: LifeCycleSystem){
 	this.textHolder = textHolder;
+	this.lifeCycleSystem = lifeCycleSystem; 
+	console.log("AAE: ", lifeCycleSystem);
     }
 
     reset(){
-	this.textHolder.system.removeVisualLetters();
+	if(!this.textHolder) throw new Error("textHolder is undefined");
+
+	this.removeVisualLetters();
 	// this.textHolder.style.display = "none";
     }
 
@@ -46,6 +52,7 @@ class TextHolderSystem{
 	div.style.display = "flex";
 	div.style.flexShrink = "0";
 	this.textHolder.addChildren([div]);
+	this.lifeCycleSystem.updateComponent();
     }
 
     removeChallengeLetters(){

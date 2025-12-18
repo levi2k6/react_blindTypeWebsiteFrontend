@@ -19,7 +19,6 @@ class Letter extends Box2{
 	this.char = letter;
 	// console.log("char: ", this.char);
 	this.letter.innerText = letter;
-	this.init();
     }
 
     turnGreen(){
@@ -35,7 +34,9 @@ class Letter extends Box2{
     }
 
     styleElements(){
+	this.style.border = "1px solid green";
 	this.letter.style.color = "#d3d3d3";
     }
+
 }
 export default Letter;

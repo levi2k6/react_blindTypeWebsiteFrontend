@@ -10,6 +10,7 @@ import Visualizer from "../../component/Visualizer";
 import type { GameConfig } from "../../../utils/types/GameConfigType";
 import StringGame from "./strategy/StringGame";
 import LetterGame from "./strategy/LetterGame";
+import type Letter from "../../component/Letter";
 
 class GameSystem{
 
@@ -31,14 +32,17 @@ class GameSystem{
     }
 
     public initSystem(){
-	if(this.currentGame instanceof StringGame){
-	    const stringGame = this.currentGame as StringGame;
-	    stringGame.initSystem(this.gameRouter, this, this.gameConfigManager);
-	}else if(this.currentGame instanceof LetterGame){
-	    const letterGame = this.currentGame as LetterGame;
-	    letterGame.initSystem(this.gameRouter, this, this.gameConfigManager, this.timer);
+	console.log("gameSystem initSystem")
 
-	}
+	const letterGame = this.gameRegistry.getGame(ChallengeType.LETTER) as LetterGame;
+	letterGame.initSystem(this.gameRouter, this, this.gameConfigManager, this.timer);
+
+	const wordGame = this.gameRegistry.getGame(ChallengeType.WORD) as StringGame;
+	wordGame.initSystem(this.gameRouter, this, this.gameConfigManager);
+
+	const sentenceGame = this.gameRegistry.getGame(ChallengeType.SENTENCE) as StringGame;
+	sentenceGame.initSystem(this.gameRouter, this, this.gameConfigManager);
+	
     } 
 
     getGame(){
@@ -70,6 +74,7 @@ class GameSystem{
 
 	this.gameInit();
 	this.isGaming = true;
+	this.gameRouter.system.getInput()?.turnOnInput();
     }
 
     gameInput(playerInput: string){
@@ -85,7 +90,7 @@ class GameSystem{
 	const textHolder = this.gameRouter.getChild("textHolder");
 	textHolder.style.visibility = "visible";
 
-	const startButton = this.gameRouter.getChildSelf("startButton") as HTMLButtonElement;
+	const startButton = this.gameRouter.getChild("div1").getChildSelf("startButton") as HTMLButtonElement;
 	startButton.disabled = false;
 
 	this.isGaming = false; 
@@ -93,7 +98,7 @@ class GameSystem{
 
 	if(!this.gameRouter.system) return;
 	this.gameRouter.system.setDivGradient();
-	// this.gameRouter.system.getInput().turnOffInput();
+	this.gameRouter.system.getInput()?.turnOffInput();
     }
 
     getIsContinuous(){

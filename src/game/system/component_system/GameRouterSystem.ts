@@ -36,7 +36,6 @@ class GameRouterSystem{
 	this.gameConfigManager = gameConfigManager;
 	this.gameSystem = new GameSystem(gameRouter, this.gameConfigManager);
 	this.input = new Input(this.gameRouter, this.gameSystem);
-	// this.input.turnOnInput();
     }
 
     public reset(){
@@ -44,7 +43,7 @@ class GameRouterSystem{
 	if(!this.gameSystem) throw new Error("GameRouterSystem[]: gameSystem is undefined during reset ");
 
 	const textHolder = this.gameRouter.getChild("textHolder") as TextHolder;
-	textHolder.system.reset();
+	textHolder.system?.reset();
 	this.gameSystem.gameReset();
 	const startButton = this.gameRouter.getChild("div1").getChildSelf("startButton") as HTMLButtonElement;
 	startButton.disabled = true;

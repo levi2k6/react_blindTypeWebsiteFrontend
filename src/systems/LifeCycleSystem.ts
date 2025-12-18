@@ -40,6 +40,14 @@ class LifeCycleSystem{
 	console.log("connectingElements Done");
     }
 
+    public updateComponent(){
+	if(!this.currentComponent){
+	    throw new Error("currentComponent is undefined");
+	}
+
+	this.connectElements(this.currentComponent);
+    }
+
     public initAllPresetChildren(component: Component2){ 
 	console.log("current component initAllPresetChildren: ", component.getName());
 	if(component.getChildren().size === 0){
@@ -62,7 +70,6 @@ class LifeCycleSystem{
 	    this.initAllInitSystems(child);
 	}
     }
-
 
     public  initAllInitElements(component: Component2){
 	if(component.getChildren().size !== 0){

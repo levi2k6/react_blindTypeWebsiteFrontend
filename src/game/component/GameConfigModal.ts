@@ -159,6 +159,8 @@ class GameConfigModal extends Box2{
 
 
     override styleElements(): void {
+	this.style.display = "none";
+
 	this.style.position = "fixed"
 	this.style.height = "400px";
 	this.style.width = "400px";

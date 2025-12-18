@@ -10,9 +10,11 @@ import Visualizer from "./Visualizer.ts";
 import GameSystem from "../system/game_system/GameSystem.ts";
 import Input from "../system/Input.ts";
 import TextHolder from "./TextHolder.ts";
+import type LifeCycleSystem from "../../systems/LifeCycleSystem.ts";
 
 class GameRouter extends Box2{
 
+    private lifCycleSystem: LifeCycleSystem;
     private gameConfigManager: GameConfigManager; 
     private gameSystem: GameSystem;
     private input: Input;
@@ -20,8 +22,9 @@ class GameRouter extends Box2{
 
     // public testButton = createElement("button", "DESTROY");
 
-    constructor(name: string){
+    constructor(name: string, lifeCycleSystem: LifeCycleSystem){
 	super(name);
+	this.lifCycleSystem = lifeCycleSystem;
 	this.gameConfigManager = new GameConfigManager(); 
 	this.gameSystem = new GameSystem(this, this.gameConfigManager);
 	this.input = new Input(this, this.gameSystem);
@@ -31,7 +34,6 @@ class GameRouter extends Box2{
     get system(){
 	return this.gameRouterSystem;
     }
-
 
     override structureElements(): Array<Component2> {
 	console.log("structureElements() GameRouter");
@@ -140,27 +142,24 @@ class GameRouter extends Box2{
     }
 
     override initSystems(): void {
-	console.log("initSystems: ", this.getName());
-	console.log("gameSystem: ", this.gameSystem);
-
+	console.log("GameRouter initSystems")
 	this.gameSystem.initSystem();
 
 	const gameConfigModal = this.getChild("gameConfigModal") as GameConfigModal;
 	gameConfigModal.initComponent(this.gameConfigManager);
+
 	const textAudio = this.getChild("textAudio") as TextAudio;
 	textAudio.initComponent(this.gameSystem);
+
 	const visualizer = this.getChild("visualizer") as Visualizer; 
 	const audio = textAudio.getChildSelf("audio") as HTMLAudioElement;
-	console.log("visualizer: ", visualizer);
-	console.log("audio", audio);
 	visualizer.initComponent(audio);
+
+	const textHolder = this.getChild("textHolder") as TextHolder;
+	textHolder.initcomponent(this.lifCycleSystem);
     } 
 
     override async initElements(){
-	//inits
-
-	// textAudio.setGameSystem(gameSystem);
-	
 	this.styleChild("gameConfigModal").display = "none";
 
 	const divSettings = this.getChild("div1").getChild("divSettings");
@@ -168,13 +167,16 @@ class GameRouter extends Box2{
 	divSettings.getChild("divWord").getChild("wordSettings").getChildSelf("wordSettingsIcon").classList.add("fa-solid", "fa-gear");
 	divSettings.getChild("divSentence").getChild("sentenceSettings").getChildSelf("sentenceSettingsIcon").classList.add("fa-solid", "fa-gear");
 
-	// const startButton = this.getChild("startButton").self as HTMLButtonElement;
-	// startButton.disabled = true;
+	const startButton = this.getChild("div1").getChild("startButton").self as HTMLButtonElement;
+	startButton.disabled = true;
     }
 
 
      override eventElements(){
-	this.getChild("div1").addEvent("startButton", "click", () => this.gameRouterSystem?.startGame());
+	this.getChild("div1").addEvent("startButton", "click", () => {
+	    this.gameRouterSystem?.startGame()
+	    this.input.turnOnInput();
+	});
 
 	const divSettings = this.getChild("div1").getChild("divSettings");
 	divSettings.getChild("divLetter").addEvent("letterButton", "click", () => this.gameRouterSystem?.setGameType(ChallengeType.LETTER))
@@ -234,18 +236,19 @@ class GameRouter extends Box2{
 	       )
 	`;
 
-	const div1 = this.styleChild("div1");
+	const div1 = this.getChild("div1");
 
-	div1.height = "100px";
-	div1.marginTop = "50px";
-	div1.width = "500px";
-	div1.border = "1px solid white";
-	div1.display = "flex";
-	div1.flexDirection = "column";
-	div1.justifyContent = "center";
-	div1.alignItems = "center";
-	div1.gap = "10px";
+	div1.style.height = "100px";
+	div1.style.marginTop = "50px";
+	div1.style.width = "500px";
+	div1.style.border = "1px solid white";
+	div1.style.display = "flex";
+	div1.style.flexDirection = "column";
+	div1.style.justifyContent = "center";
+	div1.style.alignItems = "center";
+	div1.style.gap = "10px";
 		
+
 	const divSettings = this.getChild("div1").styleChild("divSettings");
 	divSettings.display = "flex";
 	divSettings.gap = "4px";
