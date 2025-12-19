@@ -63,6 +63,7 @@ class GameSystem{
 
     async gameStart(){
 	//gameConfigManager setup
+	this.gameRouter.getChild("textHolder").deleteChildren;
 	this.gameConfigManager.setGameConfig(this.type);
 	const currentGameConfig: GameConfig | undefined = this.gameConfigManager?.getCurrentGameConfig(); 
 	if(currentGameConfig == undefined){

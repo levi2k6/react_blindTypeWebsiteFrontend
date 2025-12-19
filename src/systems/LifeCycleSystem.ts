@@ -40,13 +40,23 @@ class LifeCycleSystem{
 	console.log("connectingElements Done");
     }
 
-    public updateComponent(){
+    public updateComponent(component: Component2, children: Array<Component2>){
+	if(!this.currentComponent){
+	    throw new Error("currentComponent is undefined");
+	}
+	component.addChildren(children);
+	this.connectElements(component);
+    }
+
+    public clearComponent(component: Component2){
 	if(!this.currentComponent){
 	    throw new Error("currentComponent is undefined");
 	}
 
-	this.connectElements(this.currentComponent);
+	component.deleteChildren();
+	this.connectElements
     }
+
 
     public initAllPresetChildren(component: Component2){ 
 	console.log("current component initAllPresetChildren: ", component.getName());

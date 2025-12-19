@@ -77,11 +77,11 @@ class GameConfigModal extends Box2{
 
 		const divInput = new Box2("divInput"); 
 		    const divInput1 = new Box2("divInput1");
-			const inputDifficulty = new Select("difficulty", ["easy", "normal", "hard"]);
+			const inputDifficulty = new Select("inputDifficulty", ["easy", "normal", "hard"]);
 		    const divInput2 = new Box2("divInput2");
 			const inputMultiple = new InputComponent("inputMultiple", "number");
 		    const divInput3 = new Box2("divInput3");
-			const inputContinuous = new SelectComponent("continuous", ["true", "false"]);
+			const inputContinuous = new SelectComponent("inputContinuous", ["true", "false"]);
 
 	const div2 = new Box2("div2");
 	    const divButtons = new Box2("divButtons");
@@ -132,10 +132,10 @@ class GameConfigModal extends Box2{
 	const div2 = this.getChild("div2");
 
 	div2.getChild("divButtons").addEvent("apply", "click", () => {
-	    const divInput = this.getChild("div1").getChild("divInput"); 
-	    const divInputDifficulty = divInput.getChildSelf("inputDifficulty") as HTMLSelectElement;
-	    const divInputMultiple =  divInput.getChildSelf("divInputMultiple") as HTMLInputElement;
-	    const divInputContinuous = divInput.getChildSelf("divInputContinuous") as HTMLInputElement; 
+	    const divInput = this.getChild("div1").getChild("divForm").getChild("divInput"); 
+	    const divInputDifficulty = divInput.getChild("divInput1").getChildSelf("inputDifficulty") as HTMLSelectElement;
+	    const divInputMultiple =  divInput.getChild("divInput2").getChildSelf("inputMultiple") as HTMLInputElement;
+	    const divInputContinuous = divInput.getChild("divInput3").getChildSelf("inputContinuous") as HTMLInputElement; 
 
 	    const difficutlyData = divInputDifficulty.value as "easy" | "normal" | "hard";
 	    const multipleData = Number(divInputMultiple.value);
@@ -159,14 +159,12 @@ class GameConfigModal extends Box2{
 
 
     override styleElements(): void {
-	this.style.display = "none";
-
 	this.style.position = "fixed"
 	this.style.height = "400px";
 	this.style.width = "400px";
 	this.style.border = "1px solid green";
 	this.style.backgroundColor = "black";
-	this.style.display = "flex";
+	this.style.display = "none";
 	this.style.flexDirection = "column";
 	this.style.justifyContent = "center";
 	this.style.alignItems = "center";

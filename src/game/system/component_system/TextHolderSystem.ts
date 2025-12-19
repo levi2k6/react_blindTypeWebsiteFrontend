@@ -27,7 +27,7 @@ class TextHolderSystem{
     displayWrongLetter(letter: string){
 	const wrongLetter = new Letter("wrongLetter", letter);
 	wrongLetter.turnRed();
-	this.textHolder.addChildren([wrongLetter]);
+	this.lifeCycleSystem.updateComponent(this.textHolder, [wrongLetter]);
     }
 
     addLetters(challenges: Challenge[]){
@@ -46,17 +46,17 @@ class TextHolderSystem{
     }
 
     displayLetters(i: number){
-	const div = new Box2("DivLine");
+	const div = new Box2(`DivLine${i}`);
 	div.addChildren(this.challengeLetters[i]);
 	// div.style.border = "1px solid green";
 	div.style.display = "flex";
 	div.style.flexShrink = "0";
-	this.textHolder.addChildren([div]);
-	this.lifeCycleSystem.updateComponent();
+	this.lifeCycleSystem.updateComponent(this.textHolder, [div]);
     }
 
     removeChallengeLetters(){
 	this.challengeLetters = [];
+	this.lifeCycleSystem.clearComponent(this.textHolder);
     }
 
     removeVisualLetters(){

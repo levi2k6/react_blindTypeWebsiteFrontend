@@ -84,7 +84,7 @@ class GameRouter extends Box2{
 		    ]),
 		]),
 	    ]),
-	    new Box2("boxxy2", "testin westing")
+	    new Element("button", "testButton", "text click")
 	]
 
 	// const textAudio = new TextAudio("GameTextAudio"); 
@@ -188,6 +188,8 @@ class GameRouter extends Box2{
 	divSettings.getChild("divLetter").addEvent("letterSettings", "click", () => gameConfigModal.system?.setDefaultConfig(ChallengeType.LETTER) );
 	divSettings.getChild("divWord").addEvent("wordSettings", "click", () => gameConfigModal.system?.setDefaultConfig(ChallengeType.WORD));
 	divSettings.getChild("divSentence").addEvent("sentenceSettings", "click", () => gameConfigModal.system?.setDefaultConfig(ChallengeType.SENTENCE));
+
+	this.addEvent("testButton", "click", () => this.getChild("textHolder").deleteChildren);
     }
 
     
@@ -238,7 +240,7 @@ class GameRouter extends Box2{
 
 	const div1 = this.getChild("div1");
 
-	div1.style.height = "100px";
+	div1.style.height = "20vh";
 	div1.style.marginTop = "50px";
 	div1.style.width = "500px";
 	div1.style.border = "1px solid white";

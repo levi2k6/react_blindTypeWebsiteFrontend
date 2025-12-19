@@ -7,7 +7,7 @@ import type GameRouter from "../game/component/GameRouter";
 
 class RouteSystem2{
     
-    app : HTMLDivElement = document.querySelector<HTMLDivElement>('#app')!;  
+    private app : HTMLDivElement = document.querySelector<HTMLDivElement>('#app')!;  
 
     router = new Navigo("/", {hash: false});
 

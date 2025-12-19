@@ -1,7 +1,10 @@
+import type Component from "./Component";
+
 abstract class Component2{
 
     private element: HTMLElement;
     private name: string;
+    private parent?: Component2;
     private children: Map<string, Component2> = new Map();
     private controller: AbortController = new AbortController;
 
@@ -17,6 +20,7 @@ abstract class Component2{
 	}
     }
 
+    
     public getName(){
 	return this.name;
     }
@@ -34,6 +38,15 @@ abstract class Component2{
     }
 
     set abortController(controller: AbortController){
+	this.controller = controller;
+    }
+
+    public getParent(): Component2 | undefined{
+	return this.parent;
+    }
+
+    public setParent(component: Component2): void {
+	this.parent = component;
     }
 
     public getChildren(): Map<string, Component2>{
@@ -50,8 +63,15 @@ abstract class Component2{
 	}catch(error){
 	    throw error;
 	}
-
     }
+
+    public deleteChildren(): void{
+	this.children.clear();
+    }
+
+    public deleteChild(childName: string): void{
+	this.children.delete(childName);
+    } 
 
     public getChildSelf(childName: string): HTMLElement{
 	return this.getChild(childName).self;
@@ -169,12 +189,19 @@ abstract class Component2{
     };
 
     public addChildren( children : Array<Component2> ): Component2{
-	children.forEach(child => {
-	    if(child instanceof Component2){
-		console.log("child appended: ", child.name, " to component ", this.name);
-		this.children.set(child.name, child);
+
+	for(const child of children){
+	    if(this.children.has(child.name)){
+		throw new Error(`Duplicate child name: ${child.name}`)
 	    }
-	});
+
+	    if(child.parent){
+		throw new Error(`child "${child.name}" already has a parent named "${child.parent}"`)
+	    }
+
+	    child.setParent(this);
+	    this.children.set(child.name, child); 
+	}
 
 	return this;
     }
