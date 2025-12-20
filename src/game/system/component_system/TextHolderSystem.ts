@@ -3,6 +3,7 @@ import TextHolder from "../../component/TextHolder";
 import Letter from "../../component/Letter";
 import Box2 from "../../../class/Box2";
 import type LifeCycleSystem from "../../../systems/LifeCycleSystem";
+import type Component2 from "../../../class/Component2";
 
 class TextHolderSystem{
 
@@ -31,6 +32,7 @@ class TextHolderSystem{
     }
 
     addLetters(challenges: Challenge[]){
+	console.log("addLetter()");
 	challenges.forEach(challenge => {
 	    const letters = [];
 	    for(let i = 0; i < challenge.text.length; i++){
@@ -43,10 +45,12 @@ class TextHolderSystem{
 	    }
 	    this.challengeLetters.push(letters);
 	})
+	console.log("challengeLetter): ", this.challengeLetters);
+	
     }
 
     displayLetters(i: number){
-	const div = new Box2(`DivLine${i}`);
+	const div = new Box2(`divLine${i}`);
 	div.addChildren(this.challengeLetters[i]);
 	// div.style.border = "1px solid green";
 	div.style.display = "flex";
@@ -77,13 +81,14 @@ class TextHolderSystem{
 
     toggleVisibility(){
 	if(this.textHolder.style.display == "none"){
-	    this.textHolder.style.display = "flex"; 
+    this.textHolder.style.display = "flex"; 
 	}else{
 	    this.textHolder.style.display = "none";
 	}
     }
 
     getStringChallengeLetters(){
+	console.log("getStringChallengeLetters: ", this.challengeLetters);
 	return this.challengeLetters;
     }
 

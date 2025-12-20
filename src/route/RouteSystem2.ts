@@ -4,26 +4,31 @@ import Test1 from "../test/Test1";
 import Test2 from "../test/Test2";
 import Component2 from "../class/Component2";
 import type GameRouter from "../game/component/GameRouter";
+import type App from "../components/app/App";
 
 class RouteSystem2{
     
-    private app : HTMLDivElement = document.querySelector<HTMLDivElement>('#app')!;  
+    private app : App; 
+    private currentRouter?: Component2;
 
-    router = new Navigo("/", {hash: false});
+    private isInitialized: boolean = false;
 
-    lifeCycleSystem: LifeCycleSystem;
+    private router = new Navigo("/", {hash: false});
 
-    test1: Test1;
-    test2: Test2;
-    gameRouter: GameRouter;
+    private lifeCycleSystem: LifeCycleSystem;
 
+    private test1: Test1;
+    private test2: Test2;
+    private gameRouter: GameRouter;
 
     constructor(
+	app: App,
 	lifeCycleSystem: LifeCycleSystem,
 	test1: Test1,
 	test2: Test2,
 	gameRouter: GameRouter
     ){
+	this.app = app;
 	this.lifeCycleSystem = lifeCycleSystem;
 	this.test1 = test1;
 	this.test2 = test2;
@@ -32,18 +37,38 @@ class RouteSystem2{
 	console.log("lifeCycleSystem instance:", this.lifeCycleSystem);
 	console.log("methods:", Object.getOwnPropertyNames(Object.getPrototypeOf(this.lifeCycleSystem)));
 
-	this.initRouterRouteSystem();
-	this.initRouteSystem();
+	this.initApp();
     };
 
+    private initApp(){
+	this.initRouterRouteSystem();
+	this.initRouteSystem();
+	this.lifeCycleSystem.initComponent(this.app);
+	this.isInitialized = true;
+	
+    }
 
+    public setCurrentRouter(currentRouter: Component2){
+	this.currentRouter = currentRouter;
+    } 
 
     private changeRouterHandler(router: Component2){
-	this.lifeCycleSystem.destroyComponent();
-	this.lifeCycleSystem.setCurrentComponent(router);
-	this.lifeCycleSystem.initComponent();
-	const currentComponent = this.lifeCycleSystem.getCurrentComponent();
-	this.addAppElement(currentComponent);
+	if(this.currentRouter){
+	    this.lifeCycleSystem.destroyComponent(this.currentRouter);
+	}
+
+	this.currentRouter = router;
+
+	if(!this.isInitialized){
+	    console.log("first init");
+	    this.app.addChildren([this.currentRouter]);
+	}
+	else{
+	    console.log("after the init");
+	    this.lifeCycleSystem.updateComponent(this.app, [this.currentRouter]);
+	}
+	console.log("app: ", this.app);
+	console.log("currentRouter", this.currentRouter);
     };
 
     private initRouteSystem(){
@@ -54,20 +79,12 @@ class RouteSystem2{
 	.resolve();
     }
 
-    initRouterRouteSystem(){
+    private initRouterRouteSystem(){
 	this.test1.setRouteSystem(this);
 	this.test2.setRouteSystem(this);
     }
 
-    addAppElement(route : Component2 | undefined): void{
-	if(!route){
-	    console.log("RouteSystem2[] initRouteSystem: cannot change route to undefined router");
-	    return;
-	}
-	this.app.appendChild(route.self);
-    }
-
-    navigate(routerName: string){
+    public navigate(routerName: string){
 	this.router.navigate(routerName);
 	this.router.resolve();
     }

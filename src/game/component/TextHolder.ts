@@ -24,11 +24,12 @@ class TextHolder extends Box2{
      public initcomponent(lifeCycleSystem: LifeCycleSystem){
 	 this.lifeCycleSystem = lifeCycleSystem;
 	 console.log("AAA: ", lifeCycleSystem);
+	 this.textHoldersystem = new TextHolderSystem(this, this.lifeCycleSystem);
      };
 
      override initSystems(): void {
-	 if(!this.lifeCycleSystem) throw new Error("lifeCycleSystem is undefined"); 
-	 this.textHoldersystem = new TextHolderSystem(this, this.lifeCycleSystem);
+	 // if(!this.lifeCycleSystem) throw new Error("lifeCycleSystem is undefined"); 
+	 // this.textHoldersystem = new TextHolderSystem(this, this.lifeCycleSystem);
      }
 
     override initElements(){};

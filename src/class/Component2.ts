@@ -161,23 +161,7 @@ abstract class Component2{
 	console.log(`Component ${this.name} connectElements done`);
     }
     
-    public destroy(){
-	//destroy recursion 
-	if(this.children.size !== 0){
-	    for(const key of this.children.keys()){
-		const child = this.children.get(key);
-		if(!child) return;
-		child.destroy();
-	    }
-	}
 
-	//the function of destroy  
-	console.log(`Component: ${this.name} removed`);
-	this.self.remove();
-	this.children = new Map();
-	console.log("children after destroy: ", this.children);
-	this.controller.abort();
-    }
 
 
     public addEvent(childName: string, event: string, func: EventListener){

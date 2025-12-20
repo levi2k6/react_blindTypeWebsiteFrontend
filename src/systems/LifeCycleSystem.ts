@@ -16,45 +16,50 @@ class LifeCycleSystem{
     } 
 
 
-    public initComponent(){
-	console.log("currentComponent here: ", this.currentComponent);
-	console.log("snapshot:", JSON.stringify(this.currentComponent?.getChildren()));
+    public initComponent(component: Component2){
+	console.log("currentComponent here: ", component);
+	// console.log("snapshot:", JSON.stringify(this.currentComponent?.getChildren()));
 
-	if(!this.currentComponent){
-	    console.log("LifeCycleSystem[] initComponent: cannot init undefined component");
-	    return
-	};
 	console.log("test test");
 
-	this.initAllPresetChildren(this.currentComponent);
+	this.initAllPresetChildren(component);
 	console.log("initAllPresetChildren Done");
-	this.initAllInitSystems(this.currentComponent);
+	this.initAllInitSystems(component);
 	console.log("initAllInitSystems Done");
-	this.initAllInitElements(this.currentComponent);
+	this.initAllInitElements(component);
 	console.log("initAllInitElements Done");
-	this.initAllEventElements(this.currentComponent);
+	this.initAllEventElements(component);
 	console.log("initAllEventElements Done");
-	this.initAllStyleElements(this.currentComponent);
+	this.initAllStyleElements(component);
 	console.log("initAllStyleElements Done");
-	this.connectElements(this.currentComponent);
+	this.connectElements(component);
 	console.log("connectingElements Done");
+
     }
 
     public updateComponent(component: Component2, children: Array<Component2>){
-	if(!this.currentComponent){
-	    throw new Error("currentComponent is undefined");
-	}
 	component.addChildren(children);
+	this.initComponent(component);
+
+	this.initAllPresetChildren(component);
+	console.log("initAllPresetChildren Done");
+	this.initAllInitSystems(component);
+	console.log("initAllInitSystems Done");
+	this.initAllInitElements(component);
+	console.log("initAllInitElements Done");
+	this.initAllEventElements(component);
+	console.log("initAllEventElements Done");
+	this.initAllStyleElements(component);
+	console.log("initAllStyleElements Done");
 	this.connectElements(component);
+	console.log("connectingElements Done");
     }
 
-    public clearComponent(component: Component2){
-	if(!this.currentComponent){
-	    throw new Error("currentComponent is undefined");
-	}
 
+
+    public clearComponent(component: Component2){
 	component.deleteChildren();
-	this.connectElements
+	this.connectElements(component);
     }
 
 
@@ -136,15 +141,44 @@ class LifeCycleSystem{
 	console.log(`Component ${component.getName()} connectElements done`);
     }
 
-
-    public destroyComponent(){
-	if(!this.currentComponent){
-	    console.log("LifeCycleSystem[] destroyComponent: cannot destroy undefined component");
-	    return
-	};
-
-	this.currentComponent.destroy();
+    public destroyComponent(component: Component2){
+	const componentParent = component.getParent(); 
+	if(!componentParent){
+	    console.info(`cannot delete root component "${component.getName()}"`);
+	}else{
+	    this.unInitComponent(component);
+	    componentParent.getChildren().delete(component.getName());
+	}
     }
+
+    private unInitComponent(component: Component2){
+	//destroy recursion 
+	if(component.getChildren().size !== 0){
+	    for(const key of component.getChildren().keys()){
+		const child = component.getChildren().get(key);
+		if(!child) return;
+		this.unInitComponent(child)
+	    }
+	}
+
+	//the function of destroy  
+	console.log(`Component: ${component.getName()} removed`);
+	component.self.remove();
+	component.getChildren().clear(); 
+	console.log("children after destroy: ", component.getChildren());
+	component.abortController.abort();
+    }
+
+    
+
+	//    public destroyComponent(){
+	// if(!this.currentComponent){
+	//     console.log("LifeCycleSystem[] destroyComponent: cannot destroy undefined component");
+	//     return
+	// };
+	//
+	// this.currentComponent.destroy();
+	//    }
 
 
 }

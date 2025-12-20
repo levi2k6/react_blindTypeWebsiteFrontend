@@ -10,7 +10,7 @@ class Letter extends Box2{
 	return this.letter;
     }
 
-    get getChar(){
+    public getChar(){
 	return this.char;
     }
 
@@ -22,6 +22,7 @@ class Letter extends Box2{
     }
 
     turnGreen(){
+	// console.log("letter turned green");
 	this.letter.style.color = "#00bd33";
     }
 

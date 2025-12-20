@@ -12,14 +12,16 @@ import App from './components/app/App.ts';
 async function Main(){
 
 
-    // const header: Header = new Header();
-
+    const header: Header = new Header();
+    const app: App = new App();
+ 
     const lifeCycleSystem: LifeCycleSystem = new LifeCycleSystem();
     const test1: Test1 = new Test1();
     const test2: Test2 = new Test2(lifeCycleSystem);
     const gameRouter: GameRouter = new GameRouter("GameRouter", lifeCycleSystem);
 
     const routeSystem2: RouteSystem2 = new RouteSystem2(
+	app,
 	lifeCycleSystem,
 	test1,
 	test2,

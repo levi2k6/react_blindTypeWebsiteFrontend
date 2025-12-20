@@ -50,12 +50,11 @@ class StringGame extends Game{
 	if(!this.textHolder) throw new Error("textHolder is undefined");
 	if(!this.gameRouter) throw new Error("gameRouter is undefined");
 
-	this.textHolder.style.visibility = "hidden";
+	// this.textHolder.style.visibility = "hidden";
 	this.textHolder.system?.checkOverflow();
 	const multiple = this.gameConfigManager?.getGameConfigMultiple();
 	if(!multiple){
-	    console.log("Game amount has no data");
-	    return;
+	    throw new Error("multiple is undefined");
 	}
 
 	// const response: Challenge[] = await getStringChallenge(this.gameSystem.getType() , multiple);
@@ -91,15 +90,14 @@ class StringGame extends Game{
 	if(!this.textHolder) throw new Error("textHolder is undefined");
 
 	const challengeLetters = this.textHolder.system?.getStringChallengeLetters(); 
-	if(!challengeLetters) throw new Error("challengeLetter is undefined")
+	if(!challengeLetters || challengeLetters.length === 0) throw new Error("challengeLetter is undefined")
 
-	const currentLetters = challengeLetters[this.i1];
+	const currentLetters: Letter[] = challengeLetters[this.i1];
 	const letter = currentLetters[this.i2];
 
 	console.log("currentLetters: ", currentLetters[this.i1]);
-	console.log("letter ", "[", letter.getChar , "]");
 
-	if(letter.getChar === playerInput){
+	if(letter.getChar() === playerInput){
 	    this.correct(letter, currentLetters);
 	}else{
 	    this.wrong(letter);
@@ -115,7 +113,7 @@ class StringGame extends Game{
 	console.log("correct!");
 
 	if( this.i2 != currentLetters.length-1){
-	    if(currentLetters[this.i2].getChar == " "){
+	    if(currentLetters[this.i2].getChar() == " "){
 		this.textAudio.system?.ding();
 	    }
 	}else{
@@ -130,7 +128,7 @@ class StringGame extends Game{
 	if(!this.textHolder) throw new Error("textHolder is undefined");
 
 	this.textAudio.system?.wrong();
-	if(letter.getChar === " "){
+	if(letter.getChar() === " "){
 	    letter.turnBackgroundRed();
 	}else{
 	    letter.turnRed();
