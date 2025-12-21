@@ -3,12 +3,12 @@ import LifeCycleSystem from "../systems/LifeCycleSystem";
 import Test1 from "../test/Test1";
 import Test2 from "../test/Test2";
 import Component2 from "../class/Component2";
-import type GameRouter from "../game/component/GameRouter";
-import type App from "../components/app/App";
+import GameRouter from "../game/component/GameRouter";
+import AppComponent from "../components/app/AppComponent";
 
 class RouteSystem2{
     
-    private app : App; 
+    private app : AppComponent; 
     private currentRouter?: Component2;
 
     private isInitialized: boolean = false;
@@ -22,7 +22,7 @@ class RouteSystem2{
     private gameRouter: GameRouter;
 
     constructor(
-	app: App,
+	app: AppComponent,
 	lifeCycleSystem: LifeCycleSystem,
 	test1: Test1,
 	test2: Test2,
@@ -62,8 +62,7 @@ class RouteSystem2{
 	if(!this.isInitialized){
 	    console.log("first init");
 	    this.app.addChildren([this.currentRouter]);
-	}
-	else{
+	}else{
 	    console.log("after the init");
 	    this.lifeCycleSystem.updateComponent(this.app, [this.currentRouter]);
 	}

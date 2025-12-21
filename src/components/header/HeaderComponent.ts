@@ -1,6 +1,4 @@
-import Box from "../../class/Box";
 import RouteSystem from "../../route/RouteSystem";
-import { createElement } from "../../ui_system/Element";
 import { apiToken } from "../../utils/apiUtils";
 import AuthState from "../../utils/authState";
 import HeaderSystem from "./system/HeaderSystem";
@@ -8,10 +6,11 @@ import Profile from "./Profile";
 import Component2 from "../../class/Component2";
 import Element from "../../class/Element";
 import Box2 from "../../class/Box2";
+import type RouteSystem2 from "../../route/RouteSystem2";
 
-class Header extends Component2{
+class HeaderComponent extends Component2{
 
-    routeSystem: RouteSystem | null = null;
+    routeSystem?: RouteSystem2;
     headerSystem: HeaderSystem = new HeaderSystem(this); 
 
     constructor(){
@@ -21,10 +20,6 @@ class Header extends Component2{
 
     get system(){
 	return this.headerSystem;
-    }
-
-    setRouteSystem(routeSystem: RouteSystem){
-	this.routeSystem = routeSystem;
     }
 
     override async initElements(){
@@ -156,6 +151,6 @@ class Header extends Component2{
     
 }
 
-export default Header;
+export default HeaderComponent;
 
 

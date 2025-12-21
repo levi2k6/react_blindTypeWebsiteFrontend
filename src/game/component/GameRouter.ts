@@ -29,6 +29,25 @@ class GameRouter extends Box2{
 	this.gameSystem = new GameSystem(this, this.gameConfigManager);
 	this.input = new Input(this, this.gameSystem);
 	this.gameRouterSystem = new GameRouterSystem(this, this.gameSystem, this.gameConfigManager, this.input);
+
+	this.initCssRegistry();
+    }
+
+    private initCssRegistry(){
+	if ((CSS as any).registerProperty) {
+	    (CSS as any).registerProperty({
+		name: "--upGradient",
+		syntax: "<percentage>",
+		inherits: false,
+		initialValue: "0%"
+	    });
+	     (CSS as any).registerProperty({
+		name: "--downGradient",
+		syntax: "<percentage>",
+		inherits: false,
+		initialValue: "100%"
+	    });
+	}
     }
 
     get system(){
@@ -195,20 +214,6 @@ class GameRouter extends Box2{
     
     override styleElements(): void{
 
-	if ((CSS as any).registerProperty) {
-	    (CSS as any).registerProperty({
-		name: "--upGradient",
-		syntax: "<percentage>",
-		inherits: false,
-		initialValue: "0%"
-	    });
-	     (CSS as any).registerProperty({
-		name: "--downGradient",
-		syntax: "<percentage>",
-		inherits: false,
-		initialValue: "100%"
-	    });
-	}
 
 	this.style.position = "relative";
 	// this.style.border = "5px solid pink"

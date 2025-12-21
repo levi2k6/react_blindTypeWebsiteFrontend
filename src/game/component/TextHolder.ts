@@ -23,7 +23,6 @@ class TextHolder extends Box2{
 
      public initcomponent(lifeCycleSystem: LifeCycleSystem){
 	 this.lifeCycleSystem = lifeCycleSystem;
-	 console.log("AAA: ", lifeCycleSystem);
 	 this.textHoldersystem = new TextHolderSystem(this, this.lifeCycleSystem);
      };
 

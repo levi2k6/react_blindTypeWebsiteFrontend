@@ -17,6 +17,7 @@ class VisualizerSystem {
 
 
     public initSystem(audio: HTMLAudioElement, canvas: HTMLCanvasElement){
+	console.log("visualizer initialized");
 	this.audio = audio;
 	this.canvas = canvas;
 	this.ctx = canvas.getContext("2d")!;

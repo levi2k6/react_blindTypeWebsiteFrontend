@@ -27,9 +27,6 @@ class Test1 extends Box2{
 	]
     }
 
-    override initComponent(): void {
-    }
-
     override initElements(): void {
 	this.getChild("box2").self.innerText = "hello";
     }

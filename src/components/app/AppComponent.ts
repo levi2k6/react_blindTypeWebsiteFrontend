@@ -1,6 +1,6 @@
 import Component2 from "../../class/Component2";
 
-class App extends Component2{
+class AppComponent extends Component2{
 
     public constructor(){
 	const app : HTMLDivElement = document.querySelector<HTMLDivElement>('#app')!;  
@@ -37,5 +37,5 @@ class App extends Component2{
 
 }
 
-export default App;
+export default AppComponent;
 

@@ -45,7 +45,7 @@ abstract class Component2{
 	return this.parent;
     }
 
-    public setParent(component: Component2): void {
+    public setParent(component: Component2 | undefined): void {
 	this.parent = component;
     }
 
@@ -86,80 +86,19 @@ abstract class Component2{
 	})
     }
 
-	//    public initAllPresetChildren(){ 
-	// //check root children if it is size 0
-	// console.log("current component initAllPresetChildren: ", this.name);
-	// if(this.children.size === 0){
-	//     this.setPresetChildren();
-	// }
-	//
-	// // console.log(`structureElements ${this.name}`);
-	// // console.log("children: ", this.children);
-	// for(const key of this.children.keys()){
-	//     const child = this.children.get(key);
-	//     if(!child) throw new Error(`key: ${key} does not exist in component: ${this.name}`);
-	// 	//    if(child?.children.size === 0){
-	// 	// child.setPresetChildren();
-	// 	//    }
-	// 	child.initAllPresetChildren();
-	// }
-	//    }
-
-	//    public  initAllInitElements(){
+	//   public connectElements(){
+	//       console.log(`${this.name}'s children: `, this.children.size);
 	// if(this.children.size !== 0){
 	//     for(const key of this.children.keys()){
 	// 	const child = this.children.get(key);
 	// 	if(!child) return;
-	// 	if(child?.children.size > 0){
-	// 	    child.initAllInitElements();
-	// 	}
+	// 	console.log(`Connecting ${child.name} to ${this.name}`);
+	// 	child.connectElements();
+	// 	this.self.appendChild(child.self);
 	//     }
 	// }
-	// this.initElements();
-	// console.log(`Component ${this.name} initElements success`);
-	//    }
-	//
-	//    public initAllEventElements(){
-	// if(this.children.size !== 0){
-	//     for(const key of this.children.keys()){
-	// 	const child = this.children.get(key);
-	// 	if(!child) return;
-	// 	if(child?.children.size > 0){
-	// 	    child.initAllEventElements();
-	// 	}
-	//     }
-	// }
-	// this.controller = new AbortController;
-	// this.eventElements();
-	// console.log(`Component ${this.name} eventElements done`);
-	//    }
-	//
-	//    public initAllStyleElements(){
-	// if(this.children.size !== 0){
-	//     for(const key of this.children.keys()){
-	// 	const child = this.children.get(key);
-	// 	if(!child) return;
-	// 	if(child?.children.size > 0){
-	// 	    child.initAllStyleElements();
-	// 	}
-	//     }
-	// }
-	// this.styleElements();
-	// console.log(`Component ${this.name} styleElements success`);
-	//    }
-
-    public connectElements(){
-
-	if(this.children.size !== 0){
-	    for(const key of this.children.keys()){
-		const child = this.children.get(key);
-		if(!child) return;
-		child.connectElements();
-		this.self.appendChild(child.self);
-	    }
-	}
-	console.log(`Component ${this.name} connectElements done`);
-    }
+	// console.log(`Component ${this.name} connectElements done`);
+	//   }
     
 
 

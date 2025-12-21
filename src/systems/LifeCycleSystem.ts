@@ -18,7 +18,6 @@ class LifeCycleSystem{
 
     public initComponent(component: Component2){
 	console.log("currentComponent here: ", component);
-	// console.log("snapshot:", JSON.stringify(this.currentComponent?.getChildren()));
 
 	console.log("test test");
 
@@ -39,22 +38,13 @@ class LifeCycleSystem{
 
     public updateComponent(component: Component2, children: Array<Component2>){
 	component.addChildren(children);
-	this.initComponent(component);
 
-	this.initAllPresetChildren(component);
-	console.log("initAllPresetChildren Done");
-	this.initAllInitSystems(component);
-	console.log("initAllInitSystems Done");
-	this.initAllInitElements(component);
-	console.log("initAllInitElements Done");
-	this.initAllEventElements(component);
-	console.log("initAllEventElements Done");
-	this.initAllStyleElements(component);
-	console.log("initAllStyleElements Done");
 	this.connectElements(component);
-	console.log("connectingElements Done");
-    }
 
+	children.forEach(child =>{
+	    this.initComponent(child);
+	})
+    }
 
 
     public clearComponent(component: Component2){
@@ -64,7 +54,7 @@ class LifeCycleSystem{
 
 
     public initAllPresetChildren(component: Component2){ 
-	console.log("current component initAllPresetChildren: ", component.getName());
+	// console.log("current component initAllPresetChildren: ", component.getName());
 	if(component.getChildren().size === 0){
 	    component.setPresetChildren();
 	}
@@ -97,7 +87,7 @@ class LifeCycleSystem{
 	    }
 	}
 	component.initElements();
-	console.log(`Component ${component.getName()} initElements success`);
+	// console.log(`Component ${component.getName()} initElements success`);
     }
 
     public initAllEventElements(component: Component2){
@@ -112,7 +102,7 @@ class LifeCycleSystem{
 	}
 	component.abortController = new AbortController;
 	component.eventElements();
-	console.log(`Component ${component.getName()} eventElements done`);
+	// console.log(`Component ${component.getName()} eventElements done`);
     }
 
     public initAllStyleElements(component: Component2){
@@ -126,25 +116,29 @@ class LifeCycleSystem{
 	    }
 	}
 	component.styleElements();
-	console.log(`Component ${component.getName()} styleElements success`);
+	// console.log(`Component ${component.getName()} styleElements success`);
     }
 
     public connectElements(component: Component2){
+       // console.log(`${component.getName()}'s children: `, component.getChildren().size);
 	if(component.getChildren().size !== 0){
+	    console.log("name: ", component.getName(), "size: ", component.getChildren().size );
 	    for(const key of component.getChildren().keys()){
 		const child = component.getChildren().get(key);
 		if(!child) return;
-		child.connectElements();
+		this.connectElements(child);
 		component.self.appendChild(child.self);
+		console.log(`child: ${child.getName()} is  appended to ${component.getName()}`)
 	    }
 	}
-	console.log(`Component ${component.getName()} connectElements done`);
+	// console.log(`Component ${component.getName()} connectElements done`);
     }
 
     public destroyComponent(component: Component2){
+	console.log("destroying curreRouter: ", component.getName());
 	const componentParent = component.getParent(); 
 	if(!componentParent){
-	    console.info(`cannot delete root component "${component.getName()}"`);
+	    throw new Error(`cannot delete root component "${component.getName()}"`);
 	}else{
 	    this.unInitComponent(component);
 	    componentParent.getChildren().delete(component.getName());
@@ -162,10 +156,11 @@ class LifeCycleSystem{
 	}
 
 	//the function of destroy  
-	console.log(`Component: ${component.getName()} removed`);
+	// console.log(`Component: ${component.getName()} removed`);
 	component.self.remove();
+	component.setParent(undefined);
 	component.getChildren().clear(); 
-	console.log("children after destroy: ", component.getChildren());
+	// console.log("children after destroy: ", component.getChildren());
 	component.abortController.abort();
     }
 

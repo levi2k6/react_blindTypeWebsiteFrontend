@@ -1,28 +1,29 @@
-import Header from "../Header";
 import { apiFetch, checkAccessToken, refreshToken } from "../../../utils/apiUtils";
 import type { Response, User } from "../../../utils/interfaces";
 import AuthState from "../../../utils/authState";
 import type RouteSystem from "../../../route/RouteSystem";
 import { getAuthUser } from "../../../utils/api/apiUser";
+import type HeaderComponent from "../HeaderComponent";
+import type Profile from "../Profile";
 
 class HeaderSystem{
 
-    header: Header;
+    header: HeaderComponent;
 
     routeSystem: RouteSystem | undefined;
 
-    constructor(header: Header){
+    constructor(header: HeaderComponent){
 	this.header = header;
     }
 
     switchAuthtoProfile(){
 	const user = localStorage.getItem("user");
 	if(user && user !== "undefined"){
-	    this.header.authButtons.style.display = "none";
-	    this.header.profile.style.display = "flex";
+	    this.header.styleChild("authButtons").display = "none";
+	    this.header.styleChild("profile").display = "flex";
 	}else{
-	    this.header.authButtons.style.display = "flex";
-	    this.header.profile.style.display = "none";
+	    this.header.styleChild("authButtons").display = "flex";
+	    this.header.styleChild("profile").display = "none";
 	}
     }
 
@@ -60,7 +61,7 @@ class HeaderSystem{
 	    if(!responseUser) return;
 	    
 	    localStorage.setItem("user", JSON.stringify(responseUser));
-	    this.header.profile.aProfile.innerText = responseUser.name;
+	    this.header.getChild("profile").getChildSelf("aProfile").innerText = responseUser.name;
 	}else{
 	    const localUser = localStorage.getItem("user");
 
@@ -68,7 +69,8 @@ class HeaderSystem{
 
 	    const objLocalUser = JSON.parse(localUser);
 	    AuthState.setAuthUser(objLocalUser);
-	    this.header.profile.setProfileName(objLocalUser.name); 
+	    const profile = this.header.getChild("profile") as Profile;
+	    profile.setProfileName(objLocalUser.name); 
 	}
     }
 

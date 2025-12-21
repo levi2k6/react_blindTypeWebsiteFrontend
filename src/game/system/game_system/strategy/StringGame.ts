@@ -50,7 +50,7 @@ class StringGame extends Game{
 	if(!this.textHolder) throw new Error("textHolder is undefined");
 	if(!this.gameRouter) throw new Error("gameRouter is undefined");
 
-	// this.textHolder.style.visibility = "hidden";
+	this.textHolder.style.visibility = "hidden";
 	this.textHolder.system?.checkOverflow();
 	const multiple = this.gameConfigManager?.getGameConfigMultiple();
 	if(!multiple){

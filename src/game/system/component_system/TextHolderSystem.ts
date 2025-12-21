@@ -15,7 +15,6 @@ class TextHolderSystem{
     constructor(textHolder: TextHolder, lifeCycleSystem: LifeCycleSystem){
 	this.textHolder = textHolder;
 	this.lifeCycleSystem = lifeCycleSystem; 
-	console.log("AAE: ", lifeCycleSystem);
     }
 
     reset(){
