@@ -1,6 +1,21 @@
 import Component2 from "../class/Component2";
+import AppComponent from "../components/app/AppComponent";
+import type HeaderComponent from "../components/header/HeaderComponent";
 
 class LifeCycleSystem{
+
+    private app: AppComponent;
+    private header: HeaderComponent;
+
+    public constructor(app: AppComponent, header: HeaderComponent){
+	this.app = app;
+	this.header = header;
+    }
+
+    public initMainComponent(){
+	this.initComponent(this.header);
+	this.initComponent(this.app);
+    } 
 
     private currentComponent: Component2 | undefined;
 
@@ -17,10 +32,6 @@ class LifeCycleSystem{
 
 
     public initComponent(component: Component2){
-	console.log("currentComponent here: ", component);
-
-	console.log("test test");
-
 	this.initAllPresetChildren(component);
 	console.log("initAllPresetChildren Done");
 	this.initAllInitSystems(component);

@@ -38,12 +38,15 @@ class Profile extends Box2{
    }
 
     override eventElements(): void {
+
+	const divOption = this.getChild("divOption");
+
         this.addEvent("aProfile", "click", (e) => {
             e.preventDefault();
             this.setOptionVisibility();
         });
 
-	this.addEvent("logoutButton", "click", ()=>{
+	divOption.addEvent("logoutButton", "click", ()=>{
 	    const uri = import.meta.env.VITE_URL + "public/auth/logout";
 	    window.location.href = uri;
 	    localStorage.removeItem("user");
@@ -88,7 +91,7 @@ class Profile extends Box2{
         divOption.style.marginTop = "2px";
 
         // --- Dropdown buttons ---
-	const logoutButton = this.getChild("logoutButton"); 
+	const logoutButton = divOption.getChild("logoutButton"); 
 	const selectAccount = this.getChild("selectAccount");
         [logoutButton, selectAccount].forEach((btn) => {
             btn.style.cursor = "pointer";

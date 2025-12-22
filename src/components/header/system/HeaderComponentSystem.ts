@@ -6,7 +6,7 @@ import { getAuthUser } from "../../../utils/api/apiUser";
 import type HeaderComponent from "../HeaderComponent";
 import type Profile from "../Profile";
 
-class HeaderSystem{
+class HeaderComponentSystem{
 
     header: HeaderComponent;
 
@@ -18,12 +18,15 @@ class HeaderSystem{
 
     switchAuthtoProfile(){
 	const user = localStorage.getItem("user");
+
+	const divAuth = this.header.getChild("divAuth")
+
 	if(user && user !== "undefined"){
-	    this.header.styleChild("authButtons").display = "none";
-	    this.header.styleChild("profile").display = "flex";
+	    divAuth.styleChild("authButtons").display = "none";
+	    divAuth.styleChild("profile").display = "flex";
 	}else{
-	    this.header.styleChild("authButtons").display = "flex";
-	    this.header.styleChild("profile").display = "none";
+	    divAuth.styleChild("authButtons").display = "flex";
+	    divAuth.styleChild("profile").display = "none";
 	}
     }
 
@@ -77,6 +80,6 @@ class HeaderSystem{
 
 }
 
-export default HeaderSystem;
+export default HeaderComponentSystem;
 
 

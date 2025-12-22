@@ -86,23 +86,6 @@ abstract class Component2{
 	})
     }
 
-	//   public connectElements(){
-	//       console.log(`${this.name}'s children: `, this.children.size);
-	// if(this.children.size !== 0){
-	//     for(const key of this.children.keys()){
-	// 	const child = this.children.get(key);
-	// 	if(!child) return;
-	// 	console.log(`Connecting ${child.name} to ${this.name}`);
-	// 	child.connectElements();
-	// 	this.self.appendChild(child.self);
-	//     }
-	// }
-	// console.log(`Component ${this.name} connectElements done`);
-	//   }
-    
-
-
-
     public addEvent(childName: string, event: string, func: EventListener){
 	this.getChild(childName).self.addEventListener(event, func, {signal: this.controller.signal});
     } 

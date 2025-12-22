@@ -227,9 +227,10 @@ class GameRouter extends Box2{
 
 	const divGradient = this.getChild("divGradient");
 
-	this.getChild("divGradient").style.position = "absolute"; 
-	// this.divGradient.style.border = "3px solid red";
-	divGradient.style.zIndex = "-1";
+	divGradient.style.position = "absolute"; 
+	// divGradient.style.border = "3px solid red";
+	divGradient.style.zIndex = "0";
+	divGradient.style.pointerEvents = "none";
 	divGradient.style.height = "100%";
 	divGradient.style.width = "100%";
 	divGradient.style.transition = "height 1s ease-in-out, width 1s ease-in-out, --upGradient 1s ease-in-out, --downGradient 1s ease-in-out";

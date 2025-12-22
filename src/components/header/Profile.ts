@@ -38,12 +38,14 @@ class Profile extends Box2{
    }
 
     override eventElements(): void {
+	const divOption = this.getChild("divOption");
+
         this.addEvent("aProfile", "click", (e) => {
             e.preventDefault();
             this.setOptionVisibility();
         });
 
-	this.addEvent("logoutButton", "click", ()=>{
+	divOption.addEvent("logoutButton", "click", ()=>{
 	    const uri = import.meta.env.VITE_URL + "public/auth/logout";
 	    window.location.href = uri;
 	    localStorage.removeItem("user");
@@ -88,8 +90,8 @@ class Profile extends Box2{
         divOption.style.marginTop = "2px";
 
         // --- Dropdown buttons ---
-	const logoutButton = this.getChild("logoutButton"); 
-	const selectAccount = this.getChild("selectAccount");
+	const logoutButton = divOption.getChild("logoutButton"); 
+	const selectAccount = divOption.getChild("selectAccountButton");
         [logoutButton, selectAccount].forEach((btn) => {
             btn.style.cursor = "pointer";
             btn.style.border = "none";
@@ -100,7 +102,7 @@ class Profile extends Box2{
             btn.style.boxSizing = "border-box";
             btn.style.color = "inherit";
 
-            btn.addEvent("", "mouseenter", () => {
+            btn.self.addEventListener("mouseenter", () => {
                 btn.style.background = "#33333333";
             });
             btn.self.addEventListener("mouseleave", () => {

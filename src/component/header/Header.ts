@@ -8,10 +8,11 @@ import Profile from "./Profile";
 import Component2 from "../../class/Component2";
 import Element from "../../class/Element";
 import Box2 from "../../class/Box2";
+import type RouteSystem2 from "../../route/RouteSystem2";
 
 class Header extends Component2{
 
-    routeSystem: RouteSystem | null = null;
+    routeSystem: RouteSystem2 | null = null;
     headerSystem: HeaderSystem = new HeaderSystem(this); 
 
     constructor(){
@@ -23,7 +24,7 @@ class Header extends Component2{
 	return this.headerSystem;
     }
 
-    setRouteSystem(routeSystem: RouteSystem){
+    setRouteSystem(routeSystem: RouteSystem2){
 	this.routeSystem = routeSystem;
     }
 

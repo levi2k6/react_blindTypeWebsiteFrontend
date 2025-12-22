@@ -5,6 +5,7 @@ import Test2 from "../test/Test2";
 import Component2 from "../class/Component2";
 import GameRouter from "../game/component/GameRouter";
 import AppComponent from "../components/app/AppComponent";
+import type LoginRouter from "../login/LoginRouter";
 
 class RouteSystem2{
     
@@ -20,39 +21,43 @@ class RouteSystem2{
     private test1: Test1;
     private test2: Test2;
     private gameRouter: GameRouter;
+    private loginRouter: LoginRouter;
 
     constructor(
 	app: AppComponent,
 	lifeCycleSystem: LifeCycleSystem,
 	test1: Test1,
 	test2: Test2,
-	gameRouter: GameRouter
+	gameRouter: GameRouter,
+	loginRouter: LoginRouter
     ){
 	this.app = app;
 	this.lifeCycleSystem = lifeCycleSystem;
 	this.test1 = test1;
 	this.test2 = test2;
 	this.gameRouter = gameRouter;
+	this.loginRouter = loginRouter;
 
 	console.log("lifeCycleSystem instance:", this.lifeCycleSystem);
 	console.log("methods:", Object.getOwnPropertyNames(Object.getPrototypeOf(this.lifeCycleSystem)));
 
-	this.initApp();
+	this.initRoute();
     };
 
-    private initApp(){
+   private initRoute(){
 	this.initRouterRouteSystem();
-	this.initRouteSystem();
-	this.lifeCycleSystem.initComponent(this.app);
+	this.wireRoutes();
 	this.isInitialized = true;
-	
-    }
+
+   }
 
     public setCurrentRouter(currentRouter: Component2){
 	this.currentRouter = currentRouter;
     } 
 
     private changeRouterHandler(router: Component2){
+	console.log("changeRouterHandler");
+	console.log("currentRouter", router);
 	if(this.currentRouter){
 	    this.lifeCycleSystem.destroyComponent(this.currentRouter);
 	}
@@ -62,6 +67,7 @@ class RouteSystem2{
 	if(!this.isInitialized){
 	    console.log("first init");
 	    this.app.addChildren([this.currentRouter]);
+	    this.lifeCycleSystem.initMainComponent();
 	}else{
 	    console.log("after the init");
 	    this.lifeCycleSystem.updateComponent(this.app, [this.currentRouter]);
@@ -70,11 +76,11 @@ class RouteSystem2{
 	console.log("currentRouter", this.currentRouter);
     };
 
-    private initRouteSystem(){
+    private wireRoutes(){
 	this.router
-	.on("/", ()=> this.changeRouterHandler(this.test1))
-	.on("/about", ()=> this.changeRouterHandler(this.test2))
-	.on("/game", ()=> this.changeRouterHandler(this.gameRouter))
+	.on("/", ()=> this.changeRouterHandler(this.gameRouter))
+	.on("/login", ()=> this.changeRouterHandler(this.loginRouter))
+	.on("/test", ()=> this.changeRouterHandler(this.test1))
 	.resolve();
     }
 

@@ -7,6 +7,7 @@ class AppComponent extends Component2{
 	super(app, "App");
     }
 
+
     override structureElements(): Array<Component2> {
 	return [];
     }
@@ -28,9 +29,10 @@ class AppComponent extends Component2{
 	// width: 100%;
 	// height: 90vh;
 	// text-align: center;
+	this.style.background = "#1e2120";
 	this.style.border = "3px solid red";
 	this.style.width = "100%"
-	this.style.height = "98vh"
+	this.style.height = "89vh"
 	this.style.textAlign  = "center";
 
     }

@@ -1,17 +1,17 @@
 import RouteSystem from "../../route/RouteSystem";
 import { apiToken } from "../../utils/apiUtils";
 import AuthState from "../../utils/authState";
-import HeaderSystem from "./system/HeaderSystem";
 import Profile from "./Profile";
 import Component2 from "../../class/Component2";
 import Element from "../../class/Element";
 import Box2 from "../../class/Box2";
 import type RouteSystem2 from "../../route/RouteSystem2";
+import HeaderComponentSystem from "./system/HeaderComponentSystem";
 
 class HeaderComponent extends Component2{
 
     routeSystem?: RouteSystem2;
-    headerSystem: HeaderSystem = new HeaderSystem(this); 
+    headerSystem: HeaderComponentSystem = new HeaderComponentSystem(this); 
 
     constructor(){
 	const rootElement: HTMLDivElement = document.querySelector<HTMLDivElement>("#header")!; 
@@ -20,6 +20,10 @@ class HeaderComponent extends Component2{
 
     get system(){
 	return this.headerSystem;
+    }
+
+    public setRouteSystem(routeSystem: RouteSystem2){
+	this.routeSystem = routeSystem;
     }
 
     override async initElements(){
@@ -53,16 +57,16 @@ class HeaderComponent extends Component2{
 	// ]);
 	// this.self.appendChild(this.divAuth.self);
 	
-	const buttonTest: Element = new Element("button", "busttonText", "text");
-	const title: Element = new Element("h2", "blindType", "Blind Type");
+	const buttonTest: Element = new Element("button", "buttonTest", "text");
+	const title: Element = new Element("h2", "title", "Blind Type");
 	const navigation: Box2 = new Box2("navigation");
 	    const navAbout: Element = new Element("a", "navAbout", "about"); 
 	    const navGame: Element = new Element("a", "navGame");
 	const divAuth: Box2 = new Box2("divAuth");
 	    const authButtons: Box2 = new Box2("authButtons");
 		const signup: Element = new Element("button", "signup", "Singup"); 
-		const login: Element = new Element("button", "Login", "login"); 
-	    const profile: Profile = new Profile(this, "Profile");
+		const login: Element = new Element("button", "login", "Login"); 
+	    const profile: Profile = new Profile(this, "profile");
 
 	return [
 	    buttonTest,
@@ -91,7 +95,7 @@ class HeaderComponent extends Component2{
 
 	const authButtons = this.getChild("divAuth").getChild("authButtons")
 
-	authButtons.addEvent("navGame", "click", ()=>{
+	this.getChild("navigation").addEvent("navGame", "click", ()=>{
 	    console.log("routeSystem: ", this.routeSystem);
 	    if(!this.routeSystem) return; 
 	    this.routeSystem.navigate("/");
@@ -103,7 +107,7 @@ class HeaderComponent extends Component2{
 	    this.routeSystem.navigate("/auth");
 	});
 
-	this.getChild("navigate").addEvent("navAbout", "click", ()=>{
+	this.getChild("navigation").addEvent("navAbout", "click", ()=>{
 	    console.log("routeSystem: ", this.routeSystem);
 	    if(!this.routeSystem) return; 
 	    this.routeSystem.navigate("/about");
