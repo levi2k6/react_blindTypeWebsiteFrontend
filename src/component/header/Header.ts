@@ -67,7 +67,7 @@ class Header extends Component2{
 	const divAuth: Box2 = new Box2("divAuth");
 	    const authButtons: Box2 = new Box2("authButtons");
 		const signup: Element = new Element("button", "signup", "Singup"); 
-		const login: Element = new Element("button", "Login", "login"); 
+		const login: Element = new Element("button", "login", "login"); 
 	    const profile: Profile = new Profile(this, "Profile");
 
 	return [
@@ -103,6 +103,8 @@ class Header extends Component2{
 	    this.routeSystem.navigate("/");
 	});
 
+	authButtons.addEvent("signup", )
+	
 	authButtons.addEvent("login", "click", ()=>{
 	    console.log("routeSystem: ", this.routeSystem);
 	    if(!this.routeSystem) return; 

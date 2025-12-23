@@ -1,27 +1,28 @@
-import Box from "../class/Box";
-import { createElement } from "../ui_system/Element";
 import LoginBox from "./LoginBox";
 import LoginRouterSystem from "./system/LoginRouterSystem";
-import type RouteSystem from "../route/RouteSystem";
 import Box2 from "../class/Box2";
 import Element from "../class/Element";
 import type Component2 from "../class/Component2";
+import type RouteSystem2 from "../route/RouteSystem2";
 
 class LoginRouter extends Box2{
 
-    public loginRouterSystem: LoginRouterSystem = new LoginRouterSystem(this);
-
+    // public loginRouterSystem: LoginRouterSystem = new LoginRouterSystem(this);
+    public loginRouterSystem: LoginRouterSystem | undefined;
     constructor( name: string){
 	super(name);
     }
 
-    setRouteSystem(routeSystem: RouteSystem){
-	const loginBox = this.getChild("loginBox") as LoginBox;
-	loginBox.setRouteSystem(routeSystem);
+    setRouteSystem(routeSystem: RouteSystem2){
+	this.loginRouterSystem?.setRouteSystem(routeSystem);
+    }
+
+    override initSystems(): void {
+	this.loginRouterSystem = new LoginRouterSystem(this);
     }
 
     override initElements(){
-	const googleImg = this.getChildSelf("googleImg") as HTMLImageElement;
+	const googleImg = this.getChild("divAuth0").getChild("googleButton").getChildSelf("googleImg") as HTMLImageElement;
 	googleImg.src = "https://developers.google.com/identity/images/g-logo.png";  
     }
 
@@ -29,7 +30,7 @@ class LoginRouter extends Box2{
 	const loginBox: LoginBox = new LoginBox("LoginBox");
 
 	const divAuth0: Box2 = new Box2("divAuth0");
-	    const googleButton: Element = new Element("button", "googleButton", "google");
+	    const googleButton: Element = new Element("button", "googleButton");
 		const googleImg: Element = new Element("img", "googleImg");
 
 	return [
@@ -42,8 +43,8 @@ class LoginRouter extends Box2{
     }
 
     override eventElements(): void {
-	this.addEvent("googleButton", "click", ()=>{
-	    this.loginRouterSystem.login();
+	this.getChild("divAuth0").addEvent("googleButton", "click", ()=>{
+	    this.loginRouterSystem?.login();
 	});
     }
 
@@ -58,7 +59,7 @@ class LoginRouter extends Box2{
 	this.style.justifyContent = "center";
 	this.style.alignItems = "center";
 
-	this.getChild("googleImg").style.height = "30px";
+	this.getChild("divAuth0").getChild("googleButton").styleChild("googleImg").height = "30px";
 	
     }
 

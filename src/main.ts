@@ -10,6 +10,8 @@ import AppComponent from './components/app/AppComponent.ts';
 import HeaderComponent from './components/header/HeaderComponent.ts';
 import RouteResolver from './systems/RouterResolver.ts';
 import LoginRouter from './login/LoginRouter.ts';
+import AboutRouter from './about/AboutRouter.ts';
+import RegisterRouter from './register/RegisterRouter.ts';
 
 async function Main(){
 
@@ -22,17 +24,22 @@ async function Main(){
     const test2: Test2 = new Test2(lifeCycleSystem);
     const gameRouter: GameRouter = new GameRouter("GameRouter", lifeCycleSystem);
     const loginRouter: LoginRouter = new LoginRouter("LoginRouter");
+    const registerRouter: RegisterRouter = new RegisterRouter("RegisterRouter");
+    const aboutRouter: AboutRouter = new AboutRouter("AboutRouter");
 
     const routeSystem2: RouteSystem2 = new RouteSystem2(
-	app,
 	lifeCycleSystem,
+	header,
+	app,
 	test1,
 	test2,
 	gameRouter,
-	loginRouter
+	loginRouter,
+	registerRouter,
+	aboutRouter
     ); 
 
-    const routeResolver: RouteResolver = new RouteResolver(routeSystem2, header);
+    // const routeResolver: RouteResolver = new RouteResolver(routeSystem2, header, loginRouter);
 
 }
 

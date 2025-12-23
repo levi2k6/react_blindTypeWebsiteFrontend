@@ -6,9 +6,13 @@ import Component2 from "../class/Component2";
 import GameRouter from "../game/component/GameRouter";
 import AppComponent from "../components/app/AppComponent";
 import type LoginRouter from "../login/LoginRouter";
+import type HeaderComponent from "../components/header/HeaderComponent";
+import type AboutRouter from "../about/AboutRouter";
+import type RegisterRouter from "../register/RegisterRouter";
 
 class RouteSystem2{
     
+    private header: HeaderComponent;
     private app : AppComponent; 
     private currentRouter?: Component2;
 
@@ -22,33 +26,40 @@ class RouteSystem2{
     private test2: Test2;
     private gameRouter: GameRouter;
     private loginRouter: LoginRouter;
+    private registerRouter: RegisterRouter;
+    private aboutRouter: AboutRouter;
 
     constructor(
-	app: AppComponent,
 	lifeCycleSystem: LifeCycleSystem,
+	header: HeaderComponent,
+	app: AppComponent,
 	test1: Test1,
 	test2: Test2,
 	gameRouter: GameRouter,
-	loginRouter: LoginRouter
+	loginRouter: LoginRouter,
+	registerRouter: RegisterRouter,
+	aboutRouter: AboutRouter
     ){
-	this.app = app;
 	this.lifeCycleSystem = lifeCycleSystem;
+	this.header = header;
+	this.app = app;
 	this.test1 = test1;
 	this.test2 = test2;
 	this.gameRouter = gameRouter;
 	this.loginRouter = loginRouter;
+	this.registerRouter = registerRouter;
+	this.aboutRouter = aboutRouter;
 
 	console.log("lifeCycleSystem instance:", this.lifeCycleSystem);
 	console.log("methods:", Object.getOwnPropertyNames(Object.getPrototypeOf(this.lifeCycleSystem)));
 
-	this.initRoute();
+	this.initRouteSystem();
     };
 
-   private initRoute(){
+   private initRouteSystem(){
 	this.initRouterRouteSystem();
 	this.wireRoutes();
 	this.isInitialized = true;
-
    }
 
     public setCurrentRouter(currentRouter: Component2){
@@ -80,13 +91,17 @@ class RouteSystem2{
 	this.router
 	.on("/", ()=> this.changeRouterHandler(this.gameRouter))
 	.on("/login", ()=> this.changeRouterHandler(this.loginRouter))
+	.on("/register", ()=> this.changeRouterHandler(this.registerRouter))
+	.on("/about", ()=> this.changeRouterHandler(this.aboutRouter))
 	.on("/test", ()=> this.changeRouterHandler(this.test1))
 	.resolve();
     }
 
     private initRouterRouteSystem(){
+	this.header.setRouteSystem(this);
 	this.test1.setRouteSystem(this);
 	this.test2.setRouteSystem(this);
+	this.loginRouter.setRouteSystem(this);
     }
 
     public navigate(routerName: string){

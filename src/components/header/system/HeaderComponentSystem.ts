@@ -1,19 +1,24 @@
 import { apiFetch, checkAccessToken, refreshToken } from "../../../utils/apiUtils";
 import type { Response, User } from "../../../utils/interfaces";
 import AuthState from "../../../utils/authState";
-import type RouteSystem from "../../../route/RouteSystem";
 import { getAuthUser } from "../../../utils/api/apiUser";
 import type HeaderComponent from "../HeaderComponent";
 import type Profile from "../Profile";
+import type RouteSystem2 from "../../../route/RouteSystem2";
 
 class HeaderComponentSystem{
 
     header: HeaderComponent;
 
-    routeSystem: RouteSystem | undefined;
+    routeSystem: RouteSystem2 | undefined;
 
     constructor(header: HeaderComponent){
 	this.header = header;
+    }
+
+
+    public setRouteSystem(routeSystem: RouteSystem2){
+	this.routeSystem = routeSystem;
     }
 
     switchAuthtoProfile(){

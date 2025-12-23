@@ -61,7 +61,7 @@ class HeaderComponent extends Component2{
 	const title: Element = new Element("h2", "title", "Blind Type");
 	const navigation: Box2 = new Box2("navigation");
 	    const navAbout: Element = new Element("a", "navAbout", "about"); 
-	    const navGame: Element = new Element("a", "navGame");
+	    const navGame: Element = new Element("a", "navGame", "game");
 	const divAuth: Box2 = new Box2("divAuth");
 	    const authButtons: Box2 = new Box2("authButtons");
 		const signup: Element = new Element("button", "signup", "Singup"); 
@@ -102,10 +102,14 @@ class HeaderComponent extends Component2{
 	});
 
 	authButtons.addEvent("login", "click", ()=>{
-	    console.log("routeSystem: ", this.routeSystem);
-	    if(!this.routeSystem) return; 
-	    this.routeSystem.navigate("/auth");
+	    if(!this.routeSystem) throw new Error("routeSystem is undefined");
+	    this.routeSystem.navigate("/login");
 	});
+
+	authButtons.addEvent("signup", "click", ()=>{
+	    if(!this.routeSystem) throw new Error("routeSystem is undefined");
+	    this.routeSystem.navigate("/register")
+	})
 
 	this.getChild("navigation").addEvent("navAbout", "click", ()=>{
 	    console.log("routeSystem: ", this.routeSystem);
