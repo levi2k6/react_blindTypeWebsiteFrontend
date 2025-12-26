@@ -67,7 +67,7 @@ class LoginBox extends  Box2{
 	    console.log("Auth login")
 	    const inputBox = this.getChild("inputBox"); 
 	    const usernameInput = inputBox.getChildSelf("usernameInput") as HTMLInputElement;
-	    const passwordInput = inputBox.getChildSelf("usrenameInput") as HTMLInputElement;
+	    const passwordInput = inputBox.getChildSelf("passwordInput") as HTMLInputElement;
 
 	    const username = usernameInput.value;
 	    const password = passwordInput.value;

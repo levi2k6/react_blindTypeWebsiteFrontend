@@ -15,7 +15,7 @@ class LoginRouterSystem{
     }
 
     async login() {
-	window.location.href = import.meta.env.VITE_URL + "/public/auth/login";
+	window.location.href = import.meta.env.VITE_URL + "/public/auth0/login";
     }
 
 }
