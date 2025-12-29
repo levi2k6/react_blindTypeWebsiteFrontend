@@ -2,16 +2,17 @@ import Box2 from "../../class/Box2";
 import type Component2 from "../../class/Component2";
 import Element from "../../class/Element";
 import AuthState from "../../utils/authState";
-import type Header from "./Header";
+import HeaderComponent from "./HeaderComponent"; 
+import { apiLogout } from "../../utils/api/apiAuth";
 
 class Profile extends Box2{
 
     isShow: boolean = false;
 
-    header: Header; 
+    header: HeaderComponent; 
 
 
-    constructor(header: Header, name: string) {
+    constructor(header: HeaderComponent, name: string) {
         super(name);
 	this.header = header;
     }
@@ -45,9 +46,9 @@ class Profile extends Box2{
             this.setOptionVisibility();
         });
 
-	divOption.addEvent("logoutButton", "click", ()=>{
-	    const uri = import.meta.env.VITE_URL + "public/auth/logout";
-	    window.location.href = uri;
+	divOption.addEvent("logoutButton", "click", async()=>{
+	    const response = await apiLogout();
+	    console.log("response: ", response);
 	    localStorage.removeItem("user");
 	    AuthState.setAuthUser(null);
 	    this.header.headerSystem.switchAuthtoProfile();

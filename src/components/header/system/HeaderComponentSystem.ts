@@ -69,7 +69,7 @@ class HeaderComponentSystem{
 	    if(!responseUser) return;
 	    
 	    localStorage.setItem("user", JSON.stringify(responseUser));
-	    this.header.getChild("profile").getChildSelf("aProfile").innerText = responseUser.name;
+	    this.header.getChild("divAuth").getChild("profile").getChildSelf("aProfile").innerText = responseUser.name;
 	}else{
 	    const localUser = localStorage.getItem("user");
 
@@ -77,7 +77,7 @@ class HeaderComponentSystem{
 
 	    const objLocalUser = JSON.parse(localUser);
 	    AuthState.setAuthUser(objLocalUser);
-	    const profile = this.header.getChild("profile") as Profile;
+	    const profile = this.header.getChild("divAuth").getChild("profile") as Profile;
 	    profile.setProfileName(objLocalUser.name); 
 	}
     }

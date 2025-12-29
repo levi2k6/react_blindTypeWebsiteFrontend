@@ -1,6 +1,7 @@
 import { Api } from "./Api";
 
-const uri = import.meta.env.VITE_URI; 
+const uri = import.meta.env.VITE_URL; 
+console.log("apiAuth uri: ", uri);
 const headers = {"Content-Type": "application/json"}
 const credentials = "include";
 
@@ -11,7 +12,7 @@ export function apiLogin(){
 } 
 
 export function apiLogout(){
-    api.get("/public/auth/logout")
+    return api.get("/public/auth/logout")
 }
 
 export function apiRegister(payload: Record<string, string>){

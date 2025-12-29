@@ -8,10 +8,10 @@ const credentials = "include";
 const api = new Api(url, headers, credentials);
 
 export function getAuthUser(): Promise<Response<User>>{
-    return api.get("private/user/auth-user");
+    return api.get("/private/user/auth-user");
 } 
 
 export function registerUser(registerPayload: Record<string, string>){
-    api.post("private/user/register", registerPayload, )
+    api.post("/private/user/register", registerPayload, )
 }
 

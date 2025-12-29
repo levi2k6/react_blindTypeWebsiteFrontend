@@ -33,6 +33,7 @@ export class Api{
         body?: any
     ): Promise<Response<T>> {
         const url = `${this.url}${endpoint}`;
+	console.log("reqeuest to ", url);
 
         const options: RequestInit = {
             method: method,
