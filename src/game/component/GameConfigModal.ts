@@ -77,7 +77,7 @@ class GameConfigModal extends Box2{
 
 		const divInput = new Box2("divInput"); 
 		    const divInput1 = new Box2("divInput1");
-			const inputDifficulty = new Select("inputDifficulty", ["easy", "normal", "hard"]);
+			const inputDifficulty = new SelectComponent("inputDifficulty", ["easy", "normal", "hard"]);
 		    const divInput2 = new Box2("divInput2");
 			const inputMultiple = new InputComponent("inputMultiple", "number");
 		    const divInput3 = new Box2("divInput3");
