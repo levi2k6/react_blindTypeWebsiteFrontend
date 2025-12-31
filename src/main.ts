@@ -1,36 +1,48 @@
 import './style.css'
 import GameRouter from "./game/component/GameRouter.ts"  
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import Header from './component/header/Header.ts';
+
+import LifeCycleSystem from './systems/LifeCycleSystem.ts';
+import RouteSystem2 from './route/RouteSystem2.ts';
+import Test1 from './test/Test1.ts';
+import Test2 from './test/Test2.ts';
+import AppComponent from './components/app/AppComponent.ts';
+import HeaderComponent from './components/header/HeaderComponent.ts';
+import RouteResolver from './systems/RouterResolver.ts';
 import LoginRouter from './login/LoginRouter.ts';
 import AboutRouter from './about/AboutRouter.ts';
-import RouteSystem from './route/RouteSystem.ts';
-import VerifyFailedEmailRouter from './email_verification/VerifyFailedEmailRouter.ts';
-import AlreadyVerifiedEmailRouter from './email_verification/AlreadyVerifiedRouter.ts';
+import RegisterRouter from './register/RegisterRouter.ts';
 
 async function Main(){
 
-    const header : Header = new Header();
+    const header: HeaderComponent = new HeaderComponent();
+    const app: AppComponent = new AppComponent();
 
-    const gameRouter: GameRouter = new GameRouter("Game");
-    const aboutRouter: AboutRouter = new AboutRouter("About");
-    const loginRouter: LoginRouter = new LoginRouter("Auth");
-    const verifyFailedRouter: VerifyFailedEmailRouter = new VerifyFailedEmailRouter("VerifyFailed"); 
-    const alreadyVerifiedEmailRouter: AlreadyVerifiedEmailRouter = new AlreadyVerifiedEmailRouter("AlreadyVerified"); 
+    const lifeCycleSystem: LifeCycleSystem = new LifeCycleSystem(app, header);
 
-    const routeSystem: RouteSystem = new RouteSystem(
+    const test1: Test1 = new Test1();
+    const test2: Test2 = new Test2(lifeCycleSystem);
+    const gameRouter: GameRouter = new GameRouter("GameRouter", lifeCycleSystem);
+    const loginRouter: LoginRouter = new LoginRouter("LoginRouter");
+    const registerRouter: RegisterRouter = new RegisterRouter("RegisterRouter");
+    const aboutRouter: AboutRouter = new AboutRouter("AboutRouter");
+
+    const routeSystem2: RouteSystem2 = new RouteSystem2(
+	lifeCycleSystem,
+	header,
+	app,
+	test1,
+	test2,
 	gameRouter,
-	aboutRouter,
 	loginRouter,
-	verifyFailedRouter,
-	alreadyVerifiedEmailRouter
-    );
+	registerRouter,
+	aboutRouter
+    ); 
 
-    console.log("Setting routeSystem");
-    header.setRouteSystem(routeSystem);
-    loginRouter.setRouteSystem(routeSystem);
-    console.log("Route system set");
+    // const routeResolver: RouteResolver = new RouteResolver(routeSystem2, header, loginRouter);
+
 }
+
 
 
 Main();

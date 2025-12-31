@@ -1,39 +1,54 @@
-import Component from "../../class/Component";
-import { createElement } from "../../ui_system/Element";
+import Component2 from "../../class/Component2";
+import  Element from "../../class/Element";
 import VisualizerSystem from "../system/visualizer/VisualizerSystem";
+import type TextAudio from "./TextAudio";
 
-class Visualizer extends Component {
+class Visualizer extends Component2{
 
-    audio: HTMLAudioElement;
+    private audio?: HTMLAudioElement;
 
-    private visualizerSystem: VisualizerSystem;
+    private visualizerSystem?: VisualizerSystem;
 
-    constructor(audio: HTMLAudioElement){
-	const mainElement: HTMLCanvasElement = createElement("canvas") as HTMLCanvasElement; 
-	console.log("MainElement: ", mainElement);
-	mainElement.id = "visualizer";
-	super(mainElement);
-	this.audio = audio;
-	this.visualizerSystem = new VisualizerSystem(this.audio, this.self as HTMLCanvasElement); 
-	this.init();
+    constructor(){
+	const element: HTMLElement = new Element("canvas", "Visualizer").self; 
+	super(element, "visualizer");
     }
 
     get system(){
 	return this.visualizerSystem;
     } 
 
-    override initElements(): void{
-
+    initComponent(audio: HTMLAudioElement, ): void {
+	this.audio = audio;
+	this.visualizerSystem = new VisualizerSystem(); 
     }
 
-    override connectElements(): void{
+    public setAudio(audio: HTMLAudioElement){
+	this.audio = audio;
+    }
+
+    override structureElements(): Array<Component2> {
+	return[
+	]
+    } 
+
+    override initSystems(): void {
+    }
+
+    override initElements(): void{
+	if(!this.audio) return;
+	if(!this.visualizerSystem) throw new Error("Failed to initialized Visualizer");
+	this.visualizerSystem.initSystem(this.audio, this.self as HTMLCanvasElement);
     }
 
     override eventElements(): void{
-	window.addEventListener("resize", () => this.visualizerSystem.resize());
+	if(!this.audio) throw new Error("Audio is undefined during add event to visualizer's element");
+	if(!this.visualizerSystem) throw new Error("Failed to initialized Visualizer");
+
+	window.addEventListener("resize", () => this.visualizerSystem?.resize());
 	this.audio.addEventListener("play", async ()=> {
-	    await this.visualizerSystem.getAudioCtx().resume();
-	    this.visualizerSystem.startAppear();
+	    await this.visualizerSystem?.getAudioCtx()?.resume();
+	    this.visualizerSystem?.startAppear();
 	});
     }
 
@@ -44,13 +59,10 @@ class Visualizer extends Component {
 	this.style.left = "0";
 	this.style.width = "100vw";
 	this.style.height = "100vh";
-	this.style.zIndex = "-1";
+	this.style.zIndex = "0";
 	this.style.pointerEvents = "none";
     }
 
-
-    override preDestroy(): void {
-    }
 }
 
 

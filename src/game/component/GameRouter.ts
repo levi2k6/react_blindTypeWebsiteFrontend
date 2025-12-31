@@ -1,126 +1,39 @@
-import { createElement } from "../../ui_system/Element.ts";
-
-import Box from "../../class/Box.ts";
-
 import GameRouterSystem from "../system/component_system/GameRouterSystem.ts";
-import TextHolder from "./TextHolder.ts";
 import TextAudio from "./TextAudio.ts";
 import GameConfigModal from "./GameConfigModal.ts";
 import GameConfigManager from "../system/game_config/GameConfigManager.ts";
-import Visualizer from "./Visualizer.ts";
 import { ChallengeType } from "../../utils/enums/ChallengeTypeEnum.ts";
+import Component2 from "../../class/Component2.ts";
+import Box2 from "../../class/Box2.ts";
+import Element from "../../class/Element.ts";
+import Visualizer from "./Visualizer.ts";
+import GameSystem from "../system/game_system/GameSystem.ts";
+import Input from "../system/Input.ts";
+import TextHolder from "./TextHolder.ts";
+import type LifeCycleSystem from "../../systems/LifeCycleSystem.ts";
 
-class GameRouter extends Box{
+class GameRouter extends Box2{
 
-    public divGradient = new Box("divGradient");
-    public textHolder = new TextHolder("TextHolder");
+    private lifCycleSystem: LifeCycleSystem;
+    private gameConfigManager: GameConfigManager; 
+    private gameSystem: GameSystem;
+    private input: Input;
+    private gameRouterSystem: GameRouterSystem; 
 
-    public div1: Box = new Box("div1");
-	public startButton: HTMLButtonElement = createElement("button", "Start") as HTMLButtonElement; 
-	public div2: Box = new Box("div2");
-	    public divLetter: Box = new Box();
-		public letterSettings: HTMLButtonElement = createElement("button") as HTMLButtonElement;
-		    public letterSettingsIcon: HTMLElement = createElement("i"); 
-		public letterButton: HTMLButtonElement = createElement("button", "Letter") as HTMLButtonElement;
-	    public divWord: Box = new Box();
-		public wordSettings: HTMLButtonElement = createElement("button") as HTMLButtonElement;
-		    public wordSettingsIcon: HTMLElement = createElement("i");
-		public wordButton: HTMLButtonElement = createElement("button", "Word") as HTMLButtonElement;
-	    public divSentence: Box = new Box();
-		public sentenceSettings: HTMLButtonElement = createElement("button") as HTMLButtonElement;
-		    public sentenceSettingsIcon: HTMLElement = createElement("i");
-		public sentenceButton: HTMLButtonElement = createElement("button", "Sentence") as HTMLButtonElement;
+    // public testButton = createElement("button", "DESTROY");
 
-    public textAudio = new TextAudio("GameTextAudio"); 
-    public visualizer: Visualizer = new Visualizer(this.textAudio.audio);
-
-    private gameConfigManager: GameConfigManager = new GameConfigManager(); 
-
-    private gameConfigModal: GameConfigModal = new GameConfigModal(this.gameConfigManager);
-    private gameRouterSystem: GameRouterSystem = new GameRouterSystem(this, this.gameConfigManager, this.visualizer);
-
-
-    public testButton = createElement("button", "DESTROY");
-
-    constructor( name: string ){
+    constructor(name: string, lifeCycleSystem: LifeCycleSystem){
 	super(name);
-	this.init();
+	this.lifCycleSystem = lifeCycleSystem;
+	this.gameConfigManager = new GameConfigManager(); 
+	this.gameSystem = new GameSystem(this, this.gameConfigManager);
+	this.input = new Input(this, this.gameSystem);
+	this.gameRouterSystem = new GameRouterSystem(this, this.gameSystem, this.gameConfigManager, this.input);
+
+	this.initCssRegistry();
     }
 
-    get system(){
-	return this.gameRouterSystem;
-    }
-
-    override initChildrenEvents(): void {
-	this.gameRouterSystem.getInput().turnOnInput();
-    }
-
-    override preDestroy(){
-	this.gameRouterSystem.getInput().turnOffInput();
-    }
-
-    override async initElements(){
-
-	this.textAudio.setGameSystem(this.gameRouterSystem.getGameSystem());
-
-	this.gameConfigModal.style.display = "none";
-
-	this.letterSettingsIcon.classList.add("fa-solid", "fa-gear");
-	this.wordSettingsIcon.classList.add("fa-solid", "fa-gear");
-	this.sentenceSettingsIcon.classList.add("fa-solid", "fa-gear");
-	console.log("letterSettings: ", this.letterSettings);
-
-    }
-
-    connectElements(){
-	 this.addChildren([
-	     this.visualizer,
-	     this.divGradient,
-	     this.textHolder,
-	     this.div1.addChildren([
-		 this.startButton,
-		 this.div2.addChildren([
-		     this.divLetter.addChildren([
-			 this.letterSettings,
-			 this.letterButton,
-		     ]),
-		     this.divWord.addChildren([
-			 this.wordSettings,
-			 this.wordButton,
-		     ]),
-		     this.divSentence.addChildren([
-			 this.sentenceSettings,
-			 this.sentenceButton
-		     ])
-		 ]),
-	     ]),
-	     this?.textAudio,
-	     this.gameConfigModal,
-	     this.testButton
-	 ]);
-
-	 this.letterSettings.appendChild(this.letterSettingsIcon);
-	 this.wordSettings.appendChild(this.wordSettingsIcon);
-	 this.sentenceSettings.appendChild(this.sentenceSettingsIcon);
-     }
-
-     override eventElements(){
-	this.startButton.addEventListener("click", () => this.gameRouterSystem.startGame(), {signal: this.abortController?.signal});
-
-	this.letterButton.addEventListener("click", () => this.gameRouterSystem.setGameType(ChallengeType.LETTER), {signal: this.abortController?.signal});
-	this.wordButton.addEventListener("click", () => this.gameRouterSystem.setGameType(ChallengeType.WORD), {signal: this.abortController?.signal});
-	this.sentenceButton.addEventListener("click", () => this.gameRouterSystem.setGameType(ChallengeType.SENTENCE), {signal: this.abortController?.signal});
-
-	this.letterSettings.addEventListener("click", () => this.gameConfigModal.gameConfigModalSystem.setDefaultConfig(ChallengeType.LETTER), {signal: this.abortController?.signal});
-	this.wordSettings.addEventListener("click", () => this.gameConfigModal.gameConfigModalSystem.setDefaultConfig(ChallengeType.WORD), {signal: this.abortController?.signal});
-	this.sentenceSettings.addEventListener("click", () => this.gameConfigModal.gameConfigModalSystem.setDefaultConfig(ChallengeType.SENTENCE), {signal: this.abortController?.signal});
-
-	this.testButton.addEventListener("click", () => this.preDestroy());
-    }
-
-    
-    override styleElements(): void{
-
+    private initCssRegistry(){
 	if ((CSS as any).registerProperty) {
 	    (CSS as any).registerProperty({
 		name: "--upGradient",
@@ -135,6 +48,171 @@ class GameRouter extends Box{
 		initialValue: "100%"
 	    });
 	}
+    }
+
+    get system(){
+	return this.gameRouterSystem;
+    }
+
+    override structureElements(): Array<Component2> {
+	console.log("structureElements() GameRouter");
+
+	const gameConfigModal = new GameConfigModal();
+
+	const textAudio = new TextAudio(); 
+	const divGradient = new Box2("divGradient");
+	const visualizer: Visualizer = new Visualizer();
+	const textHolder: TextHolder = new TextHolder();
+	const div1: Box2 = new Box2("div1");
+	    const startButton: Element = new Element("button", "startButton", "Start"); 
+	    const divSettings: Box2 = new Box2("divSettings");
+		const divLetter: Box2 = new Box2("divLetter");
+		    const letterSettings: Element = new Element("button", "letterSettings");
+			const letterSettingsIcon: Element = new Element("i", "letterSettingsIcon"); 
+		    const letterButton: Element = new Element("button", "letterButton", "letterButton");
+		const divWord: Box2 = new Box2("divWord");
+		    const wordSettings: Element = new Element("button", "wordSettings");
+			const wordSettingsIcon: Element = new Element("i", "wordSettingsIcon");
+		    const wordButton: Element = new Element("button", "wordButton", "wordButton");
+		const divSentence: Box2 = new Box2("divSentence");
+		    const sentenceSettings: Element = new Element("button", "sentenceSettings");
+			const sentenceSettingsIcon: Element = new Element("i", "sentenceSettingsIcon");
+		    const sentenceButton: Element = new Element("button", "sentenceButton", "sentenceButton");
+
+
+	return [
+	    gameConfigModal,
+	    textAudio,
+	    visualizer,
+	    divGradient,
+	    textHolder,
+	    div1.addChildren([
+		startButton,
+		divSettings.addChildren([
+		    divLetter.addChildren([
+			letterSettings.addChildren([letterSettingsIcon]),
+			letterButton
+		    ]),
+		    divWord.addChildren([
+			wordSettings.addChildren([wordSettingsIcon]),
+			wordButton
+		    ]),
+		    divSentence.addChildren([
+			sentenceSettings.addChildren([sentenceSettingsIcon]),
+			sentenceButton
+		    ]),
+		]),
+	    ]),
+	    new Element("button", "testButton", "text click")
+	]
+
+	// const textAudio = new TextAudio("GameTextAudio"); 
+	// const visualizer: Visualizer = new Visualizer(textAudio.getChildSelf("audio") as HTMLAudioElement);
+	// const divGradient = new Box2("divGradient");
+	// const textHolder = new TextHolder("TextHolder");
+	//
+	// const div1: Box2 = new Box2("div1");
+	//     const startButton: Element = new Element("button", "Start"); 
+	//     const divSettings: Box2 = new Box2("div2");
+	// 	const divLetter: Box2 = new Box2("divLetter");
+	// 	    const letterSettings: Element = new Element("button", "letterSettings");
+	// 		const letterSettingsIcon: Element = new Element("i", "letterSettingsIcon"); 
+	// 	    const letterButton: Element = new Element("button", "letterButton");
+	// 	const divWord: Box2 = new Box2("divWord");
+	// 	    const wordSettings: Element = new Element("button", "wordSettings");
+	// 		const wordSettingsIcon: Element = new Element("i", "wordSettingsIcon");
+	// 	    const wordButton: Element = new Element("button", "Word");
+	// 	const divSentence: Box2 = new Box2("divSentence");
+	// 	    const sentenceSettings: Element = new Element("button", "sentenceSettings");
+	// 		const sentenceSettingsIcon: Element = new Element("i", "sentenceSettingsIcon");
+	// 	    const sentenceButton: Element = new Element("button", "Sentence");
+	//
+	// return [
+	//     visualizer,
+	//     divGradient,
+	//     textHolder,
+	//     div1.addChildren([
+	// 	startButton,
+	// 	divSettings.addChildren([
+	// 	    divLetter.addChildren([
+	// 		letterSettings.addChildren([
+	// 		    letterSettingsIcon
+	// 		]),
+	// 		letterButton
+	// 	    ]),
+	// 	    divWord.addChildren([
+	// 		wordSettings.addChildren([
+	// 		    wordSettings.addChildren([
+	// 			wordSettingsIcon
+	// 		    ])
+	// 		]),
+	// 		wordButton
+	// 	    ]),
+	// 	    divSentence.addChildren([
+	// 		sentenceSettings.addChildren([
+	// 		    sentenceSettingsIcon
+	// 		]),
+	// 		sentenceButton
+	// 	    ])
+	// 	])
+	//     ])
+	// ]
+
+    }
+
+    override initSystems(): void {
+	console.log("GameRouter initSystems")
+	this.gameSystem.initSystem();
+
+	const gameConfigModal = this.getChild("gameConfigModal") as GameConfigModal;
+	gameConfigModal.initComponent(this.gameConfigManager);
+
+	const textAudio = this.getChild("textAudio") as TextAudio;
+	textAudio.initComponent(this.gameSystem);
+
+	const visualizer = this.getChild("visualizer") as Visualizer; 
+	const audio = textAudio.getChildSelf("audio") as HTMLAudioElement;
+	visualizer.initComponent(audio);
+
+	const textHolder = this.getChild("textHolder") as TextHolder;
+	textHolder.initcomponent(this.lifCycleSystem);
+    } 
+
+    override async initElements(){
+	this.styleChild("gameConfigModal").display = "none";
+
+	const divSettings = this.getChild("div1").getChild("divSettings");
+	divSettings.getChild("divLetter").getChild("letterSettings").getChildSelf("letterSettingsIcon").classList.add("fa-solid", "fa-gear");
+	divSettings.getChild("divWord").getChild("wordSettings").getChildSelf("wordSettingsIcon").classList.add("fa-solid", "fa-gear");
+	divSettings.getChild("divSentence").getChild("sentenceSettings").getChildSelf("sentenceSettingsIcon").classList.add("fa-solid", "fa-gear");
+
+	const startButton = this.getChild("div1").getChild("startButton").self as HTMLButtonElement;
+	startButton.disabled = true;
+    }
+
+
+     override eventElements(){
+	this.getChild("div1").addEvent("startButton", "click", () => {
+	    this.gameRouterSystem?.startGame()
+	    this.input.turnOnInput();
+	});
+
+	const divSettings = this.getChild("div1").getChild("divSettings");
+	divSettings.getChild("divLetter").addEvent("letterButton", "click", () => this.gameRouterSystem?.setGameType(ChallengeType.LETTER))
+	divSettings.getChild("divWord").addEvent("wordButton", "click", () => this.gameRouterSystem?.setGameType(ChallengeType.WORD));
+	divSettings.getChild("divSentence").addEvent("sentenceButton", "click", () => this.gameRouterSystem?.setGameType(ChallengeType.SENTENCE));
+
+	const gameConfigModal = this.getChild("gameConfigModal") as GameConfigModal;
+
+	divSettings.getChild("divLetter").addEvent("letterSettings", "click", () => gameConfigModal.system?.setDefaultConfig(ChallengeType.LETTER) );
+	divSettings.getChild("divWord").addEvent("wordSettings", "click", () => gameConfigModal.system?.setDefaultConfig(ChallengeType.WORD));
+	divSettings.getChild("divSentence").addEvent("sentenceSettings", "click", () => gameConfigModal.system?.setDefaultConfig(ChallengeType.SENTENCE));
+
+	this.addEvent("testButton", "click", () => this.getChild("textHolder").deleteChildren);
+    }
+
+    
+    override styleElements(): void{
 
 
 	this.style.position = "relative";
@@ -147,42 +225,44 @@ class GameRouter extends Box{
 	this.style.justifyContent = "center";
 	this.style.alignItems = "center";
 
-	this.divGradient.style.position = "absolute"; 
-	// this.divGradient.style.border = "3px solid red";
-	this.divGradient.style.zIndex = "-1";
-	this.divGradient.style.height = "100%";
-	this.divGradient.style.width = "100%";
-	this.divGradient.style.transition = "height 1s ease-in-out, width 1s ease-in-out, --upGradient 1s ease-in-out, --downGradient 1s ease-in-out";
-	this.divGradient.style.background = `
-        linear-gradient(
-            to bottom,
-            #121212 0%,
-            transparent var(--upGradient),
-            transparent var(--downGradient),
-            #121212 100%
-        )
+	const divGradient = this.getChild("divGradient");
+
+	divGradient.style.position = "absolute"; 
+	// divGradient.style.border = "3px solid red";
+	divGradient.style.zIndex = "0";
+	divGradient.style.pointerEvents = "none";
+	divGradient.style.height = "100%";
+	divGradient.style.width = "100%";
+	divGradient.style.transition = "height 1s ease-in-out, width 1s ease-in-out, --upGradient 1s ease-in-out, --downGradient 1s ease-in-out";
+	divGradient.style.background = `
+	       linear-gradient(
+	           to bottom,
+	           #121212 0%,
+	           transparent var(--upGradient),
+	           transparent var(--downGradient),
+	           #121212 100%
+	       )
 	`;
-	// this.div1.style.height = "100px";
-	this.div1.style.marginTop = "50px";
-	this.div1.style.width = "500px";
-	// this.div1.style.border = "1px solid white";
-	this.div1.style.display = "flex";
-	this.div1.style.flexDirection = "column";
-	this.div1.style.justifyContent = "center";
-	this.div1.style.alignItems = "center";
-	this.div1.style.gap = "10px";
 
-	this.div2.style.display = "flex";
-	this.div2.style.gap = "4px";
+	const div1 = this.getChild("div1");
 
-	this.startButton.disabled = true;
+	div1.style.height = "20vh";
+	div1.style.marginTop = "50px";
+	div1.style.width = "500px";
+	div1.style.border = "1px solid white";
+	div1.style.display = "flex";
+	div1.style.flexDirection = "column";
+	div1.style.justifyContent = "center";
+	div1.style.alignItems = "center";
+	div1.style.gap = "10px";
+		
+
+	const divSettings = this.getChild("div1").styleChild("divSettings");
+	divSettings.display = "flex";
+	divSettings.gap = "4px";
+
     }
     
-
-
-    
-
-
 }
 
 export default GameRouter;

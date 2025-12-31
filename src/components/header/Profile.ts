@@ -1,48 +1,54 @@
-import Box from "../../class/Box";
-import { createElement } from "../../ui_system/Element";
+import Box2 from "../../class/Box2";
+import type Component2 from "../../class/Component2";
+import Element from "../../class/Element";
 import AuthState from "../../utils/authState";
-import type Header from "./Header";
+import HeaderComponent from "./HeaderComponent"; 
+import { apiLogout } from "../../utils/api/apiAuth";
 
-class Profile extends Box{
+class Profile extends Box2{
 
     isShow: boolean = false;
 
-    header: Header; 
+    header: HeaderComponent; 
 
-    aProfile: HTMLAnchorElement = createElement("a") as HTMLAnchorElement;
-    divOption: Box = new Box();
-    logout: HTMLButtonElement = createElement("button", "logout") as HTMLButtonElement;
-    selectAccount: HTMLButtonElement = createElement("button", "select account") as HTMLButtonElement;
 
-    constructor(header: Header, name: string) {
+    constructor(header: HeaderComponent, name: string) {
         super(name);
 	this.header = header;
-	this.init();
     }
 
     override initElements(): void {
-        this.aProfile.href = "#";
+        const aProfile = this.getChildSelf("aProfile") as HTMLAnchorElement;
+	aProfile.href = "#";
     }
 
-    override connectElements(): void {
-        this.addChildren([
-            this.aProfile,
-            this.divOption.addChildren([
-                this.logout,
-                this.selectAccount
-            ])
-        ]);
-    }
+    override structureElements(): Array<Component2> {
+	const aProfile: Element = new Element("a", "aProfile");
+	const divOption: Box2 = new Box2("divOption");
+	    const logoutButton: Element = new Element("button", "logoutButton", "logout");
+	    const selectAccountButton: Element = new Element("button", "selectAccountButton", "select account");
+
+	return [
+	    aProfile,
+	    divOption.addChildren([
+		logoutButton,
+		selectAccountButton
+	    ])
+	]
+
+   }
 
     override eventElements(): void {
-        this.aProfile.addEventListener("click", (e) => {
+	const divOption = this.getChild("divOption");
+
+        this.addEvent("aProfile", "click", (e) => {
             e.preventDefault();
             this.setOptionVisibility();
         });
 
-	this.logout.addEventListener("click", ()=>{
-	    const uri = import.meta.env.VITE_URL + "public/auth/logout";
-	    window.location.href = uri;
+	divOption.addEvent("logoutButton", "click", async()=>{
+	    const response = await apiLogout();
+	    console.log("response: ", response);
 	    localStorage.removeItem("user");
 	    AuthState.setAuthUser(null);
 	    this.header.headerSystem.switchAuthtoProfile();
@@ -61,29 +67,33 @@ class Profile extends Box{
         this.style.width = "fit-content";
 
         // --- Profile link ---
-        this.aProfile.style.cursor = "pointer";
-        this.aProfile.style.textDecoration = "none";
-        this.aProfile.style.color = "inherit"; // use theme color
-        this.aProfile.style.padding = "4px 8px";
-        this.aProfile.style.display = "inline-block";
-        this.aProfile.style.boxSizing = "border-box";
+	const aProfile = this.getChild("aProfile");
+        aProfile.style.cursor = "pointer";
+        aProfile.style.textDecoration = "none";
+        aProfile.style.color = "inherit"; // use theme color
+        aProfile.style.padding = "4px 8px";
+        aProfile.style.display = "inline-block";
+        aProfile.style.boxSizing = "border-box";
 
         // --- Dropdown menu ---
-	this.divOption.style.background = "#1a1a1a";
-        this.divOption.style.position = "absolute";
-        this.divOption.style.top = "100%";
-        this.divOption.style.left = "50%";
-	this.divOption.style.transform = "translateX(-50%)";
-        this.divOption.style.display = "none";
-        this.divOption.style.flexDirection = "column";
-        this.divOption.style.border = "1px solid #ccc";
-        this.divOption.style.padding = "4px";
-        this.divOption.style.zIndex = "10";
-        this.divOption.style.boxShadow = "0 2px 4px rgba(0,0,0,0.2)";
-        this.divOption.style.marginTop = "2px";
+	const divOption = this.getChild("divOption");
+	divOption.style.background = "#1a1a1a";
+        divOption.style.position = "absolute";
+        divOption.style.top = "100%";
+        divOption.style.left = "50%";
+	divOption.style.transform = "translateX(-50%)";
+        divOption.style.display = "none";
+        divOption.style.flexDirection = "column";
+        divOption.style.border = "1px solid #ccc";
+        divOption.style.padding = "4px";
+        divOption.style.zIndex = "10";
+        divOption.style.boxShadow = "0 2px 4px rgba(0,0,0,0.2)";
+        divOption.style.marginTop = "2px";
 
         // --- Dropdown buttons ---
-        [this.logout, this.selectAccount].forEach((btn) => {
+	const logoutButton = divOption.getChild("logoutButton"); 
+	const selectAccount = divOption.getChild("selectAccountButton");
+        [logoutButton, selectAccount].forEach((btn) => {
             btn.style.cursor = "pointer";
             btn.style.border = "none";
             btn.style.background = "transparent";
@@ -92,59 +102,62 @@ class Profile extends Box{
             btn.style.width = "100%";
             btn.style.boxSizing = "border-box";
             btn.style.color = "inherit";
-            btn.addEventListener("mouseenter", () => {
+
+            btn.self.addEventListener("mouseenter", () => {
                 btn.style.background = "#33333333";
             });
-            btn.addEventListener("mouseleave", () => {
+            btn.self.addEventListener("mouseleave", () => {
                 btn.style.background = "transparent";
             });
         });
     }
 
     setProfileName(userName: string) {
-        this.aProfile.innerText = userName;
+        this.getChildSelf("aProfile").innerText = userName;
         this.updateWidths();
     }
 
     /** Makes dropdown width match widest content, but doesn't shrink with short names */
     updateWidths() {
         // Temporarily show dropdown (invisible but measurable)
-        const wasHidden = this.divOption.style.display === "none";
+	const divOption = this.getChild("divOption");
+        const wasHidden = divOption.style.display === "none";
         if (wasHidden) {
-            this.divOption.style.visibility = "hidden";
-            this.divOption.style.display = "flex";
+            divOption.style.visibility = "hidden";
+            divOption.style.display = "flex";
         }
 
         // reset widths before measuring
-        this.aProfile.style.width = "auto";
-        this.divOption.style.width = "auto";
+        this.getChild("aProfile").style.width = "auto";
+        this.getChild("divOption").style.width = "auto";
 
-        const profileWidth = this.aProfile.offsetWidth;
-        const optionWidth = this.divOption.self.offsetWidth;
+        const profileWidth = this.getChildSelf("aProfile").offsetWidth;
+        const optionWidth = this.getChildSelf("divOption").offsetWidth;
 
         if (profileWidth > optionWidth) {
             // profile is wider — expand dropdown to match
-            this.divOption.style.width = `${profileWidth}px`;
+            divOption.style.width = `${profileWidth}px`;
         } else {
             // dropdown is wider — keep profile natural size
-            this.divOption.style.width = `${optionWidth}px`;
+            divOption.style.width = `${optionWidth}px`;
         }
 
         // revert visibility if it was hidden
         if (wasHidden) {
-            this.divOption.style.display = "none";
-            this.divOption.style.visibility = "";
+            divOption.style.display = "none";
+            divOption.style.visibility = "";
         }
     }
 
     setOptionVisibility() {
         this.isShow = !this.isShow;
+	const divOption = this.getChild("divOption");
 
         if (this.isShow) {
-            this.divOption.style.display = "flex";
+            divOption.style.display = "flex";
             this.updateWidths();
         } else {
-            this.divOption.style.display = "none";
+            divOption.style.display = "none";
         }
     }
 }

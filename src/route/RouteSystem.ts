@@ -43,7 +43,7 @@ class RouteSystem{
 	    this.addAppElement(this.gameRouter);
 	})
 	.on("/about", ()=> {
-	    this.aboutRouter.initEvents();
+	    // this.aboutRouter.initEvents();
 	    this.addAppElement(this.aboutRouter);
 	})
 	.on("/auth", ()=> {

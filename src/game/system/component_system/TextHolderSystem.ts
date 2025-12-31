@@ -1,34 +1,42 @@
 import type { Challenge } from "../../../utils/interfaces";
 import TextHolder from "../../component/TextHolder";
-import Box from "../../../class/Box";
 import Letter from "../../component/Letter";
+import Box2 from "../../../class/Box2";
+import type LifeCycleSystem from "../../../systems/LifeCycleSystem";
+import type Component2 from "../../../class/Component2";
 
 class TextHolderSystem{
 
+    private lifeCycleSystem: LifeCycleSystem;
     private textHolder: TextHolder; 
 
     private challengeLetters: Array<Letter[]> = [];  
 
-    constructor(textHolder: TextHolder){
+    constructor(textHolder: TextHolder, lifeCycleSystem: LifeCycleSystem){
 	this.textHolder = textHolder;
+	this.lifeCycleSystem = lifeCycleSystem; 
     }
 
     reset(){
-	this.textHolder.system.removeVisualLetters();
+	if(!this.textHolder) throw new Error("textHolder is undefined");
+
+	this.removeVisualLetters();
 	// this.textHolder.style.display = "none";
     }
 
     displayWrongLetter(letter: string){
-	const wrongLetter = new Letter(letter);
+	const wrongLetter = new Letter("wrongLetter", letter);
 	wrongLetter.turnRed();
-	this.textHolder.addChild(wrongLetter);
+	this.lifeCycleSystem.updateComponent(this.textHolder, [wrongLetter]);
     }
 
     addLetters(challenges: Challenge[]){
+	console.log("addLetter()");
 	challenges.forEach(challenge => {
 	    const letters = [];
 	    for(let i = 0; i < challenge.text.length; i++){
-		const letter = new Letter(challenge.text[i]);
+		const name = `letter${i}`
+		const letter = new Letter(name, challenge.text[i]);
 		if(letter.self.innerText == " "){
 		    letter.self.innerHTML = "&nbsp;";
 		}
@@ -36,19 +44,22 @@ class TextHolderSystem{
 	    }
 	    this.challengeLetters.push(letters);
 	})
+	console.log("challengeLetter): ", this.challengeLetters);
+	
     }
 
     displayLetters(i: number){
-	const div = new Box("DivLine");
+	const div = new Box2(`divLine${i}`);
 	div.addChildren(this.challengeLetters[i]);
 	// div.style.border = "1px solid green";
 	div.style.display = "flex";
 	div.style.flexShrink = "0";
-	this.textHolder.addChild(div);
+	this.lifeCycleSystem.updateComponent(this.textHolder, [div]);
     }
 
     removeChallengeLetters(){
 	this.challengeLetters = [];
+	this.lifeCycleSystem.clearComponent(this.textHolder);
     }
 
     removeVisualLetters(){
@@ -69,13 +80,14 @@ class TextHolderSystem{
 
     toggleVisibility(){
 	if(this.textHolder.style.display == "none"){
-	    this.textHolder.style.display = "flex"; 
+    this.textHolder.style.display = "flex"; 
 	}else{
 	    this.textHolder.style.display = "none";
 	}
     }
 
     getStringChallengeLetters(){
+	console.log("getStringChallengeLetters: ", this.challengeLetters);
 	return this.challengeLetters;
     }
 

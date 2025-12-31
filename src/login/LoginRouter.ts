@@ -1,44 +1,50 @@
-import Box from "../class/Box";
-import { createElement } from "../ui_system/Element";
 import LoginBox from "./LoginBox";
 import LoginRouterSystem from "./system/LoginRouterSystem";
-import type RouteSystem from "../route/RouteSystem";
+import Box2 from "../class/Box2";
+import Element from "../class/Element";
+import type Component2 from "../class/Component2";
+import type RouteSystem2 from "../route/RouteSystem2";
 
-class LoginRouter extends Box{
+class LoginRouter extends Box2{
 
-    public loginBox: LoginBox = new LoginBox("LoginBox");
-
-    public loginRouterSystem: LoginRouterSystem = new LoginRouterSystem(this);
-
-    public divAuth0: Box = new Box();
-	public googleButton: HTMLButtonElement = createElement("button", "") as HTMLButtonElement;
-	public googleImg: HTMLImageElement = createElement("img") as HTMLImageElement;
-
+    // public loginRouterSystem: LoginRouterSystem = new LoginRouterSystem(this);
+    public loginRouterSystem: LoginRouterSystem | undefined;
     constructor( name: string){
 	super(name);
-	this.init();
     }
 
-    setRouteSystem(routeSystem: RouteSystem){
-	this.loginBox.setRouteSystem(routeSystem);
+    setRouteSystem(routeSystem: RouteSystem2){
+	this.loginRouterSystem?.setRouteSystem(routeSystem);
+    }
+
+    override initSystems(): void {
+	this.loginRouterSystem = new LoginRouterSystem(this);
     }
 
     override initElements(){
-	this.googleImg.src = "https://developers.google.com/identity/images/g-logo.png";  
+	const googleImg = this.getChild("divAuth0").getChild("googleButton").getChildSelf("googleImg") as HTMLImageElement;
+	googleImg.src = "https://developers.google.com/identity/images/g-logo.png";  
     }
 
-    override connectElements(): void {
-	this.addChildren([
-	    this.loginBox,
-	    this.googleButton
-	]);
+    override structureElements(): Array<Component2> {
+	const loginBox: LoginBox = new LoginBox("LoginBox");
 
-	this.googleButton.appendChild(this.googleImg);
+	const divAuth0: Box2 = new Box2("divAuth0");
+	    const googleButton: Element = new Element("button", "googleButton");
+		const googleImg: Element = new Element("img", "googleImg");
+
+	return [
+	    loginBox,
+	    divAuth0.addChildren([
+		googleButton.addChildren([googleImg])
+	    ])
+	]
+
     }
 
     override eventElements(): void {
-	this.googleButton.addEventListener("click", ()=>{
-	    this.loginRouterSystem.login();
+	this.getChild("divAuth0").addEvent("googleButton", "click", ()=>{
+	    this.loginRouterSystem?.login();
 	});
     }
 
@@ -53,7 +59,7 @@ class LoginRouter extends Box{
 	this.style.justifyContent = "center";
 	this.style.alignItems = "center";
 
-	this.googleImg.style.height = "30px";
+	this.getChild("divAuth0").getChild("googleButton").styleChild("googleImg").height = "30px";
 	
     }
 

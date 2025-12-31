@@ -1,28 +1,37 @@
-import Header from "../Header";
 import { apiFetch, checkAccessToken, refreshToken } from "../../../utils/apiUtils";
 import type { Response, User } from "../../../utils/interfaces";
 import AuthState from "../../../utils/authState";
-import type RouteSystem from "../../../route/RouteSystem";
 import { getAuthUser } from "../../../utils/api/apiUser";
+import type HeaderComponent from "../HeaderComponent";
+import type Profile from "../Profile";
+import type RouteSystem2 from "../../../route/RouteSystem2";
 
-class HeaderSystem{
+class HeaderComponentSystem{
 
-    header: Header;
+    header: HeaderComponent;
 
-    routeSystem: RouteSystem | undefined;
+    routeSystem: RouteSystem2 | undefined;
 
-    constructor(header: Header){
+    constructor(header: HeaderComponent){
 	this.header = header;
+    }
+
+
+    public setRouteSystem(routeSystem: RouteSystem2){
+	this.routeSystem = routeSystem;
     }
 
     switchAuthtoProfile(){
 	const user = localStorage.getItem("user");
+
+	const divAuth = this.header.getChild("divAuth")
+
 	if(user && user !== "undefined"){
-	    this.header.authButtons.style.display = "none";
-	    this.header.profile.style.display = "flex";
+	    divAuth.styleChild("authButtons").display = "none";
+	    divAuth.styleChild("profile").display = "flex";
 	}else{
-	    this.header.authButtons.style.display = "flex";
-	    this.header.profile.style.display = "none";
+	    divAuth.styleChild("authButtons").display = "flex";
+	    divAuth.styleChild("profile").display = "none";
 	}
     }
 
@@ -60,7 +69,7 @@ class HeaderSystem{
 	    if(!responseUser) return;
 	    
 	    localStorage.setItem("user", JSON.stringify(responseUser));
-	    this.header.profile.aProfile.innerText = responseUser.name;
+	    this.header.getChild("divAuth").getChild("profile").getChildSelf("aProfile").innerText = responseUser.name;
 	}else{
 	    const localUser = localStorage.getItem("user");
 
@@ -68,13 +77,14 @@ class HeaderSystem{
 
 	    const objLocalUser = JSON.parse(localUser);
 	    AuthState.setAuthUser(objLocalUser);
-	    this.header.profile.setProfileName(objLocalUser.name); 
+	    const profile = this.header.getChild("divAuth").getChild("profile") as Profile;
+	    profile.setProfileName(objLocalUser.name); 
 	}
     }
 
 
 }
 
-export default HeaderSystem;
+export default HeaderComponentSystem;
 
 

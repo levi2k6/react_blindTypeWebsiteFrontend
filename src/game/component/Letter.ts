@@ -1,7 +1,7 @@
-import Box from "../../class/Box";
+import Box2 from "../../class/Box2";
 import { createElement } from "../../ui_system/Element";
 
-class Letter extends Box{
+class Letter extends Box2{
 
     private char: string;
     private letter = createElement("h1"); 
@@ -10,19 +10,19 @@ class Letter extends Box{
 	return this.letter;
     }
 
-    get getChar(){
+    public getChar(){
 	return this.char;
     }
 
-    constructor(letter: string){
-	super();
+    constructor(name: string, letter: string){
+	super(name);
 	this.char = letter;
 	// console.log("char: ", this.char);
 	this.letter.innerText = letter;
-	this.init();
     }
 
     turnGreen(){
+	// console.log("letter turned green");
 	this.letter.style.color = "#00bd33";
     }
 
@@ -35,7 +35,9 @@ class Letter extends Box{
     }
 
     styleElements(){
+	this.style.border = "1px solid green";
 	this.letter.style.color = "#d3d3d3";
     }
+
 }
 export default Letter;

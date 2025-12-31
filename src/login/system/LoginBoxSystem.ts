@@ -12,7 +12,7 @@ class LoginBoxSystem{
 
     public async authenticate(username: string, password: string) {
 	try {
-	    const loginUrl = import.meta.env.VITE_LOGIN_URL;
+	    const loginUrl = import.meta.env.VITE_URL + "/public/auth/login";
 	    console.log("loginUrl: ", loginUrl);
 
 	    const loginDto: LoginDTO = {
@@ -39,7 +39,7 @@ class LoginBoxSystem{
 	    }
 
 	    if (!response.ok) {
-		this.loginBox.loginMessage.innerText = data?.message;
+		this.loginBox.getChildSelf("loginMessage").innerText = data?.message;
 		throw new Error(data?.message || "Login failed");
 	    }
 
