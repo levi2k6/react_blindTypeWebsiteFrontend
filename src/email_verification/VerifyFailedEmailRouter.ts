@@ -1,8 +1,7 @@
 import Box from "../class/Box";
-import type { Component } from "../class/Component";
 import { createElement } from "../ui_system/Element";
 
-class VerifyFailedEmailRouter extends Box implements Component{
+class VerifyFailedEmailRouter extends Box{
 
     div1: Box = new Box();
     h1: HTMLElement = createElement("h1", "Failed to verify email");
@@ -12,17 +11,10 @@ class VerifyFailedEmailRouter extends Box implements Component{
 	this.init();
     }
 
-    public init(){
-	this.initElements();
-	this.connectElements();
-	this.eventElements();
-	this.styleElements();
+    override initElements(): void{
     }
 
-    public initElements(): void{
-    }
-
-    public connectElements(){
+    override connectElements(){
 	this.addChildren([
 	    this.div1.addChildren([
 		this.h1
@@ -30,14 +22,16 @@ class VerifyFailedEmailRouter extends Box implements Component{
 	]);
     }
 
-    public eventElements(){
+    override eventElements(){
 
     }
 
-    public styleElements(){
+    override styleElements(){
 
     }
 
+    override preDestroy(): void {
+    }
 
 }
 

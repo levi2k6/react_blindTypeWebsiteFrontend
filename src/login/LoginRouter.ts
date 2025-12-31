@@ -1,15 +1,14 @@
 import Box from "../class/Box";
-import type { Component } from "../class/Component";
 import { createElement } from "../ui_system/Element";
 import LoginBox from "./LoginBox";
-import AuthRouterSystem from "./system/AuthRouterSystem";
+import LoginRouterSystem from "./system/LoginRouterSystem";
 import type RouteSystem from "../route/RouteSystem";
 
-class AuthRouter extends Box implements Component{
+class LoginRouter extends Box{
 
     public loginBox: LoginBox = new LoginBox("LoginBox");
 
-    public authRouterSystem: AuthRouterSystem = new AuthRouterSystem(this);
+    public loginRouterSystem: LoginRouterSystem = new LoginRouterSystem(this);
 
     public divAuth0: Box = new Box();
 	public googleButton: HTMLButtonElement = createElement("button", "") as HTMLButtonElement;
@@ -17,26 +16,18 @@ class AuthRouter extends Box implements Component{
 
     constructor( name: string){
 	super(name);
-
-	this.init()
+	this.init();
     }
 
     setRouteSystem(routeSystem: RouteSystem){
 	this.loginBox.setRouteSystem(routeSystem);
     }
 
-    init(): void{
-	this.initElements();
-	this.connectElements();
-	this.eventElements();
-	this.styleElements();
-    }
-
-    initElements(){
+    override initElements(){
 	this.googleImg.src = "https://developers.google.com/identity/images/g-logo.png";  
     }
 
-    connectElements(): void {
+    override connectElements(): void {
 	this.addChildren([
 	    this.loginBox,
 	    this.googleButton
@@ -45,13 +36,13 @@ class AuthRouter extends Box implements Component{
 	this.googleButton.appendChild(this.googleImg);
     }
 
-    eventElements(): void {
+    override eventElements(): void {
 	this.googleButton.addEventListener("click", ()=>{
-	    this.authRouterSystem.login();
+	    this.loginRouterSystem.login();
 	});
     }
 
-    styleElements(): void {
+    override styleElements(): void {
  	this.style.position = "relative";
 	this.style.border = "5px solid pink"
 	// this.style.width =  "98vw";
@@ -65,8 +56,11 @@ class AuthRouter extends Box implements Component{
 	this.googleImg.style.height = "30px";
 	
     }
+
+    preDestroy(): void {
+    }
 }
 
-export default AuthRouter;
+export default LoginRouter;
 
 

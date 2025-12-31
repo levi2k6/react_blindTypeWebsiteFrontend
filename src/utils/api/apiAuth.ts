@@ -1,21 +1,21 @@
 import { Api } from "./Api";
 
-const userUri = import.meta.env.VITE_USER_URI; 
+const uri = import.meta.env.VITE_URI; 
 const headers = {"Content-Type": "application/json"}
 const credentials = "include";
 
-const api = new Api(userUri, headers, credentials);
+const api = new Api(uri, headers, credentials);
 
 export function apiLogin(){
-    api.get("/auth/login");
+    api.get("/public/auth/login");
 } 
 
 export function apiLogout(){
-    api.get("/auth/logout")
+    api.get("/public/auth/logout")
 }
 
 export function apiRegister(payload: Record<string, string>){
-    api.post("/auth/register", payload)
+    api.post("/public/auth/register", payload)
 } 
 
 

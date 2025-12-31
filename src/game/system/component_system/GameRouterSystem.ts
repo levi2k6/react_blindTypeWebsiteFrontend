@@ -3,7 +3,7 @@ import GameSystem from "../game_system/GameSystem";
 import Input from "../Input";
 import { ChallengeType } from "../../../utils/enums/ChallengeTypeEnum";
 import GameConfigManager from "../game_config/GameConfigManager";
-import type Visualizer from "../../../component/Visualizer";
+import Visualizer from "../../component/Visualizer";
 
 class GameRouterSystem{
 
@@ -12,6 +12,10 @@ class GameRouterSystem{
     private gameConfigManager: GameConfigManager;
     private gameSystem: GameSystem;
     private input: Input;
+
+    public setGameTypeLetterHandler = () => this.setGameType(ChallengeType.LETTER)
+    public setGameTypeWordHandler = () => this.setGameType(ChallengeType.WORD)
+    public setGameTypeSentenceHandler = () => this.setGameType(ChallengeType.SENTENCE)
 
     getGameSystem(): GameSystem{
 	return this.gameSystem;
@@ -25,7 +29,7 @@ class GameRouterSystem{
 	this.gameConfigManager = gameConfigManager;
 	this.gameSystem = new GameSystem(gameRouter, this.gameConfigManager, visualizer); 
 	this.input = new Input(this.gameRouter, this.gameSystem);
-	this.input.turnOnInput();
+	// this.input.turnOnInput();
     }
 
     public reset(){
@@ -35,14 +39,13 @@ class GameRouterSystem{
 	this.gameRouter.div1.style.visibility = "hidden";
     }
 
-    setGameType(type: ChallengeType){
+    public setGameType(type: ChallengeType){
 	this.gameRouter.startButton.disabled = false;
 	this.gameSystem.setType(type);
 	this.gameSystem.switchGame(type);
     }
 
-
-    async startGame(){
+    public async startGame(){
 	this.reset();
 	this.gameSystem.gameStart();
 	this.gameRouter.system.setDivGradient();

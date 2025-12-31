@@ -1,8 +1,7 @@
 import Box from "../../class/Box";
-import type { Component } from "../../class/Component";
 import TextHolderSystem from "../system/component_system/TextHolderSystem";
 
-class TextHolder extends Box implements Component{
+class TextHolder extends Box{
 
     textHoldersystem: TextHolderSystem = new TextHolderSystem(this);
 
@@ -15,17 +14,13 @@ class TextHolder extends Box implements Component{
 	 return this.textHoldersystem;
      }
 
-     init(){
-	 this.styleElements();
-     }
+    override initElements(){};
 
-    initElements(){};
+    override connectElements(){}
 
-    connectElements(){}
+    override eventElements(){}
 
-    eventElements(){}
-
-    styleElements(){
+    override styleElements(){
 	console.log("TextHolder styleElements()");
 	this.style.marginTop = "10px";
 	this.style.background = "linear-gradient(to bottom, #1a1a1a 0%, transparent 10%,transparent 10%, transparent 50%, transparent 90%, transparent 90%, #1a1a1a 100%)";

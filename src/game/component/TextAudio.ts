@@ -1,10 +1,9 @@
 import Box from "../../class/Box";
-import type { Component } from "../../class/Component";
 import { createElement } from "../../ui_system/Element";
 import TextAudioSystem from "../system/component_system/TextAudioSystem";
 import type GameSystem from "../system/game_system/GameSystem";
 
-class TextAudio extends Box implements Component{
+class TextAudio extends Box{
 
     public audio: HTMLAudioElement = createElement("audio") as HTMLAudioElement;
     public audioDing: HTMLAudioElement = createElement("audio") as HTMLAudioElement;
@@ -27,18 +26,11 @@ class TextAudio extends Box implements Component{
 	this.init();
     }
 
-    init(){
-	this.initElements();
-	this.connectElements();
-	this.eventElements();
-	this.styleElements();
-    }
-
-    initElements(): void{
+    override initElements(): void{
 	this.audio.crossOrigin = "anonymous";
     }
 
-    connectElements(){
+    override connectElements(){
 	this.addChildren([
 	    this.audio,
 	    this.audioDing,
@@ -46,7 +38,7 @@ class TextAudio extends Box implements Component{
 	]);
     }
 
-    eventElements(){
+    override eventElements(){
 	this.audio.addEventListener("ended", ()=>{
 	    console.log("after audio done works");
 	    if(this.gameSystem?.getIsContinuous()){
@@ -58,7 +50,7 @@ class TextAudio extends Box implements Component{
 	});
     }
 
-    styleElements(){
+    override styleElements(){
 	this.style.display = "none";
 	this.style.border = "1px solid black";
 	this.style.height = "100px";

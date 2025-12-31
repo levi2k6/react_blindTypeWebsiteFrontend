@@ -1,11 +1,10 @@
 import Box from "../../class/Box";
-import type { Component } from "../../class/Component";
 import { createElement } from "../../ui_system/Element";
 
-class GameConfigModalInput extends Box implements Component{
+class GameConfigModalInput extends Box{
 
-    label = createElement("label"); 
-    input: HTMLInputElement = createElement("input") as HTMLInputElement;
+    public label = createElement("label"); 
+    public input: HTMLInputElement = createElement("input") as HTMLInputElement;
 
     constructor(labelText: string){
 	super();
@@ -13,28 +12,21 @@ class GameConfigModalInput extends Box implements Component{
 	this.init();
     }
 
-    init(){
-	this.initElements();
-	this.connectElements();
-	this.eventElements();
-	this.styleElements();
+    override initElements(): void{
     }
 
-    initElements(): void{
-    }
-
-    connectElements(): void {
+    override connectElements(): void {
 	this.addChildren([
 	    this.label,
 	    this.input
 	])
     }
 
-    eventElements(): void {
+    override eventElements(): void {
 	
     }
 
-    styleElements(): void {
+    override styleElements(): void {
 	this.style.border = "1px solid red";
 	this.style.display = "flex";
 	this.style.justifyContent = "center";

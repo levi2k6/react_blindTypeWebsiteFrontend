@@ -1,46 +1,46 @@
 import { createElement } from "../../ui_system/Element.ts";
-import { ChallengeType } from "../../utils/enums/ChallengeTypeEnum.ts";
 
 import Box from "../../class/Box.ts";
 
 import GameRouterSystem from "../system/component_system/GameRouterSystem.ts";
 import TextHolder from "./TextHolder.ts";
 import TextAudio from "./TextAudio.ts";
-import type { Component } from "../../class/Component.ts";
 import GameConfigModal from "./GameConfigModal.ts";
 import GameConfigManager from "../system/game_config/GameConfigManager.ts";
-import Visualizer from "../../component/Visualizer.ts";
+import Visualizer from "./Visualizer.ts";
+import { ChallengeType } from "../../utils/enums/ChallengeTypeEnum.ts";
 
-class GameRouter extends Box implements Component{
+class GameRouter extends Box{
 
-    divGradient = new Box("divGradient");
-    textHolder = new TextHolder("TextHolder");
+    public divGradient = new Box("divGradient");
+    public textHolder = new TextHolder("TextHolder");
 
-    div1: Box = new Box("div1");
-	startButton: HTMLButtonElement = createElement("button", "Start") as HTMLButtonElement; 
-	div2: Box = new Box("div2");
-	    divLetter: Box = new Box();
-		letterSettings: HTMLButtonElement = createElement("button") as HTMLButtonElement;
-		    letterSettingsIcon: HTMLElement = createElement("i"); 
-		letterButton: HTMLButtonElement = createElement("button", "Letter") as HTMLButtonElement;
-	    divWord: Box = new Box();
-		wordSettings: HTMLButtonElement = createElement("button") as HTMLButtonElement;
-		    wordSettingsIcon: HTMLElement = createElement("i");
-		wordButton: HTMLButtonElement = createElement("button", "Word") as HTMLButtonElement;
-	    divSentence: Box = new Box();
-		sentenceSettings: HTMLButtonElement = createElement("button") as HTMLButtonElement;
-		    sentenceSettingsIcon: HTMLElement = createElement("i");
-		sentenceButton: HTMLButtonElement = createElement("button", "Sentence") as HTMLButtonElement;
+    public div1: Box = new Box("div1");
+	public startButton: HTMLButtonElement = createElement("button", "Start") as HTMLButtonElement; 
+	public div2: Box = new Box("div2");
+	    public divLetter: Box = new Box();
+		public letterSettings: HTMLButtonElement = createElement("button") as HTMLButtonElement;
+		    public letterSettingsIcon: HTMLElement = createElement("i"); 
+		public letterButton: HTMLButtonElement = createElement("button", "Letter") as HTMLButtonElement;
+	    public divWord: Box = new Box();
+		public wordSettings: HTMLButtonElement = createElement("button") as HTMLButtonElement;
+		    public wordSettingsIcon: HTMLElement = createElement("i");
+		public wordButton: HTMLButtonElement = createElement("button", "Word") as HTMLButtonElement;
+	    public divSentence: Box = new Box();
+		public sentenceSettings: HTMLButtonElement = createElement("button") as HTMLButtonElement;
+		    public sentenceSettingsIcon: HTMLElement = createElement("i");
+		public sentenceButton: HTMLButtonElement = createElement("button", "Sentence") as HTMLButtonElement;
 
-    textAudio = new TextAudio("GameTextAudio"); 
-    visualizer: Visualizer = new Visualizer(this.textAudio.audio);
-
+    public textAudio = new TextAudio("GameTextAudio"); 
+    public visualizer: Visualizer = new Visualizer(this.textAudio.audio);
 
     private gameConfigManager: GameConfigManager = new GameConfigManager(); 
 
     private gameConfigModal: GameConfigModal = new GameConfigModal(this.gameConfigManager);
     private gameRouterSystem: GameRouterSystem = new GameRouterSystem(this, this.gameConfigManager, this.visualizer);
 
+
+    public testButton = createElement("button", "DESTROY");
 
     constructor( name: string ){
 	super(name);
@@ -51,14 +51,15 @@ class GameRouter extends Box implements Component{
 	return this.gameRouterSystem;
     }
 
-    init(){
-	this.initElements();
-	this.connectElements();
-	this.eventElements();
-	this.styleElements();
+    override initChildrenEvents(): void {
+	this.gameRouterSystem.getInput().turnOnInput();
     }
 
-    async initElements(){
+    override preDestroy(){
+	this.gameRouterSystem.getInput().turnOffInput();
+    }
+
+    override async initElements(){
 
 	this.textAudio.setGameSystem(this.gameRouterSystem.getGameSystem());
 
@@ -68,10 +69,12 @@ class GameRouter extends Box implements Component{
 	this.wordSettingsIcon.classList.add("fa-solid", "fa-gear");
 	this.sentenceSettingsIcon.classList.add("fa-solid", "fa-gear");
 	console.log("letterSettings: ", this.letterSettings);
+
     }
 
     connectElements(){
 	 this.addChildren([
+	     this.visualizer,
 	     this.divGradient,
 	     this.textHolder,
 	     this.div1.addChildren([
@@ -92,7 +95,8 @@ class GameRouter extends Box implements Component{
 		 ]),
 	     ]),
 	     this?.textAudio,
-	     this.gameConfigModal
+	     this.gameConfigModal,
+	     this.testButton
 	 ]);
 
 	 this.letterSettings.appendChild(this.letterSettingsIcon);
@@ -100,40 +104,22 @@ class GameRouter extends Box implements Component{
 	 this.sentenceSettings.appendChild(this.sentenceSettingsIcon);
      }
 
-     eventElements(){
-	this.startButton.addEventListener("click", ()=>{
-	    this.gameRouterSystem.startGame();
-	});
+     override eventElements(){
+	this.startButton.addEventListener("click", () => this.gameRouterSystem.startGame(), {signal: this.abortController?.signal});
 
-	this.letterButton.addEventListener("click", ()=>{
-	    this.gameRouterSystem.setGameType(ChallengeType.LETTER);
-	})
+	this.letterButton.addEventListener("click", () => this.gameRouterSystem.setGameType(ChallengeType.LETTER), {signal: this.abortController?.signal});
+	this.wordButton.addEventListener("click", () => this.gameRouterSystem.setGameType(ChallengeType.WORD), {signal: this.abortController?.signal});
+	this.sentenceButton.addEventListener("click", () => this.gameRouterSystem.setGameType(ChallengeType.SENTENCE), {signal: this.abortController?.signal});
 
-	this.wordButton.addEventListener("click", ()=>{
-	    this.gameRouterSystem.setGameType(ChallengeType.WORD);
-	})
+	this.letterSettings.addEventListener("click", () => this.gameConfigModal.gameConfigModalSystem.setDefaultConfig(ChallengeType.LETTER), {signal: this.abortController?.signal});
+	this.wordSettings.addEventListener("click", () => this.gameConfigModal.gameConfigModalSystem.setDefaultConfig(ChallengeType.WORD), {signal: this.abortController?.signal});
+	this.sentenceSettings.addEventListener("click", () => this.gameConfigModal.gameConfigModalSystem.setDefaultConfig(ChallengeType.SENTENCE), {signal: this.abortController?.signal});
 
-	this.sentenceButton.addEventListener("click", ()=>{
-	    this.gameRouterSystem.setGameType(ChallengeType.SENTENCE);
-	})
-
-	this.letterSettings.addEventListener("click", ()=>{
-	    this.gameConfigModal.style.display =  "flex";
-	    this.gameConfigModal.gameConfigModalSystem?.setDefaultConfig(ChallengeType.LETTER);
-	})
-
-	this.wordSettings.addEventListener("click", ()=>{
-	    this.gameConfigModal.style.display = "flex";
-	    this.gameConfigModal.gameConfigModalSystem?.setDefaultConfig(ChallengeType.WORD);
-	})
-
-	this.sentenceSettings.addEventListener("click", ()=>{
-	    this.gameConfigModal.style.display = "flex";
-	    this.gameConfigModal.gameConfigModalSystem?.setDefaultConfig(ChallengeType.SENTENCE);
-	})
+	this.testButton.addEventListener("click", () => this.preDestroy());
     }
 
-    styleElements(): void{
+    
+    override styleElements(): void{
 
 	if ((CSS as any).registerProperty) {
 	    (CSS as any).registerProperty({
@@ -191,6 +177,12 @@ class GameRouter extends Box implements Component{
 
 	this.startButton.disabled = true;
     }
+    
+
+
+    
+
+
 }
 
 export default GameRouter;

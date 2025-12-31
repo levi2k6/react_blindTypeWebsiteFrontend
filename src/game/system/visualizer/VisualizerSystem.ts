@@ -1,4 +1,3 @@
-
 class VisualizerSystem {
   private audio: HTMLAudioElement;
   private canvas: HTMLCanvasElement;
@@ -114,4 +113,6 @@ class VisualizerSystem {
 }
 
 export default VisualizerSystem;
+
+
 

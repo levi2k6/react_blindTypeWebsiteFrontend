@@ -1,58 +1,51 @@
-import type { Component } from "../../class/Component";
 import Box from "../../class/Box";
 import { createElement } from "../../ui_system/Element";
 import GameConfigModalSystem from "../system/game_modal/GameConfigModalSystem";
 import GameConfigManager from "../system/game_config/GameConfigManager";
 
-    import InputCreator from "../../ui_system/InputCreator";
+import InputCreator from "../../ui_system/InputCreator";
 import type InputElementCreator from "../../ui_system/InputCreator";
 import type { GameConfig } from "../../utils/types/GameConfigType";
 
-class GameConfigModal extends Box implements Component{
+class GameConfigModal extends Box{
 
-    gameConfigManager: GameConfigManager | undefined;
-    gameConfigModalSystem: GameConfigModalSystem | undefined;
-    inputElementCreator: InputElementCreator = new InputCreator().setDivBorder("1px solid blue").setDivHeight("30px").setDivWidth("100%");
+    public gameConfigManager: GameConfigManager | undefined;
+    public gameConfigModalSystem: GameConfigModalSystem;
+    public inputElementCreator: InputElementCreator = new InputCreator().setDivBorder("1px solid blue").setDivHeight("30px").setDivWidth("100%");
 
-    divForm = new Box();
+    public divForm = new Box();
 
-    div1 = new Box();
-	divLabel = new Box();
-	    labelDifficulty = this.inputElementCreator.createLabel("Difficulty");
-	    labelMultiple  = this.inputElementCreator.createLabel("Multiple");
-	    labelContinuous = this.inputElementCreator.createLabel("Continuous");
+    public div1 = new Box();
+	public divLabel = new Box();
+	    public labelDifficulty = this.inputElementCreator.createLabel("Difficulty");
+	    public labelMultiple  = this.inputElementCreator.createLabel("Multiple");
+	    public labelContinuous = this.inputElementCreator.createLabel("Continuous");
 
-	divInput = new Box(); 
-	    inputDifficulty = this.inputElementCreator.createSelect(["easy", "normal", "hard"]);
-		inputDifficultyChild = this.inputDifficulty.self.children[0] as HTMLSelectElement;
-	    inputMultiple = this.inputElementCreator.createInput("number");
-		inputMultipleChild = this.inputMultiple.self.children[0] as HTMLInputElement;
-	    inputContinuous = this.inputElementCreator.createSelect(["true", "false"]);
-		inputContinuousChild = this.inputContinuous.self.children[0] as HTMLSelectElement;
+	public divInput = new Box(); 
+	    public inputDifficulty = this.inputElementCreator.createSelect(["easy", "normal", "hard"]);
+		public inputDifficultyChild = this.inputDifficulty.self.children[0] as HTMLSelectElement;
+	    public inputMultiple = this.inputElementCreator.createInput("number");
+		public inputMultipleChild = this.inputMultiple.self.children[0] as HTMLInputElement;
+	    public inputContinuous = this.inputElementCreator.createSelect(["true", "false"]);
+		public inputContinuousChild = this.inputContinuous.self.children[0] as HTMLSelectElement;
 
-    div2 = new Box();
-	divButtons = new Box();
-	    apply = createElement("button", "apply"); 
-	    close = createElement("button", "close");
+    public div2 = new Box();
+	public divButtons = new Box();
+	    public apply = createElement("button", "apply"); 
+	    public close = createElement("button", "close");
 
     constructor(gameConfigManager: GameConfigManager){
 	super();
-	console.log("HEEEERERERERER: ", gameConfigManager);
 	this.gameConfigManager = gameConfigManager; 
 	this.gameConfigModalSystem = new GameConfigModalSystem(this, this.gameConfigManager);
 	this.init();
     }
 
-
-
-    init(){
-	this.initElements();
-	this.connectElements();
-	this.eventElements();
-	this.styleElements();
+    get system(){
+	return this.gameConfigModalSystem;
     }
 
-    connectElements(): void {
+    override connectElements(): void {
 	this.addChildren([
 	    this.div1.addChild(
 		this.divForm.addChildren([
@@ -78,12 +71,12 @@ class GameConfigModal extends Box implements Component{
 
     }
 
-    initElements(): void{
+    override initElements(): void{
 	this.inputMultipleChild.min = "1"; 
 	this.inputMultipleChild.max = "10"; 
     }
 
-    eventElements(): void {
+    override eventElements(): void {
 	this.apply.addEventListener("click", ()=>{
 	    const difficutlyData = this.inputDifficultyChild.value as "easy" | "normal" | "hard";
 	    const multipleData = Number(this.inputMultipleChild.value);
@@ -103,7 +96,9 @@ class GameConfigModal extends Box implements Component{
 	});
     }
 
-    styleElements(): void {
+
+
+    override styleElements(): void {
 	this.style.position = "fixed"
 	this.style.height = "400px";
 	this.style.width = "400px";

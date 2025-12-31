@@ -3,11 +3,12 @@ import GameSystem from "../GameSystem";
 import TextHolder from "../../../component/TextHolder";
 import TextAudio from "../../../component/TextAudio";
 
-import type {  Challenge, StringChallenge } from "../../../../utils/interfaces";
+import type {  Challenge, Response, StringChallenge } from "../../../../utils/interfaces";
 import Game from "./Game";
 import type Letter from "../../../component/Letter";
 import type GameConfigManager from "../../game_config/GameConfigManager";
-import { getStringChallenge } from "../../data_manager/GameDataManager";
+import { getRandomGameChallenge } from "../../../../utils/api/apiGame";
+// import { getStringChallenge } from "../../data_manager/GameDataManager";
 
 class StringGame extends Game{
 
@@ -49,13 +50,15 @@ class StringGame extends Game{
 	    console.log("Game amount has no data");
 	    return;
 	}
-	const response: Challenge[] = await getStringChallenge(this.gameSystem.getType() , multiple);
+
+	// const response: Challenge[] = await getStringChallenge(this.gameSystem.getType() , multiple);
+	const response: Response<Challenge[]> = await getRandomGameChallenge(this.gameSystem.getType(), multiple);
 	if(response === undefined){
 	    console.log("challenge response is undefiend");
 	    return;
 	}
 
-	const stringChallenges = response as StringChallenge[];
+	const stringChallenges = response.data as StringChallenge[];
 	this.challenges = stringChallenges;
 	if(!this.gameSystem.getIsContinuous()){
 	    this.setChallengeAudio(stringChallenges[this.i1].audioName);
