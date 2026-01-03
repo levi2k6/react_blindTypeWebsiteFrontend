@@ -5,11 +5,14 @@ import type RouteSystem from "../route/RouteSystem";
 import Box2 from "../class/Box2";
 import Element from "../class/Element";
 import type Component2 from "../class/Component2";
-import type RouteSystem2 from "../route/RouteSystem2";
+import RouteSystem2 from "../route/RouteSystem2";
+import { apiLogin } from "../utils/api/apiAuth";
+import type HeaderComponent from "../components/header/HeaderComponent";
 
 class LoginBox extends  Box2{
 
     routeSytem: RouteSystem2 | undefined;
+    header?: HeaderComponent;
     loginBoxSystem: LoginBoxSystem = new LoginBoxSystem(this, );
 
 
@@ -17,12 +20,9 @@ class LoginBox extends  Box2{
 	super(name);
     }
 
-    setRouteSystem(routeSystem: RouteSystem2){
+    public setComponent(routeSystem: RouteSystem2, header: HeaderComponent){
 	this.routeSytem = routeSystem;
-    }
-
-    public initComponent(){
-
+	this.header = header;
     }
 
     override initElements(): void {
@@ -63,7 +63,16 @@ class LoginBox extends  Box2{
     }
 
     override eventElements(): void {
-	this.addEvent("loginButton", "click", ()=>{
+	if(this.routeSytem){
+	    throw new Error("routeSystem is undefined");
+	}
+
+	if(this.header){
+	    throw new Error("header is undefined");
+	};
+
+
+	this.addEvent("loginButton", "click", async()=>{
 	    console.log("Auth login")
 	    const inputBox = this.getChild("inputBox"); 
 	    const usernameInput = inputBox.getChildSelf("usernameInput") as HTMLInputElement;
@@ -72,7 +81,15 @@ class LoginBox extends  Box2{
 	    const username = usernameInput.value;
 	    const password = passwordInput.value;
 
-	    this.loginBoxSystem.authenticate(username, password);
+	    const payload: Record<string, string> = {
+		"username": username,
+		"password": password
+	    }
+	    console.log(await apiLogin(payload));
+	    this.header?.system.updateProfile();
+	    console.log("headerSystem look here: ", this.header?.system);
+	    this.routeSytem?.navigate("/");
+	    console.log("routeSystem: ", this.routeSytem);
 	})
     }
 

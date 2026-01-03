@@ -36,6 +36,7 @@ class HeaderComponentSystem{
     }
 
     async updateProfile(){
+	console.log("profile updating");
 	const tokenStatus = await checkAccessToken();
 	console.log("tokenStatus: ", tokenStatus);
 

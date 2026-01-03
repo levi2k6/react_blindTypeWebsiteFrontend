@@ -105,6 +105,7 @@ class RouteSystem2{
     }
 
     public navigate(routerName: string){
+	console.log("navigating to router: ", routerName);
 	this.router.navigate(routerName);
 	this.router.resolve();
     }
