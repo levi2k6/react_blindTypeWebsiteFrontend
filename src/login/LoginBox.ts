@@ -23,6 +23,7 @@ class LoginBox extends  Box2{
     public setComponent(routeSystem: RouteSystem2, header: HeaderComponent){
 	this.routeSytem = routeSystem;
 	this.header = header;
+	console.log("LoginBox header: ", this.header); 
     }
 
     override initElements(): void {
@@ -63,11 +64,11 @@ class LoginBox extends  Box2{
     }
 
     override eventElements(): void {
-	if(this.routeSytem){
+	if(!this.routeSytem){
 	    throw new Error("routeSystem is undefined");
 	}
 
-	if(this.header){
+	if(!this.header){
 	    throw new Error("header is undefined");
 	};
 
@@ -86,10 +87,9 @@ class LoginBox extends  Box2{
 		"password": password
 	    }
 	    console.log(await apiLogin(payload));
-	    this.header?.system.updateProfile();
-	    console.log("headerSystem look here: ", this.header?.system);
+	    await this.header?.system.setCurrentUser();
+	    this.header?.system.switchAuthToProfile();
 	    this.routeSytem?.navigate("/");
-	    console.log("routeSystem: ", this.routeSytem);
 	})
     }
 

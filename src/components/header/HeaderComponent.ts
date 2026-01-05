@@ -26,37 +26,7 @@ class HeaderComponent extends Component2{
 	this.routeSystem = routeSystem;
     }
 
-    override async initElements(){
-	await this.headerSystem.updateProfile();
-
-	this.headerSystem.switchAuthtoProfile();
-	const name = AuthState.getAuthUser()?.name;
-
-	if(!name) return;
-	console.log("name: ", name);
-	// this.profile.setProfileName(name);
-    }
-
     override structureElements(): Array<Component2> {
-
-	// this.self.appendChild(this.title);
-	// this.self.appendChild(this.buttonTest);
-	//
-	// this.navigation.addChildren([
-	//     this.navAbout,
-	//     this.navGame
-	// ]);
-	//
-	// this.self.appendChild(this.navigation.self);
-	// this.divAuth.addChildren([
-	//     this.authButtons.addChildren([
-	// 	this.signup,
-	// 	this.login,
-	//     ]),
-	//     this.profile,
-	// ]);
-	// this.self.appendChild(this.divAuth.self);
-	
 	const buttonTest: Element = new Element("button", "buttonTest", "text");
 	const title: Element = new Element("h2", "title", "Blind Type");
 	const navigation: Box2 = new Box2("navigation");
@@ -87,7 +57,23 @@ class HeaderComponent extends Component2{
     }
 
     override initSystems(){
+	if(!this.routeSystem){
+	    throw new Error("routeSystem is undefined");
+	}
+	const profile = this.getChild("divAuth").getChild("profile") as Profile;
+	profile.setComponent(this.routeSystem);
 
+    }
+
+    override async initElements(){
+	await this.headerSystem.updateProfile();
+
+	this.headerSystem.switchAuthToProfile();
+	const name = AuthState.getAuthUser()?.name;
+
+	if(!name) return;
+	console.log("name: ", name);
+	// this.profile.setProfileName(name);
     }
 
     override eventElements(): void {
@@ -152,7 +138,7 @@ class HeaderComponent extends Component2{
 
 	// this.authButtons.style.display = "flex";
 	
-	this.headerSystem.switchAuthtoProfile();
+	this.headerSystem.switchAuthToProfile();
 	this.getChild("divAuth").styleChild("authButtons").gap = "10px";
     }
 

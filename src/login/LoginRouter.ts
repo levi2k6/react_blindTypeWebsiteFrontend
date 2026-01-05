@@ -8,7 +8,6 @@ import type HeaderComponent from "../components/header/HeaderComponent";
 
 class LoginRouter extends Box2{
 
-    // public loginRouterSystem: LoginRouterSystem = new LoginRouterSystem(this);
     public header?: HeaderComponent;
     public routeSystem?: RouteSystem2;
 
