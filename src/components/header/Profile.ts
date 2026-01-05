@@ -4,17 +4,22 @@ import Element from "../../class/Element";
 import AuthState from "../../utils/authState";
 import HeaderComponent from "./HeaderComponent"; 
 import { apiLogout } from "../../utils/api/apiAuth";
+import type RouteSystem2 from "../../route/RouteSystem2";
 
 class Profile extends Box2{
 
     isShow: boolean = false;
-
     header: HeaderComponent; 
+    routeSystem?: RouteSystem2;
 
 
     constructor(header: HeaderComponent, name: string) {
         super(name);
 	this.header = header;
+    }
+
+    public setComponent(routeSystem: RouteSystem2){
+	this.routeSystem = routeSystem;
     }
 
     override initElements(): void {
@@ -51,7 +56,8 @@ class Profile extends Box2{
 	    console.log("response: ", response);
 	    localStorage.removeItem("user");
 	    AuthState.setAuthUser(null);
-	    this.header.headerSystem.switchAuthtoProfile();
+	    this.header.headerSystem.switchAuthToProfile();
+	    this.routeSystem?.navigate("/login");
 	})
 
     }

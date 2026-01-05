@@ -20,8 +20,6 @@ class GameRouter extends Box2{
     private input: Input;
     private gameRouterSystem: GameRouterSystem; 
 
-    // public testButton = createElement("button", "DESTROY");
-
     constructor(name: string, lifeCycleSystem: LifeCycleSystem){
 	super(name);
 	this.lifCycleSystem = lifeCycleSystem;
@@ -105,58 +103,6 @@ class GameRouter extends Box2{
 	    ]),
 	    new Element("button", "testButton", "text click")
 	]
-
-	// const textAudio = new TextAudio("GameTextAudio"); 
-	// const visualizer: Visualizer = new Visualizer(textAudio.getChildSelf("audio") as HTMLAudioElement);
-	// const divGradient = new Box2("divGradient");
-	// const textHolder = new TextHolder("TextHolder");
-	//
-	// const div1: Box2 = new Box2("div1");
-	//     const startButton: Element = new Element("button", "Start"); 
-	//     const divSettings: Box2 = new Box2("div2");
-	// 	const divLetter: Box2 = new Box2("divLetter");
-	// 	    const letterSettings: Element = new Element("button", "letterSettings");
-	// 		const letterSettingsIcon: Element = new Element("i", "letterSettingsIcon"); 
-	// 	    const letterButton: Element = new Element("button", "letterButton");
-	// 	const divWord: Box2 = new Box2("divWord");
-	// 	    const wordSettings: Element = new Element("button", "wordSettings");
-	// 		const wordSettingsIcon: Element = new Element("i", "wordSettingsIcon");
-	// 	    const wordButton: Element = new Element("button", "Word");
-	// 	const divSentence: Box2 = new Box2("divSentence");
-	// 	    const sentenceSettings: Element = new Element("button", "sentenceSettings");
-	// 		const sentenceSettingsIcon: Element = new Element("i", "sentenceSettingsIcon");
-	// 	    const sentenceButton: Element = new Element("button", "Sentence");
-	//
-	// return [
-	//     visualizer,
-	//     divGradient,
-	//     textHolder,
-	//     div1.addChildren([
-	// 	startButton,
-	// 	divSettings.addChildren([
-	// 	    divLetter.addChildren([
-	// 		letterSettings.addChildren([
-	// 		    letterSettingsIcon
-	// 		]),
-	// 		letterButton
-	// 	    ]),
-	// 	    divWord.addChildren([
-	// 		wordSettings.addChildren([
-	// 		    wordSettings.addChildren([
-	// 			wordSettingsIcon
-	// 		    ])
-	// 		]),
-	// 		wordButton
-	// 	    ]),
-	// 	    divSentence.addChildren([
-	// 		sentenceSettings.addChildren([
-	// 		    sentenceSettingsIcon
-	// 		]),
-	// 		sentenceButton
-	// 	    ])
-	// 	])
-	//     ])
-	// ]
 
     }
 

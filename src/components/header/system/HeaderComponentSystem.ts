@@ -21,8 +21,10 @@ class HeaderComponentSystem{
 	this.routeSystem = routeSystem;
     }
 
-    switchAuthtoProfile(){
+    public switchAuthToProfile(){
+	console.log("switchAuthToProfile");
 	const user = localStorage.getItem("user");
+	console.log("user: ", user);
 
 	const divAuth = this.header.getChild("divAuth")
 
@@ -36,6 +38,7 @@ class HeaderComponentSystem{
     }
 
     async updateProfile(){
+	console.log("profile updating");
 	const tokenStatus = await checkAccessToken();
 	console.log("tokenStatus: ", tokenStatus);
 
@@ -56,13 +59,16 @@ class HeaderComponentSystem{
 	await this.setCurrentUser();
     }
 
-    private async setCurrentUser(){
+    public async setCurrentUser(){
 	const user = localStorage.getItem("user");
 
-	console.log("user: ", user);
+	console.log("set CurrentUser user: ", user);
+	console.log("state: ", !user);
 	if(!user){
+	    console.log("it did triggered this");
 	    // const response: Response<User> = await apiFetch("GET", "http://localhost:8080/api/v1/private/user/auth-user");
 	    const response: Response<User> = await getAuthUser(); 
+	    console.log("setCurrentUser Response: ", response);
 	    AuthState.setAuthUser(response.data);
 	    const responseUser: User | null = AuthState.getAuthUser();
 

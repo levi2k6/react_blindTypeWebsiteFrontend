@@ -7,8 +7,8 @@ const credentials = "include";
 
 const api = new Api(uri, headers, credentials);
 
-export function apiLogin(){
-    return api.get("/public/auth/login");
+export function apiLogin(payload: Record<string, string>){
+    return api.post("/public/auth/login", payload);
 } 
 
 export function apiLogout(){

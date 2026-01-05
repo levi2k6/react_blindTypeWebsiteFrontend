@@ -45,7 +45,7 @@ class LoginBoxSystem{
 
 	    console.log("login response: ", data);
 	    console.log("updated");
-	    this.loginBox.routeSytem?.navigate("/auth");
+	    this.loginBox.routeSytem?.navigate("/");
 	    return data;
 
 	} catch (ex) {
