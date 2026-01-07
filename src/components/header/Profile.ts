@@ -30,12 +30,16 @@ class Profile extends Box2{
     override structureElements(): Array<Component2> {
 	const aProfile: Element = new Element("a", "aProfile");
 	const divOption: Box2 = new Box2("divOption");
+	    const profile: Element = new Element("button", "profile", "profile"); 
+	    const stats: Element = new Element("button", "stats", "stats");
 	    const logoutButton: Element = new Element("button", "logoutButton", "logout");
 	    const selectAccountButton: Element = new Element("button", "selectAccountButton", "select account");
 
 	return [
 	    aProfile,
 	    divOption.addChildren([
+		profile,
+		stats,
 		logoutButton,
 		selectAccountButton
 	    ])
@@ -97,25 +101,25 @@ class Profile extends Box2{
         divOption.style.marginTop = "2px";
 
         // --- Dropdown buttons ---
-	const logoutButton = divOption.getChild("logoutButton"); 
-	const selectAccount = divOption.getChild("selectAccountButton");
-        [logoutButton, selectAccount].forEach((btn) => {
-            btn.style.cursor = "pointer";
-            btn.style.border = "none";
-            btn.style.background = "transparent";
-            btn.style.padding = "6px 10px";
-            btn.style.textAlign = "left";
-            btn.style.width = "100%";
-            btn.style.boxSizing = "border-box";
-            btn.style.color = "inherit";
-
-            btn.self.addEventListener("mouseenter", () => {
-                btn.style.background = "#33333333";
-            });
-            btn.self.addEventListener("mouseleave", () => {
-                btn.style.background = "transparent";
-            });
-        });
+	// const logoutButton = divOption.getChild("logoutButton"); 
+	// const selectAccount = divOption.getChild("selectAccountButton");
+	//        [logoutButton, selectAccount].forEach((btn) => {
+	//            btn.style.cursor = "pointer";
+	//            btn.style.border = "none";
+	//            btn.style.background = "transparent";
+	//            btn.style.padding = "6px 10px";
+	//            btn.style.textAlign = "left";
+	//            btn.style.width = "100%";
+	//            btn.style.boxSizing = "border-box";
+	//            btn.style.color = "inherit";
+	//
+	//            btn.self.addEventListener("mouseenter", () => {
+	//                btn.style.background = "#33333333";
+	//            });
+	//            btn.self.addEventListener("mouseleave", () => {
+	//                btn.style.background = "transparent";
+	//            });
+	//        });
     }
 
     setProfileName(userName: string) {

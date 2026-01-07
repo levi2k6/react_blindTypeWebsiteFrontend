@@ -41,30 +41,6 @@ class GameConfigModal extends Box2{
     }
 
     override structureElements(): Array<Component2> {
-	// this.addChildren([
-	//     this.div1.addChild(
-	// 	this.divForm.addChildren([
-	// 	    this.divLabel.addChildren([
-	// 		this.labelDifficulty,
-	// 		this.labelMultiple,
-	// 		this.labelContinuous
-	// 	    ]),
-	// 	    this.divInput.addChildren([
-	// 		this.inputDifficulty,
-	// 		this.inputMultiple,
-	// 		this.inputContinuous
-	// 	    ])
-	// 	])
-	//     ),
-	//     this.div2.addChild(
-	// 	this.divButtons.addChildren([
-	// 	    this.apply,
-	// 	    this.close
-	// 	])
-	//     )
-	// ])
-	
-
 	const div1 = new Box2("div1");
 	    const divForm = new Box2("divForm");
 		const divLabel = new Box2("divLabel");

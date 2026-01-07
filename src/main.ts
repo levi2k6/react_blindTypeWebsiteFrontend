@@ -13,6 +13,7 @@ import LoginRouter from './login/LoginRouter.ts';
 import AboutRouter from './about/AboutRouter.ts';
 import RegisterRouter from './register/RegisterRouter.ts';
 import Resolver from './systems/Resolver.ts';
+import InfoRouter from './profile/InfoRouter.ts';
 
 async function Main(){
 
@@ -27,6 +28,7 @@ async function Main(){
     const loginRouter: LoginRouter = new LoginRouter("LoginRouter");
     const registerRouter: RegisterRouter = new RegisterRouter("RegisterRouter");
     const aboutRouter: AboutRouter = new AboutRouter("AboutRouter");
+    const infoRouter: InfoRouter = new  InfoRouter("InfoRouter");
 
     const resolver: Resolver = new Resolver(
 	lifeCycleSystem,
@@ -49,7 +51,8 @@ async function Main(){
 	gameRouter,
 	loginRouter,
 	registerRouter,
-	aboutRouter
+	aboutRouter,
+	infoRouter
     ); 
 
 }

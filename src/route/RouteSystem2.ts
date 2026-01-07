@@ -9,6 +9,7 @@ import type LoginRouter from "../login/LoginRouter";
 import type HeaderComponent from "../components/header/HeaderComponent";
 import type AboutRouter from "../about/AboutRouter";
 import type RegisterRouter from "../register/RegisterRouter";
+import type InfoRouter from "../profile/InfoRouter";
 
 class RouteSystem2{
     
@@ -28,6 +29,7 @@ class RouteSystem2{
     private loginRouter: LoginRouter;
     private registerRouter: RegisterRouter;
     private aboutRouter: AboutRouter;
+    private infoRouter: InfoRouter;
 
     constructor(
 	lifeCycleSystem: LifeCycleSystem,
@@ -38,7 +40,8 @@ class RouteSystem2{
 	gameRouter: GameRouter,
 	loginRouter: LoginRouter,
 	registerRouter: RegisterRouter,
-	aboutRouter: AboutRouter
+	aboutRouter: AboutRouter,
+	infoRouter: InfoRouter 
     ){
 	this.lifeCycleSystem = lifeCycleSystem;
 	this.header = header;
@@ -49,6 +52,7 @@ class RouteSystem2{
 	this.loginRouter = loginRouter;
 	this.registerRouter = registerRouter;
 	this.aboutRouter = aboutRouter;
+	this.infoRouter = infoRouter;
 
 	console.log("lifeCycleSystem instance:", this.lifeCycleSystem);
 	console.log("methods:", Object.getOwnPropertyNames(Object.getPrototypeOf(this.lifeCycleSystem)));
@@ -93,6 +97,7 @@ class RouteSystem2{
 	.on("/login", ()=> this.changeRouterHandler(this.loginRouter))
 	.on("/register", ()=> this.changeRouterHandler(this.registerRouter))
 	.on("/about", ()=> this.changeRouterHandler(this.aboutRouter))
+	.on("/info", ()=> this.changeRouterHandler(this.infoRouter))
 	.on("/test", ()=> this.changeRouterHandler(this.test1))
 	.resolve();
     }
