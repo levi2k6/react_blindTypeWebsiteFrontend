@@ -86,7 +86,17 @@ class LoginBox extends  Box2{
 		"username": username,
 		"password": password
 	    }
-	    console.log(await apiLogin(payload));
+
+	    const response = await apiLogin(payload);
+
+	    console.log("response", response);
+
+	    if(!response.success){
+		const loginMessage = this.getChildSelf("loginMessage");
+		loginMessage.innerText = response.message;
+		return
+	    }
+
 	    await this.header?.system.setCurrentUser();
 	    this.header?.system.switchAuthToProfile();
 	    this.routeSytem?.navigate("/");

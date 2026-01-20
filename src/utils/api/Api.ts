@@ -47,7 +47,7 @@ export class Api{
 
         const response = await fetch(url, options);
 
-        if (!response.ok) {
+        if (response.status >= 500) {
             const errorText = await response.text();
             throw new Error(errorText || `Request failed: ${response.status}`);
         }

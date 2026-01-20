@@ -37,6 +37,11 @@ class RegisterRouter extends Box2{
 			const emailLabel = new Element("label", "emailLabel", "Email");  
 		    const emailInput = new InputComponent("emailInput", "email"); 
 
+		const nameDiv = new Box2("nameDiv");
+		    const nameLabelDiv = new Box2("nameLabelDiv");
+			const nameLabel = new Element("label", "nameLabel", "Name");
+		    const nameInput = new InputComponent("nameInput", "text");
+
 		const genderDiv = new Box2("genderDiv");
 		    const genderLabelDiv = new Box2("genderLabelDiv");
 			const genderLabel = new Element("label", "genderLabel", "Gender");  
@@ -64,6 +69,10 @@ class RegisterRouter extends Box2{
 		    emailDiv.addChildren([
 			emailLabelDiv.addChildren([emailLabel]),
 			emailInput
+		    ]),
+		    nameDiv.addChildren([
+			nameLabelDiv.addChildren([nameLabel]),
+			nameInput
 		    ]),
 		    genderDiv.addChildren([
 			genderLabelDiv.addChildren([genderLabel]),
@@ -156,6 +165,13 @@ class RegisterRouter extends Box2{
 	emailDiv.style.border = "1px solid green";
 	const emailLabelDiv = emailDiv.getChild("emailLabelDiv");
 	emailLabelDiv.style.display = "flex";
+
+	const nameDiv = inputDiv.getChild("nameDiv");
+	nameDiv.style.display = "flex";
+	nameDiv.style.flexDirection = "column";
+	nameDiv.style.border = "1px solid green";
+	const nameLabelDiv = nameDiv.getChild("nameLabelDiv"); 
+	nameLabelDiv.style.display = "flex";
 	
 	const genderDiv = inputDiv.getChild("genderDiv");
 	genderDiv.style.display = "flex";

@@ -38,25 +38,27 @@ class HeaderComponentSystem{
     }
 
     async updateProfile(){
-	console.log("profile updating");
-	const tokenStatus = await checkAccessToken();
-	console.log("tokenStatus: ", tokenStatus);
 
-	if(!tokenStatus){
-	    localStorage.removeItem("user");
-	    const response = await refreshToken();
-	    if(!response.data){
-		return;
-	    }
 
-	    const tokenStatus = await checkAccessToken();
-	    if(!tokenStatus.data){
-		console.warn("Warning in HeaderSystem updateProfile()");
-		return;
-	    }
-	}
-
-	await this.setCurrentUser();
+	// console.log("profile updating");
+	// const tokenStatus = await checkAccessToken();
+	// console.log("tokenStatus: ", tokenStatus);
+	//
+	// if(!tokenStatus){
+	//     localStorage.removeItem("user");
+	//     const response = await refreshToken();
+	//     if(!response.data){
+	// 	return;
+	//     }
+	//
+	//     const tokenStatus = await checkAccessToken();
+	//     if(!tokenStatus.data){
+	// 	console.warn("Warning in HeaderSystem updateProfile()");
+	// 	return;
+	//     }
+	// }
+	//
+	// await this.setCurrentUser();
     }
 
     public async setCurrentUser(){
