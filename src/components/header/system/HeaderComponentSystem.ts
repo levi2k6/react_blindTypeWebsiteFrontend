@@ -1,7 +1,7 @@
 import { apiFetch, checkAccessToken, refreshToken } from "../../../utils/apiUtils";
 import type { Response, User } from "../../../utils/interfaces";
 import AuthState from "../../../utils/authState";
-import { getAuthUser } from "../../../utils/api/apiUser";
+import { apiGetAuthUser } from "../../../utils/api/apiUser";
 import type HeaderComponent from "../HeaderComponent";
 import type Profile from "../Profile";
 import type RouteSystem2 from "../../../route/RouteSystem2";
@@ -38,8 +38,6 @@ class HeaderComponentSystem{
     }
 
     async updateProfile(){
-
-
 	// console.log("profile updating");
 	// const tokenStatus = await checkAccessToken();
 	// console.log("tokenStatus: ", tokenStatus);
@@ -69,7 +67,7 @@ class HeaderComponentSystem{
 	if(!user){
 	    console.log("it did triggered this");
 	    // const response: Response<User> = await apiFetch("GET", "http://localhost:8080/api/v1/private/user/auth-user");
-	    const response: Response<User> = await getAuthUser(); 
+	    const response: Response<User> = await apiGetAuthUser(); 
 	    console.log("setCurrentUser Response: ", response);
 	    AuthState.setAuthUser(response.data);
 	    const responseUser: User | null = AuthState.getAuthUser();

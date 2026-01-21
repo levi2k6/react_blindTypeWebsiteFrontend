@@ -8,15 +8,19 @@ const credentials = "include";
 const api = new Api(uri, headers, credentials);
 
 export function apiLogin(payload: Record<string, string>){
-    return api.post("/public/auth/login", payload);
+    return api.post("/auth/login", payload);
 } 
 
 export function apiLogout(){
-    return api.get("/public/auth/logout")
+    return api.get("/auth/logout");
 }
 
 export function apiRegister(payload: Record<string, string>){
-    return api.post("/public/auth/register", payload)
+    return api.post("/auth/register", payload);
+} 
+
+export function apiRefresh(){
+    return api.get("/auth/refresh");
 } 
 
 

@@ -9,18 +9,18 @@ const api = new Api(url, headers, credentials);
 
 
 export function getRandomGameChallenge(type: string, amount: number): Promise<Response<Challenge[]>>{
-    return api.get(`/public/game/${type.toLowerCase()}/challenge/random?amount=${amount}`)
+    return api.get(`/game/${type.toLowerCase()}/challenge/random?amount=${amount}`)
 }
 
 // export function getRandomLetter(amount: number){
-//     api.get(`/public/game/letter/challenge/random?amount=${amount}`);
+//     api.get(`/game/letter/challenge/random?amount=${amount}`);
 // }; 
 //
 // export function getRandomWord(amount: number){
-//     api.get(`/public/game/word/challenge/random?amount=${amount}`);
+//     api.get(`/game/word/challenge/random?amount=${amount}`);
 // };
 //
 // export function getSentence(amount: number){
-//     api.get(`/public/game/sentence/challenge/random?amount=${amount}`);
+//     api.get(`/game/sentence/challenge/random?amount=${amount}`);
 // };
 

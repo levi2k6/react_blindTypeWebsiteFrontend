@@ -7,11 +7,11 @@ const credentials = "include";
 
 const api = new Api(url, headers, credentials);
 
-export function getAuthUser(): Promise<Response<User>>{
-    return api.get("/private/user/auth-user");
+export function apiGetAuthUser(): Promise<Response<User>>{
+    return api.get("/user/auth-user");
 } 
 
-export function registerUser(registerPayload: Record<string, string>){
-    api.post("/private/user/register", registerPayload, )
+export function apiRegisterUser(registerPayload: Record<string, string>){
+    api.post("/user/register", registerPayload, )
 }
 

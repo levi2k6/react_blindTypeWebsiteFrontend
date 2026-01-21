@@ -13,7 +13,7 @@ class LoginBoxSystem{
     public async authenticate(username: string, password: string) {
 	console.log("Authenticating...");
 	try {
-	    const loginUrl = import.meta.env.VITE_URL + "/public/auth/login";
+	    const loginUrl = import.meta.env.VITE_URL + "/auth/login";
 	    console.log("loginUrl: ", loginUrl);
 
 	    const loginDto: LoginDTO = {

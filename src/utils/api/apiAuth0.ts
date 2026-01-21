@@ -7,7 +7,7 @@ const credentials = "include";
 const api = new Api(url, headers, credentials);
 
 export function login(){
-    api.get("/public/auth0/login");
+    api.get("/auth0/login");
 } 
 
 

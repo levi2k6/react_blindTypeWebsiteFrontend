@@ -8,7 +8,7 @@ class ApiService{
 
     public async getCurrentUser(){
 	try{
-	const response = await fetch("http://localhost:8080/api/v1/private/auth0/auth-user", {
+	const response = await fetch("http://localhost:8080/api/v1/auth0/auth-user", {
 	    method: "GET",
 	    credentials: "include",
 	})

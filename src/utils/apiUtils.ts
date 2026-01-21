@@ -49,13 +49,13 @@ export async function apiToken(url: string, tokenType: string) {
 }
 
 export async function checkAccessToken(){
-    const response = await apiToken("http://localhost:8080/api/v1/private/auth0/checkToken", "access_token");
+    const response = await apiToken("http://localhost:8080/api/v1/auth0/checkToken", "access_token");
 
     return response; 
 }
 
 export async function refreshToken() {
-    const  response = await apiToken("http://localhost:8080/api/v1/public/auth0/refresh", "refresh_token");
+    const  response = await apiToken("http://localhost:8080/api/v1/auth0/refresh", "refresh_token");
     return response;
 }
 
