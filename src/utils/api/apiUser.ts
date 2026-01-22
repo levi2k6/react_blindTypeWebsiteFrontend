@@ -15,3 +15,4 @@ export function apiRegisterUser(registerPayload: Record<string, string>){
     api.post("/user/register", registerPayload, )
 }
 
+

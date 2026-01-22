@@ -20,6 +20,8 @@ class RegisterRouterSystem{
 		inputDiv.getChild("passwordDiv").styleChild("passwordLabelDiv").color = "red";
 	    }else if(error === "email"){
 		inputDiv.getChild("emailDiv").styleChild("emailLabelDiv").color = "red";
+	    }else if(error == "name"){
+		inputDiv.getChild("nameDiv").styleChild("nameLabelDiv").color = "red";
 	    }else if(error === "gender"){
 		inputDiv.getChild("genderDiv").styleChild("genderLabelDiv").color = "red";
 	    }else if(error === "birthdate"){
@@ -38,6 +40,9 @@ class RegisterRouterSystem{
 	}
 	if(!payload.email){
 	    this.formErrors.push("email");
+	}
+	if(!payload.name){
+	    this.formErrors.push("name");
 	}
 	if(!payload.gender){
 	    this.formErrors.push( "gender");

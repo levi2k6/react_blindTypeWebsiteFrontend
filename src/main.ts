@@ -14,8 +14,12 @@ import AboutRouter from './about/AboutRouter.ts';
 import RegisterRouter from './register/RegisterRouter.ts';
 import Resolver from './systems/Resolver.ts';
 import InfoRouter from './profile/InfoRouter.ts';
+import StartupSystem from './systems/StartupSystem.ts';
 
 async function Main(){
+
+    const startupSystem: StartupSystem = new StartupSystem();
+    await startupSystem.start();
 
     const header: HeaderComponent = new HeaderComponent();
     const app: AppComponent = new AppComponent();
@@ -29,6 +33,7 @@ async function Main(){
     const registerRouter: RegisterRouter = new RegisterRouter("RegisterRouter");
     const aboutRouter: AboutRouter = new AboutRouter("AboutRouter");
     const infoRouter: InfoRouter = new  InfoRouter("InfoRouter");
+
 
     const resolver: Resolver = new Resolver(
 	lifeCycleSystem,

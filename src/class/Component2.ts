@@ -1,7 +1,6 @@
 import type Component from "./Component";
 
 abstract class Component2{
-
     private element: HTMLElement;
     private name: string;
     private parent?: Component2;

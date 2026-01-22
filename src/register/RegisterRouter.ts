@@ -1,8 +1,8 @@
 import Box2 from "../class/Box2";
 import type Component2 from "../class/Component2";
 import Element from "../class/Element";
+import FormFactory from "../class/FormFactory";
 import InputComponent from "../class/InputComponent";
-import SelectComponent from "../class/Select";
 import RegisterRouterSystem from "./RegisterRouterSystem";
 
 class RegisterRouter extends Box2{
@@ -18,73 +18,80 @@ class RegisterRouter extends Box2{
 
 	const registerH1 = new Element("h1", "registerH1", "Register"); 
 
-	const registerForm = new Element("form", "registerForm"); 
+	const registerForm = new FormFactory("registerForm")
+	    .addInput("username", "text")
+	    .addInput("password", "password")
+	    .addInput("email", "email")
+	    .addInput("name", "text")
+	    .addSelect("gender", ["MALE", "FEMALE", "OTHER"])
+	    .addInput("birthdate", "date")
+	    .build();
 
-	    const inputDiv = new Box2("inputDiv");  
-	
-		const usernameDiv = new Box2("usernameDiv");
-		    const usernameLabelDiv = new Box2("usernameLabelDiv");
-			const usernameLabel = new Element("label", "usernameLabel", "Username");  
-		    const usernameInput = new InputComponent("usernameInput", "text"); 
-
-		const passwordDiv = new Box2("passwordDiv");
-		    const passwordLabelDiv = new Box2("passwordLabelDiv");
-			const passwordLabel = new Element("label", "passwordLabel", "Password");  
-		    const passwordInput = new InputComponent("passwordInput", "password"); 
-
-		const emailDiv = new Box2("emailDiv");
-		    const emailLabelDiv = new Box2("emailLabelDiv"); 
-			const emailLabel = new Element("label", "emailLabel", "Email");  
-		    const emailInput = new InputComponent("emailInput", "email"); 
-
-		const nameDiv = new Box2("nameDiv");
-		    const nameLabelDiv = new Box2("nameLabelDiv");
-			const nameLabel = new Element("label", "nameLabel", "Name");
-		    const nameInput = new InputComponent("nameInput", "text");
-
-		const genderDiv = new Box2("genderDiv");
-		    const genderLabelDiv = new Box2("genderLabelDiv");
-			const genderLabel = new Element("label", "genderLabel", "Gender");  
-		    const genderInput = new SelectComponent("genderInput", ["MALE", "FEMALE", "OTHER"]); 
-
-		const birthdateDiv = new Box2("birthdateDiv");
-		    const birthdateLabelDiv = new Box2("birthdateLabelDiv");
-			const birthdateLabel = new Element("label", "birthdateLabel", "Birthdate");  
-		    const birthdateInput = new InputComponent("birthdateInput", "date"); 
-
-	    const submitButton = new InputComponent("submitButton", "submit");
+	// const registerForm = new Element("form", "registerForm"); 
+	//
+	//     const inputDiv = new Box2("inputDiv");  
+	//
+	// 	const usernameDiv = new Box2("usernameDiv");
+	// 	    const usernameLabelDiv = new Box2("usernameLabelDiv");
+	// 		const usernameLabel = new Element("label", "usernameLabel", "Username");  
+	// 	    const usernameInput = new InputComponent("usernameInput", "text"); 
+	//
+	// 	const passwordDiv = new Box2("passwordDiv");
+	// 	    const passwordLabelDiv = new Box2("passwordLabelDiv");
+	// 		const passwordLabel = new Element("label", "passwordLabel", "Password");  
+	// 	    const passwordInput = new InputComponent("passwordInput", "password"); 
+	//
+	// 	const emailDiv = new Box2("emailDiv");
+	// 	    const emailLabelDiv = new Box2("emailLabelDiv"); 
+	// 		const emailLabel = new Element("label", "emailLabel", "Email");  
+	// 	    const emailInput = new InputComponent("emailInput", "email"); 
+	//
+	// 	const nameDiv = new Box2("nameDiv");
+	// 	    const nameLabelDiv = new Box2("nameLabelDiv");
+	// 		const nameLabel = new Element("label", "nameLabel", "Name");
+	// 	    const nameInput = new InputComponent("nameInput", "text");
+	//
+	// 	const genderDiv = new Box2("genderDiv");
+	// 	    const genderLabelDiv = new Box2("genderLabelDiv");
+	// 		const genderLabel = new Element("label", "genderLabel", "Gender");  
+	// 	    const genderInput = new SelectComponent("genderInput", ["MALE", "FEMALE", "OTHER"]); 
+	//
+	// 	const birthdateDiv = new Box2("birthdateDiv");
+	// 	    const birthdateLabelDiv = new Box2("birthdateLabelDiv");
+	// 		const birthdateLabel = new Element("label", "birthdateLabel", "Birthdate");  
+	// 	    const birthdateInput = new InputComponent("birthdateInput", "date"); 
+	//
+	    // const submitButton = new InputComponent("submitButton", "submit");
 
 	return[
 	    registerH1,
 	    registerForm.addChildren([
-		inputDiv.addChildren([
-		    usernameDiv.addChildren([
-			usernameLabelDiv.addChildren([usernameLabel]),
-			usernameInput
-		    ]),
-		    passwordDiv.addChildren([
-			passwordLabelDiv.addChildren([passwordLabel]),
-			passwordInput
-		    ]),
-		    emailDiv.addChildren([
-			emailLabelDiv.addChildren([emailLabel]),
-			emailInput
-		    ]),
-		    nameDiv.addChildren([
-			nameLabelDiv.addChildren([nameLabel]),
-			nameInput
-		    ]),
-		    genderDiv.addChildren([
-			genderLabelDiv.addChildren([genderLabel]),
-			genderInput
-		    ]),
-		    birthdateDiv.addChildren([
-			birthdateLabelDiv.addChildren([birthdateLabel]),
-			birthdateInput
-		    ]),
-		]),
-		submitButton
-		
+		// inputDiv.addChildren([
+		//     usernameDiv.addChildren([
+		// 	usernameLabelDiv.addChildren([usernameLabel]),
+		// 	usernameInput
+		//     ]),
+		//     passwordDiv.addChildren([
+		// 	passwordLabelDiv.addChildren([passwordLabel]),
+		// 	passwordInput
+		//     ]),
+		//     emailDiv.addChildren([
+		// 	emailLabelDiv.addChildren([emailLabel]),
+		// 	emailInput
+		//     ]),
+		//     nameDiv.addChildren([
+		// 	nameLabelDiv.addChildren([nameLabel]),
+		// 	nameInput
+		//     ]),
+		//     genderDiv.addChildren([
+		// 	genderLabelDiv.addChildren([genderLabel]),
+		// 	genderInput
+		//     ]),
+		//     birthdateDiv.addChildren([
+		// 	birthdateLabelDiv.addChildren([birthdateLabel]),
+		// 	birthdateInput
+		//     ]),
+		// ]),
 	    ])
 	]
     } 
@@ -103,6 +110,7 @@ class RegisterRouter extends Box2{
 	    const usernameInput = inputDiv.getChild("usernameDiv").getChildSelf("usernameInput") as HTMLInputElement;
 	    const passwordInput = inputDiv.getChild("passwordDiv").getChildSelf("passwordInput") as HTMLInputElement;
 	    const emailInput = inputDiv.getChild("emailDiv").getChildSelf("emailInput") as HTMLInputElement; 
+	    const nameInput = inputDiv.getChild("nameDiv").getChildSelf("nameInput") as HTMLInputElement;
 	    const genderInput = inputDiv.getChild("genderDiv").getChildSelf("genderInput") as HTMLSelectElement;
 	    const birthdateInput = inputDiv.getChild("birthdateDiv").getChildSelf("birthdateInput") as HTMLInputElement; 
 
@@ -110,6 +118,7 @@ class RegisterRouter extends Box2{
 		username: usernameInput.value,
 		password: passwordInput.value,
 		email: emailInput.value,
+		name: nameInput.value, 
 		gender: genderInput.value,
 		birthdate: birthdateInput.value
 	    };

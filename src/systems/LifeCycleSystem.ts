@@ -8,6 +8,7 @@ class LifeCycleSystem{
     private header: HeaderComponent;
 
     public constructor(app: AppComponent, header: HeaderComponent){
+	console.log("LifeCycleSystem[]");
 	this.app = app;
 	this.header = header;
     }

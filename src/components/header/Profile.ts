@@ -14,17 +14,13 @@ class Profile extends Box2{
 
 
     constructor(header: HeaderComponent, name: string) {
+	console.log("Profile[]")
         super(name);
 	this.header = header;
     }
 
     public setComponent(routeSystem: RouteSystem2){
 	this.routeSystem = routeSystem;
-    }
-
-    override initElements(): void {
-        const aProfile = this.getChildSelf("aProfile") as HTMLAnchorElement;
-	aProfile.href = "#";
     }
 
     override structureElements(): Array<Component2> {
@@ -46,6 +42,18 @@ class Profile extends Box2{
 	]
 
    }
+
+    override initElements(): void {
+        const aProfile = this.getChildSelf("aProfile") as HTMLAnchorElement;
+	aProfile.href = "#";
+
+	const authUser = AuthState.getAuthUser();
+
+	if(authUser){
+	    aProfile.innerText = authUser?.name;
+	}
+    }
+
 
     override eventElements(): void {
 	const divOption = this.getChild("divOption");
