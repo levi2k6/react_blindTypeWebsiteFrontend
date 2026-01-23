@@ -23,12 +23,10 @@ class HeaderComponentSystem{
 
     public switchAuthToProfile(){
 	console.log("switchAuthToProfile");
-	const user = localStorage.getItem("user");
-	console.log("user: ", user);
-
+	const authUser = AuthState.getAuthUser();
 	const divAuth = this.header.getChild("divAuth")
 
-	if(user && user !== "undefined"){
+	if(authUser){
 	    divAuth.styleChild("authButtons").display = "none";
 	    divAuth.styleChild("profile").display = "flex";
 	}else{

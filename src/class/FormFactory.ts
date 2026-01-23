@@ -19,11 +19,6 @@ class FormFactory{
     }
 
     public addInput(name: string, type: string): FormFactory{
-	// const inputDiv = new Box2(`${name}Div`);
-	//     const inputLabelDiv = new Box2(`${name}LabelDiv`);
-	// 	const inputLabel = new Element("label", `${name}Label`, this.capitalizeLabel(name));  
-	//     const input = new InputComponent(`${name}Input`, type); 
-	
 	const inputBoxComponent: InputBoxComponent = new InputBoxComponent(name, type);
 	
 	this.inputDiv.addChildren([
@@ -34,11 +29,6 @@ class FormFactory{
     } 
 
     public addSelect(name: string, options: Array<string>): FormFactory{
-	// const selectDiv = new Box2(`${name}Div`);
-	//     const selectLabelDiv = new Box2(`${name}LabelDiv`);
-	// 	const selectLabel = new Element("label", `${name}Label`, this.capitalizeLabel(name));  
-	//     const select = new SelectComponent(`${name}Select`, options); 
-
 	const selectBoxComponent: SelectBoxComponent = new SelectBoxComponent(name, options);
 
 	this.inputDiv.addChildren([

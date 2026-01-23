@@ -101,6 +101,10 @@ class RegisterRouter extends Box2{
     }
 
     override initElements(){
+	// console.log("RegisterRouter initElements")
+	// const inputDiv = this.getChild("registerForm").getChild("inputDiv");
+	// console.log("inputDiv children: ", inputDiv.getChildren());
+
     }
 
     override eventElements(){
@@ -114,14 +118,16 @@ class RegisterRouter extends Box2{
 	    const genderInput = inputDiv.getChild("genderDiv").getChildSelf("genderInput") as HTMLSelectElement;
 	    const birthdateInput = inputDiv.getChild("birthdateDiv").getChildSelf("birthdateInput") as HTMLInputElement; 
 
-	    const payload: Record<string, string> = {
-		username: usernameInput.value,
-		password: passwordInput.value,
-		email: emailInput.value,
-		name: nameInput.value, 
-		gender: genderInput.value,
-		birthdate: birthdateInput.value
-	    };
+		//    const payload: Record<string, string> = {
+		// username: usernameInput.value,
+		// password: passwordInput.value,
+		// email: emailInput.value,
+		// name: nameInput.value, 
+		// gender: genderInput.value,
+		// birthdate: birthdateInput.value
+		//    };
+
+	    const payload: Map<string, Component2> = inputDiv.getChildren(); 
 
 	    console.log("payload: ", payload);
 	    this.registerRouterSystem.registerHandler(payload);

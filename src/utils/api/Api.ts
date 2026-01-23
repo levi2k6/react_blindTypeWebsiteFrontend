@@ -1,3 +1,4 @@
+import { ClientError, NetworkError, ServerError } from "../../exceptions/api/ApiError";
 import type { Response } from "../interfaces";
 
 export type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
@@ -45,14 +46,16 @@ export class Api{
             options.body = JSON.stringify(body);
         }
 
-        const response = await fetch(url, options);
+	try{
+	    const response = await fetch(url, options);
+	    if (response.status >= 500) {
+		throw new ServerError(`Server error request failed: ${response.status}`);
+	    }
+	    return response.json();
+	}catch(ex){
+	    throw new NetworkError("Network error during api request. The server could not be running ");
+	}
 
-        if (response.status >= 500) {
-            const errorText = await response.text();
-            throw new Error(errorText || `Request failed: ${response.status}`);
-        }
-
-        return response.json();
     }
 
     /** Shortcuts */
