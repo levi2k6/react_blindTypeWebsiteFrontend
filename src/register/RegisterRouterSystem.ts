@@ -14,25 +14,25 @@ class RegisterRouterSystem{
 	this.registerRouter = registerRouter;
     }
 
-    public setFormError(){
-	if(!this.registerRouter) throw new Error("registerRouter is undefined");
-	const inputDiv = this.registerRouter.getChild("registerForm").getChild("inputDiv");
-	this.formErrors.forEach(error => {
-	    if(error === "username"){
-		inputDiv.getChild("usernameDiv").styleChild("usernameLabelDiv").color = "red";
-	    }else if(error === "password"){
-		inputDiv.getChild("passwordDiv").styleChild("passwordLabelDiv").color = "red";
-	    }else if(error === "email"){
-		inputDiv.getChild("emailDiv").styleChild("emailLabelDiv").color = "red";
-	    }else if(error == "name"){
-		inputDiv.getChild("nameDiv").styleChild("nameLabelDiv").color = "red";
-	    }else if(error === "gender"){
-		inputDiv.getChild("genderDiv").styleChild("genderLabelDiv").color = "red";
-	    }else if(error === "birthdate"){
-		inputDiv.getChild("birthdateDiv").styleChild("birthdateLabelDiv").color = "red";
-	    }
-	});
-    }
+	//    public setFormError(){
+	// if(!this.registerRouter) throw new Error("registerRouter is undefined");
+	// const inputDiv = this.registerRouter.getChild("registerForm").getChild("inputDiv");
+	// this.formErrors.forEach(error => {
+	//     if(error === "username"){
+	// 	inputDiv.getChild("usernameDiv").styleChild("usernameLabelDiv").color = "red";
+	//     }else if(error === "password"){
+	// 	inputDiv.getChild("passwordDiv").styleChild("passwordLabelDiv").color = "red";
+	//     }else if(error === "email"){
+	// 	inputDiv.getChild("emailDiv").styleChild("emailLabelDiv").color = "red";
+	//     }else if(error == "name"){
+	// 	inputDiv.getChild("nameDiv").styleChild("nameLabelDiv").color = "red";
+	//     }else if(error === "gender"){
+	// 	inputDiv.getChild("genderDiv").styleChild("genderLabelDiv").color = "red";
+	//     }else if(error === "birthdate"){
+	// 	inputDiv.getChild("birthdateDiv").styleChild("birthdateLabelDiv").color = "red";
+	//     }
+	// });
+	//    }
 
     public registerHandler(payload: Map<string, Component2>){
 	console.log("registerHandler");
@@ -45,16 +45,30 @@ class RegisterRouterSystem{
 	    if(payload.get(key) instanceof InputBoxComponent){
 		inputBoxComponent = payload.get(key) as InputBoxComponent;
 		inputComponent = inputBoxComponent.getInput().self as HTMLInputElement; 
+		if(!inputComponent.value){
+		     if (!isRegisterFail) isRegisterFail = true;
+		     const inputLabel = inputBoxComponent.getLabel().self; 
+		     inputLabel.style.color = "red";
+		}
+
 	    }else if(payload.get(key) instanceof SelectBoxComponent){
 		inputBoxComponent = payload.get(key) as SelectBoxComponent;	
 		inputComponent = inputBoxComponent.getInput().self as HTMLSelectElement; 
+		if(!inputComponent.value){
+		     if (!isRegisterFail) isRegisterFail = true;
+		     const inputLabel = inputBoxComponent.getLabel().self; 
+		     inputLabel.style.color = "red";
+		}
+
 	    }
 
-	     if(!inputComponent.value){
-		 if (!isRegisterFail) isRegisterFail = true;
-		 const inputLabel = inputBoxComponent.getLabel().self; 
-		 inputLabel.style.color = "red";
-	     }
+		//    if(inputComponent instanceof HTMLInputElement){
+		// if(!inputComponent.value){
+		//      if (!isRegisterFail) isRegisterFail = true;
+		//      const inputLabel = inputBoxComponent.getLabel().self; 
+		//      inputLabel.style.color = "red";
+		// }
+		//    }
 	}
 	
 
