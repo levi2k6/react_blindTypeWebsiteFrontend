@@ -1,4 +1,5 @@
 import { ChallengeType } from "../../../utils/enums/ChallengeTypeEnum";
+import { backendUrl } from "../../../utils/globals/UrlState";
 import TextAudio from "../../component/TextAudio";
 
 class TextAudioSystem{
@@ -27,7 +28,7 @@ class TextAudioSystem{
 
 	const typeString = ChallengeType[type].toLowerCase();
 	let url;
-	url  = `http://localhost:8080/api/v1/audio/${typeString}/${audioName}`;
+	url  = backendUrl + `/audio/${typeString}/${audioName}`;
 
 	audio.src = url; 
 	audio.load();

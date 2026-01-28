@@ -5,11 +5,11 @@ import Test2 from "../test/Test2";
 import Component2 from "../class/Component2";
 import GameRouter from "../game/component/GameRouter";
 import AppComponent from "../components/app/AppComponent";
-import type LoginRouter from "../login/LoginRouter";
-import type HeaderComponent from "../components/header/HeaderComponent";
-import type AboutRouter from "../about/AboutRouter";
-import type RegisterRouter from "../register/RegisterRouter";
-import type InfoRouter from "../profile/InfoRouter";
+import LoginRouter from "../login/LoginRouter";
+import HeaderComponent from "../components/header/HeaderComponent";
+import AboutRouter from "../about/AboutRouter";
+import RegisterRouter from "../register/RegisterRouter";
+import type UserProfileRouter from "../user_profile/UserProfileRouter";
 
 class RouteSystem2{
     
@@ -29,7 +29,7 @@ class RouteSystem2{
     private loginRouter: LoginRouter;
     private registerRouter: RegisterRouter;
     private aboutRouter: AboutRouter;
-    private infoRouter: InfoRouter;
+    private userProfileRouter: UserProfileRouter;
 
     constructor(
 	lifeCycleSystem: LifeCycleSystem,
@@ -41,7 +41,7 @@ class RouteSystem2{
 	loginRouter: LoginRouter,
 	registerRouter: RegisterRouter,
 	aboutRouter: AboutRouter,
-	infoRouter: InfoRouter 
+	userProfileRouter: UserProfileRouter 
     ){
 	this.lifeCycleSystem = lifeCycleSystem;
 	this.header = header;
@@ -52,7 +52,7 @@ class RouteSystem2{
 	this.loginRouter = loginRouter;
 	this.registerRouter = registerRouter;
 	this.aboutRouter = aboutRouter;
-	this.infoRouter = infoRouter;
+	this.userProfileRouter = userProfileRouter;
 
 	console.log("lifeCycleSystem instance:", this.lifeCycleSystem);
 	console.log("methods:", Object.getOwnPropertyNames(Object.getPrototypeOf(this.lifeCycleSystem)));
@@ -97,8 +97,9 @@ class RouteSystem2{
 	.on("/login", ()=> this.changeRouterHandler(this.loginRouter))
 	.on("/register", ()=> this.changeRouterHandler(this.registerRouter))
 	.on("/about", ()=> this.changeRouterHandler(this.aboutRouter))
-	.on("/info", ()=> this.changeRouterHandler(this.infoRouter))
+	.on("/info", ()=> this.changeRouterHandler(this.userProfileRouter))
 	.on("/test", ()=> this.changeRouterHandler(this.test1))
+	// .on("/profile" ()=> this.changeRouterHandler(this.))
 	.resolve();
     }
 

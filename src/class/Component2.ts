@@ -111,6 +111,22 @@ abstract class Component2{
 	return this;
     }
 
+    public addChild(component: Component2): Component2{
+	if(this.children.has(component.name)){
+	    throw new Error(`Duplicate component name: ${component.name}`)
+	}
+
+	if(component.parent){
+	    throw new Error(`component "${component.name}" already has a parent named "${component.parent}"`)
+	}
+
+	component.setParent(this);
+	this.children.set(component.name, component);
+
+	return this;
+
+    }
+
 
     abstract structureElements(): Array<Component2>;
     abstract initSystems(): void; 

@@ -1,4 +1,3 @@
-import { apiFetch, checkAccessToken, refreshToken } from "../../../utils/apiUtils";
 import type { Response, User } from "../../../utils/interfaces";
 import AuthState from "../../../utils/authState";
 import { apiGetAuthUser } from "../../../utils/api/apiUser";
@@ -64,7 +63,6 @@ class HeaderComponentSystem{
 	console.log("state: ", !user);
 	if(!user){
 	    console.log("it did triggered this");
-	    // const response: Response<User> = await apiFetch("GET", "http://localhost:8080/api/v1/private/user/auth-user");
 	    const response: Response<User> = await apiGetAuthUser(); 
 	    console.log("setCurrentUser Response: ", response);
 	    AuthState.setAuthUser(response.data);

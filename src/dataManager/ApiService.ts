@@ -1,3 +1,5 @@
+import { backendUrl } from "../utils/globals/UrlState";
+
 class ApiService{
 
     private static instance: ApiService = new ApiService();
@@ -8,7 +10,7 @@ class ApiService{
 
     public async getCurrentUser(){
 	try{
-	const response = await fetch("http://localhost:8080/api/v1/auth0/auth-user", {
+	const response = await fetch(backendUrl + "/auth0/auth-user", {
 	    method: "GET",
 	    credentials: "include",
 	})

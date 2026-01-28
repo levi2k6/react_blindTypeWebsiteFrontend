@@ -13,7 +13,7 @@ import LoginRouter from './login/LoginRouter.ts';
 import AboutRouter from './about/AboutRouter.ts';
 import RegisterRouter from './register/RegisterRouter.ts';
 import Resolver from './systems/Resolver.ts';
-import InfoRouter from './profile/InfoRouter.ts';
+import UserProfileRouter from './user_profile/UserProfileRouter.ts';
 import StartupSystem from './systems/StartupSystem.ts';
 
 async function Main(){
@@ -32,7 +32,7 @@ async function Main(){
     const loginRouter: LoginRouter = new LoginRouter("LoginRouter");
     const registerRouter: RegisterRouter = new RegisterRouter("RegisterRouter");
     const aboutRouter: AboutRouter = new AboutRouter("AboutRouter");
-    const infoRouter: InfoRouter = new  InfoRouter("InfoRouter");
+    const userProfileRouter: UserProfileRouter = new UserProfileRouter("UserProfileRouter");
 
 
     const resolver: Resolver = new Resolver(
@@ -57,7 +57,7 @@ async function Main(){
 	loginRouter,
 	registerRouter,
 	aboutRouter,
-	infoRouter
+	userProfileRouter
     ); 
 
 }

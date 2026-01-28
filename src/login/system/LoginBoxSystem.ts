@@ -1,3 +1,4 @@
+import { backendUrl } from "../../utils/globals/UrlState";
 import type { LoginDTO } from "../../utils/interfaces";
 import type LoginBox from "../LoginBox";
 
@@ -13,7 +14,7 @@ class LoginBoxSystem{
     public async authenticate(username: string, password: string) {
 	console.log("Authenticating...");
 	try {
-	    const loginUrl = import.meta.env.VITE_URL + "/auth/login";
+	    const loginUrl = backendUrl + "/auth/login";
 	    console.log("loginUrl: ", loginUrl);
 
 	    const loginDto: LoginDTO = {
