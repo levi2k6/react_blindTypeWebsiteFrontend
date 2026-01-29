@@ -11,14 +11,12 @@ class UserProfileRouter extends Box2{
     } 
 
     public structureElements(): Array<Component2> {
-	const data: Array<InfoData> = [
-	    {label: "name", info: "john"},
-	    {label: "new", info: "new data"}
-	];
-	const userInfoBox = new UserInfoBox("userInfoBox", data);
+	const userProfile: Box2 = new Box2("userProfile");
+	const userInfoBox = new UserInfoBox("userInfoBox");
 	const divStats: Box2 = new Box2("divStats");
 
         return[
+	    userProfile,
 	    userInfoBox,
 	    divStats
 	]
@@ -67,7 +65,6 @@ class UserProfileRouter extends Box2{
 	// divIcon.style.flexDirection = "column";
 	// divIcon.style.padding = "5px";
 	// divIcon.style.gap = "10px"
-
     }
 
 

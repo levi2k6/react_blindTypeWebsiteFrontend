@@ -1,6 +1,5 @@
 import type { GameConfig } from "./types/GameConfigType";
 
-
 export interface LoginDTO{
     username: string; 
     password: string;
@@ -35,9 +34,13 @@ export interface UserGameConfig{
 }
 
 export interface User{
-    id: string;
-    name: string;
+    uuid: string;
+    username: string;
     email: string;
+    name: string;
+    gender: string;
+    birthdate: string;
+    createdAt: string;
 }
 
 

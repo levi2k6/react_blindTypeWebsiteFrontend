@@ -1,19 +1,33 @@
 import Box2 from "../class/Box2";
 import type Component2 from "../class/Component2";
 import Element from "../class/Element";
+import AuthState from "../utils/authState";
+import type { User } from "../utils/interfaces";
 import { capitalizeFirstLetter } from "../utils/textUtil";
 
 export type InfoData = {
     "label": string; 
-    "info": string
+    "info": string;
+    "editable": boolean;
 };
 
 class UserInfoBox extends Box2{
 
-    private data: Array<InfoData>;
-    public constructor(name: string, data: Array<InfoData>){
+    private authUser?: User; 
+    private data: Array<InfoData>;  
+
+    public constructor(name: string){
 	super(name);
-	this.data = data;
+	this.authUser = AuthState.getAuthUser();
+	console.log("authUser data: ", this.authUser);
+	this.data = [
+	    {"label": "username", "info": this.authUser?.username ?? "something", "editable": true},
+	    {"label": "email", "info": this.authUser?.email ?? "", "editable": true},
+	    {"label": "name", "info": this.authUser?.name ?? "", "editable": true},
+	    {"label": "gender", "info": this.authUser?.gender ?? "", "editable": true},
+	    {"label": "birthdate", "info": this.authUser?.birthdate ?? "", "editable": true},
+	    {"label": "joined", "info": this.authUser?.createdAt ?? "", "editable": true}
+	];
     } 
 
     public structureElements(): Array<Component2> {
@@ -42,8 +56,11 @@ class UserInfoBox extends Box2{
 	    const newData: Element = new Element("label", "info" + labelText, infoText);
 	    divInfo.addChild(newData);
 
-	    const editInfo: Element = new Element("button", "edit" + labelText, "Edit"); 
-	    divButton.addChild(editInfo);
+	    const divEdit: Box2 = new Box2("divEdit" + labelText);
+		const editInfo: Element = new Element("button", "edit" + labelText, "Edit"); 
+	    divButton.addChild(
+		divEdit.addChild(editInfo)
+	    );
 	}
     }
 
@@ -58,11 +75,24 @@ class UserInfoBox extends Box2{
 	this.style.padding = "30px";
 	this.style.gap = "10px";
 
+	console.log("style UserInfoBox[]");
+		
 	const divLabel = this.getChild("divLabel"); 
 	divLabel.style.border = "1px solid green"
 	divLabel.style.display = "flex";
 	divLabel.style.flexDirection = "column";
 	divLabel.style.gap = "5px";
+
+	divLabel.getChildren().forEach(child => {
+	    console.log("UserInfoBox[] child: ", child);
+	    child.style.display = "flex";
+	    child.style.justifyContent = "center";
+	    child.style.alignItems = "center";
+	    child.style.fontSize = "1.3rem";
+	    child.style.height = "3rem";
+	    child.style.border = "1px solid red";
+	});
+
 
 	const divInfo = this.getChild("divInfo");
 	divInfo.style.border = "1px solid green";
@@ -70,12 +100,31 @@ class UserInfoBox extends Box2{
 	divInfo.style.flexDirection = "column";
 	divInfo.style.gap = "5px";
 
+	divInfo.getChildren().forEach(child => {
+	    child.style.display = "flex";
+	    child.style.justifyContent = "center";
+	    child.style.alignItems = "center";
+	    child.style.fontSize = "1.3rem";
+	    child.style.height = "3rem";
+	    child.style.border = "1px solid red";
+	});
+
 	const divButton = this.getChild("divButton"); 
 	divButton.style.border = "1px solid green";
 	divButton.style.display = "flex";
 	divButton.style.flexDirection = "column";
-	divButton.style.padding = "5px";
-	divButton.style.gap = "10px"
+	// divButton.style.padding = "5px";
+	divButton.style.gap = "5px"
+
+	divButton.getChildren().forEach(child => {
+	    console.log("UserInfoBox[] child: ", child);
+	    child.style.display = "flex";
+	    child.style.justifyContent = "center";
+	    child.style.alignItems = "center";
+	    child.style.height = "3rem";
+	    child.style.border = "1px solid red";
+	});
+
     }
 
 }
