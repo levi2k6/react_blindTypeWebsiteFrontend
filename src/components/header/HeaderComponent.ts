@@ -102,18 +102,12 @@ class HeaderComponent extends Component2{
 	    this.routeSystem.navigate("/about");
 	});
 
-	this.addEvent("buttonTest", "click", async()=>{
-	    const uri = import.meta.env.VITE_AUTH_PUBLIC_URI + "/auth0/checkToken";
-	    const response = await apiToken(uri, "access_token");
-	    console.log("response: ", response);
-	})
-
     }
 
     override styleElements(): void {
 	this.style.width = "100%";
 	this.style.height = "8vh";
-	this.style.border = "1px solid black";
+	// this.style.border = "1px solid black";
 	this.style.backgroundColor = "black"; 
 	this.style.display = "flex";
 	this.style.alignItems = "center";

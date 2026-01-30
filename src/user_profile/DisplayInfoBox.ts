@@ -11,7 +11,7 @@ export type InfoData = {
     "editable": boolean;
 };
 
-class UserInfoBox extends Box2{
+class DisplayInfoBox extends Box2{
 
     private authUser?: User; 
     private data: Array<InfoData>;  
@@ -21,7 +21,7 @@ class UserInfoBox extends Box2{
 	this.authUser = AuthState.getAuthUser();
 	console.log("authUser data: ", this.authUser);
 	this.data = [
-	    {"label": "username", "info": this.authUser?.username ?? "something", "editable": true},
+	    {"label": "username", "info": this.authUser?.username ?? "", "editable": true},
 	    {"label": "email", "info": this.authUser?.email ?? "", "editable": true},
 	    {"label": "name", "info": this.authUser?.name ?? "", "editable": true},
 	    {"label": "gender", "info": this.authUser?.gender ?? "", "editable": true},
@@ -65,14 +65,13 @@ class UserInfoBox extends Box2{
     }
 
     styleElements(): void {
-	this.style.display = "flex";
+	// this.style.display = "flex";
 	this.style.flexDirection = "flex";
 	// this.style.justifyContent = "center";
 	this.style.alignItems = "flex-start";
 	this.style.background = "black";
 	this.style.height = "500px";
-	this.style.width = "500px";
-	this.style.padding = "30px";
+	this.style.padding = "5rem";
 	this.style.gap = "10px";
 
 	console.log("style UserInfoBox[]");
@@ -129,4 +128,4 @@ class UserInfoBox extends Box2{
 
 }
 
-export default UserInfoBox; 
+export default DisplayInfoBox; 

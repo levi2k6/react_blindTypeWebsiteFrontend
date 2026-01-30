@@ -7,21 +7,17 @@ class AppComponent extends Component2{
 	super(app, "App");
     }
 
-
     override structureElements(): Array<Component2> {
 	return [];
     }
 
     override initSystems(): void {
-        
     }
 
     override initElements(): void {
-        
     }
 
     override eventElements(): void {
-        
     }
 
     override styleElements(): void {
@@ -30,9 +26,8 @@ class AppComponent extends Component2{
 	// height: 90vh;
 	// text-align: center;
 	this.style.background = "#1e2120";
-	this.style.border = "3px solid red";
+	// this.style.border = "3px solid red";
 	this.style.width = "100%"
-	this.style.height = "89vh"
 	this.style.textAlign  = "center";
 
     }
