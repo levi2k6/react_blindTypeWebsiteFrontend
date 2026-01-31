@@ -1,13 +1,18 @@
 import Box2 from "../class/Box2";
 import Component2 from "../class/Component2";
 import Element from "../class/Element";
+import AuthState from "../utils/authState";
+import type { User } from "../utils/interfaces";
 import DisplayInfoBox from "./DisplayInfoBox";
 import DisplayStatsBox from "./DisplayStatsBox";
+    
+class DisplayOptionBox extends Box2{
 
-class ProfileOptionBox extends Box2{
+    private authUser?: User; 
 
     public constructor(name: string){
 	super(name);
+	this.authUser = AuthState.getAuthUser();
     } 
 
    public updateDisplay(option: string){
@@ -30,8 +35,8 @@ class ProfileOptionBox extends Box2{
 	    const infoButton: Element = new Element("button", "infoButton", "Info"); 
 	    const statsButton: Element = new Element("button", "statsButton", "Stats");
 	const divDisplay: Box2 = new Box2("divDisplay");
-	    const displayInfoBox: DisplayInfoBox = new DisplayInfoBox("displayInfoBox"); 
-	    const displayStatsBox: DisplayStatsBox = new DisplayStatsBox("displayStatsBox");  
+		const displayInfoBox: DisplayInfoBox = new DisplayInfoBox("displayInfoBox");
+		const displayStatsBox: DisplayStatsBox = new DisplayStatsBox("displayStatsBox");  
 
 	return [
 	    divOptions.addChildren([
@@ -62,9 +67,8 @@ class ProfileOptionBox extends Box2{
     }
 
     override styleElements(): void {
-	this.style.border = "1px solid red";
-
         const divOptions = this.getChild("divOptions");
+	divOptions.style.display = "flex";
 
 	const divDisplay = this.getChild("divDisplay");
 	divDisplay.style.border = "1px solid green";
@@ -86,4 +90,4 @@ class ProfileOptionBox extends Box2{
 
 }
 
-export default ProfileOptionBox;
+export default DisplayOptionBox;

@@ -49,9 +49,14 @@ class Resolver{
 	this.resolveHeader();
     }
 
+    public resolveComponents(){
+
+    }
+
     public resolveHeader(){
 	this.loginRouter.setHeader(this.header);
     }
+
 
 
 

@@ -48,16 +48,17 @@ class LifeCycleSystem{
 
     }
 
+
     public updateComponent(component: Component2, children: Array<Component2>){
 	component.addChildren(children);
 
 	this.connectElements(component);
 
-	children.forEach(child =>{
-	    this.initComponent(child);
-	})
+	// children.forEach(child =>{
+	//     this.initComponent(child);
+	// })
+	this.initComponent(component);
     }
-
 
     public clearComponent(component: Component2){
 	component.deleteChildren();

@@ -1,6 +1,6 @@
 import Box2 from "../class/Box2";
 import type Component2 from "../class/Component2";
-import ProfileOptionBox from "./ProfileOptionBox";
+import DisplayOptionBox from "./DisplayOptionBox";
 import UserImageBox from "./UserImageBox";
 
 class UserProfileRouter extends Box2{
@@ -10,13 +10,13 @@ class UserProfileRouter extends Box2{
     } 
 
     public structureElements(): Array<Component2> {
-	const userProfile: UserImageBox = new UserImageBox("userProfile");
-	const profileOptionBox: ProfileOptionBox = new ProfileOptionBox("profileOptionBox");
+	const userImageBox: UserImageBox = new UserImageBox("userProfile");
+	const displayOptionBox: DisplayOptionBox = new DisplayOptionBox("profileOptionBox");
 	const divStats: Box2 = new Box2("divStats");
 
         return[
-	    userProfile,
-	    profileOptionBox,
+	    userImageBox,
+	    displayOptionBox,
 	    divStats
 	]
     } 

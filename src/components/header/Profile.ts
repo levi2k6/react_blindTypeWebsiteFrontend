@@ -26,7 +26,7 @@ class Profile extends Box2{
     override structureElements(): Array<Component2> {
 	const aProfile: Element = new Element("a", "aProfile");
 	const divOption: Box2 = new Box2("divOption");
-	    const profile: Element = new Element("button", "profile", "profile"); 
+	    const profileButton: Element = new Element("button", "profileButton", "profile"); 
 	    const stats: Element = new Element("button", "stats", "stats");
 	    const logoutButton: Element = new Element("button", "logoutButton", "logout");
 	    const selectAccountButton: Element = new Element("button", "selectAccountButton", "select account");
@@ -34,7 +34,7 @@ class Profile extends Box2{
 	return [
 	    aProfile,
 	    divOption.addChildren([
-		profile,
+		profileButton,
 		stats,
 		logoutButton,
 		selectAccountButton
@@ -56,18 +56,36 @@ class Profile extends Box2{
 
 
     override eventElements(): void {
+	if(!this.routeSystem){
+	    throw new Error("routeSystem is undefined");
+	}
+
 	const divOption = this.getChild("divOption");
 
         this.addEvent("aProfile", "click", (e) => {
             e.preventDefault();
-            this.setOptionVisibility();
+	    e.stopPropagation();
+	    this.setOptionVisibility();
         });
+
+	document.addEventListener("click", (e)=>{
+            e.preventDefault();
+	    this.setOptionVisibility(false);
+	})
+
+	divOption.self.addEventListener("click", (e)=>{
+	    e.stopPropagation();
+	})
+
+	divOption.addEvent("profileButton", "click", async()=>{
+	    this.routeSystem?.navigate("profile");
+	})
 
 	divOption.addEvent("logoutButton", "click", async()=>{
 	    const response = await apiLogout();
 	    console.log("response: ", response);
 	    localStorage.removeItem("user");
-	    AuthState.setAuthUser(null);
+	    AuthState.setAuthUser(undefined);
 	    this.header.headerSystem.switchAuthToProfile();
 	    this.routeSystem?.navigate("/login");
 	})
@@ -167,16 +185,21 @@ class Profile extends Box2{
         }
     }
 
-    setOptionVisibility() {
-        this.isShow = !this.isShow;
-	const divOption = this.getChild("divOption");
+    setOptionVisibility(state?: boolean) {
+	if(state === undefined){
+	    this.isShow = !this.isShow;
+	}else{
+	    this.isShow = state;
+	}
 
-        if (this.isShow) {
-            divOption.style.display = "flex";
-            this.updateWidths();
-        } else {
-            divOption.style.display = "none";
-        }
+	const divOption = this.getChild("divOption");
+	if (this.isShow) {
+	    divOption.style.display = "flex";
+	    this.updateWidths();
+	} else {
+	    divOption.style.display = "none";
+	}
+
     }
 }
 

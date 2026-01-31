@@ -1,7 +1,7 @@
 import Box2 from "../class/Box2";
 import type Component2 from "../class/Component2";
 import Element from "../class/Element";
-import profile from '../../public/user/profile.png'; 
+import profile_image from "../../src/assets/user/profile_img.png";
 
 class UserImageBox extends Box2{
 
@@ -46,7 +46,7 @@ class UserImageBox extends Box2{
 
     override initElements(): void {
 	const image = this.getChild("divImage").getChildSelf("image") as HTMLImageElement;
-	image.src = profile;
+	image.src = profile_image;
     }
 
     override styleElements(): void{

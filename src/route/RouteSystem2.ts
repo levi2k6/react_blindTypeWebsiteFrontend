@@ -97,7 +97,7 @@ class RouteSystem2{
 	.on("/login", ()=> this.changeRouterHandler(this.loginRouter))
 	.on("/register", ()=> this.changeRouterHandler(this.registerRouter))
 	.on("/about", ()=> this.changeRouterHandler(this.aboutRouter))
-	.on("/info", ()=> this.changeRouterHandler(this.userProfileRouter))
+	.on("/profile", ()=> this.changeRouterHandler(this.userProfileRouter))
 	.on("/test", ()=> this.changeRouterHandler(this.test1))
 	// .on("/profile" ()=> this.changeRouterHandler(this.))
 	.resolve();
